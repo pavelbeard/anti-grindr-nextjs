@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌈 Greender  
+**(Codename: Anti-Grindr — the name may change in the future)**
 
-## Getting Started
+> 💬 *An alternative to Grindr, which abuses its dominant position and prioritizes profit over people.*  
+> The goal is to build a safe, ethical, and empowering LGBTQ+ platform that puts **users first**.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 MVP Development Status
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 📦 Backend Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Feature                        | Status   |
+|-------------------------------|----------|
+| 👤 Create user                 | ⏳ To Do  |
+| 🔐 Login                      | ⏳ To Do  |
+| 🔓 Logout                     | ⏳ To Do  |
+| ♻️ Refresh token              | ⏳ To Do |
+| 🧑‍💻 Create profile            | ⏳ To Do |
+| 🛠️ Update profile             | ⏳ To Do |
+| 🖼️ Albums (private/public)     | ⏳ To Do |
+| 💬 Messaging                   | ⏳ To Do |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Backend Progress:** **`0%`**
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+### 🎨 Frontend Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Feature       | Status   |
+|---------------|----------|
+| 📝 Sign up     | ⏳ To Do |
+| 🔐 Sign in     | ⏳ To Do |
+| 🔓 Sign out    | ⏳ To Do |
+| 🏠 Main page   | ⏳ To Do |
+| 💬 Chats       | ⏳ To Do |
+| 🧑 Profile     | ⏳ To Do |
+| 🖼️ Albums      | ⏳ To Do |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Frontend Progress:** **`0%`**
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 📊 Total Project Progress
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- ✅ **Completed:** `0 / 15`
+- 📈 **Total Progress:** **`0%`**
+
+---
+
+## ✨ Core Principles & Features
+
+- 🔒 **Enhanced user safety**  
+  Verified users can block messages from unverified ones. Users can also block by device.
+
+- 🧼 **Anti-abuse protection**  
+  Prevents repeated account creation (e.g. one per week per device).
+
+- 🚫 **Combat illegal activity**  
+  Actively discourages illegal solicitation and unsafe behavior.
+
+- 🏆 **Gamified experience**  
+  Users earn achievements, badges, and unlockable features.
+
+- ⚠️ **False report penalties**  
+  Users who abuse the reporting system face consequences.
+
+- 💎 **Premium done right**  
+  Premium features here mean premium, not just a way to remove ads and restrictions.
+
+---
