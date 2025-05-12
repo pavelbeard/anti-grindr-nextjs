@@ -1,20 +1,12 @@
-"use client";
-
-import GreenderLogo from "@/app/components/public/sign-in/greender-logo";
-
+import GreenderLogo from "@/app/components/public/greender-logo";
+import AuthFormContainer from "@/app/components/public/auth-form-container";
 import Form from "./form";
 
 export default function SignInPage() {
   return (
-    <main
-      
-    >
-      <section className="bg-black/80 rounded-2xl backdrop-blur-2xl bg-clip-border">
-        <div className="flex flex-col items-center justify-center gap-2 p-8">
-          <GreenderLogo />
-          <Form />
-        </div>
-      </section>
-    </main>
+    <AuthFormContainer>
+      <GreenderLogo />
+      <Form />
+    </AuthFormContainer>
   );
 }

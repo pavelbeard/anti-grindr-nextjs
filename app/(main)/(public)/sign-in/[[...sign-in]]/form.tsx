@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
-import signInStyle from "@/app/components/public/sign-in/style.module.css";
+import signInStyle from "@/app/components/public/style.module.css";
 
 type SignInProps = {
   setOpen: (open: boolean) => void;
@@ -61,7 +61,7 @@ function EmailForm({ setOpen }: SignInProps) {
               }
               required
               placeholder="Email"
-              className={`outline-none`}
+              className="outline-none"
             />
             <Clerk.FieldError className="block text-sm text-rose-400" />
           </Clerk.Field>
