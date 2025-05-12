@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 
-import "./globals.css";
+import "@/app/globals.css";
+import Background from "@/public/background.png";
+import favicon from "@/app/favicon.ico";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,7 +21,7 @@ export const metadata: Metadata = {
   description: "Greender - Be free from bindings. You are our focus.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -27,10 +29,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="16x16" />
+        <link rel="icon" href={favicon.src} sizes="16x16" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        style={{
+          backgroundImage: `url(${Background.src})`,
+          backgroundSize: "cover",
+          backgroundPositionY: "0",
+          backgroundPositionX: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col items-center justify-center`}
       >
         <ClerkProvider>{children}</ClerkProvider>
       </body>
