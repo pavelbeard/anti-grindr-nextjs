@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+#banner {
+  @apply flex bg-black h-10 text-white items-center justify-center font-bold text-lg gap-x-4 overflow-hidden;
+}
+
+.landing-banner {
+  @apply sticky top-0 left-0 right-0;
+}
+
+.flair {
+  @apply text-xs text-black font-bold bg-green-500 rounded-sm px-1 py-0.5;
+}
+
+.feature {
+  position: absolute;
+  line-height: 1;
+  visibility: hidden;
+  transform: translate3d(0, -4em, 0);
+  transition: transform 500ms cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+.entering {
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
+}
+
+.exiting {
+  visibility: visible;
+  transform: translate3d(0, 4em, 0);
+}
