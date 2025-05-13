@@ -2,10 +2,17 @@
 
 import * as SignUp from "@clerk/elements/sign-up";
 import * as Clerk from "@clerk/elements/common";
-
+import { useClerk } from "@clerk/nextjs";
+import LoadingAuth from "@/app/components/public/loading-auth";
 import signUpStyle from "@/app/components/public/style.module.css";
 
 export default function SignUpForm() {
+  const clerk = useClerk();
+
+  if (!clerk.loaded) {
+    return <LoadingAuth />;
+  }
+
   return (
     <SignUp.Root>
       <SignUp.Step

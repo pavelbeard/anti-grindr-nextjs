@@ -2,12 +2,12 @@
 
 import * as SignIn from "@clerk/elements/sign-in";
 import * as Clerk from "@clerk/elements/common";
+import { useClerk } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-
+import LoadingAuth from "@/app/components/public/loading-auth";
 import signInStyle from "@/app/components/public/style.module.css";
-import { useClerk } from "@clerk/nextjs";
 
 type SignInProps = {
   setOpen: (open: boolean) => void;
@@ -140,7 +140,7 @@ export default function SignInForm() {
   const [emailFormIsOpen, setEmailFormIsOpen] = useState(false);
 
   if (!clerk.loaded) {
-    return <div className="w-80 h-80 animate-pulse bg-[#4f4f4ff5] rounded-lg" />;
+    return <LoadingAuth />;
   }
 
   return emailFormIsOpen ? (
