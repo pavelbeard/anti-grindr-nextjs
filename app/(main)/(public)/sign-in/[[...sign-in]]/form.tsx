@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 import signInStyle from "@/app/components/public/style.module.css";
+import { useClerk } from "@clerk/nextjs";
 
 type SignInProps = {
   setOpen: (open: boolean) => void;
@@ -135,7 +136,12 @@ function SignInButtons({ setOpen }: SignInProps) {
 }
 
 export default function SignInForm() {
+  const clerk = useClerk();
   const [emailFormIsOpen, setEmailFormIsOpen] = useState(false);
+
+  if (!clerk.loaded) {
+    return <div className="w-80 h-80 animate-pulse bg-[#4f4f4ff5] rounded-lg" />;
+  }
 
   return emailFormIsOpen ? (
     <EmailForm setOpen={setEmailFormIsOpen} />
