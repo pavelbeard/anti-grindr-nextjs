@@ -118,12 +118,15 @@ function SignInButtons({ setOpen }: SignInProps) {
             Sign in with Google
           </div>
         </Clerk.Connection>
-        <Clerk.Connection name="apple" className="w-full">
+
+        {/* if I would achieve ever apple values for apple SSO */}
+
+        {/* <Clerk.Connection name="apple" className="w-full">
           <div className={signInStyle.connection}>
             <Clerk.Icon className="size-4" />
             Sign in with Apple
           </div>
-        </Clerk.Connection>
+        </Clerk.Connection> */}
       </SignIn.Step>
       <Link
         href="/sign-up"

@@ -59,12 +59,15 @@ export default function SignUpForm() {
             Sign up with Google
           </div>
         </Clerk.Connection>
-        <Clerk.Connection name="apple" className="w-full">
+
+        {/* if I would achieve ever apple values for apple SSO */}
+        
+        {/* <Clerk.Connection name="apple" className="w-full">
           <div className={signUpStyle.connection}>
             <Clerk.Icon className="size-4" />
             Sign up with Apple
           </div>
-        </Clerk.Connection>
+        </Clerk.Connection> */}
       </SignUp.Step>
 
       <div id="clerk-captcha" />
