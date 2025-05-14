@@ -48,3 +48,6 @@ next-env.d.ts
 
 # generated prisma client 
 app/generated
+
+# docker compose dev
+docker-compose.dev.yml

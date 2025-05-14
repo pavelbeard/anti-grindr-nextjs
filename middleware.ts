@@ -8,7 +8,7 @@ const AUTHORIZED_PARTIES =
       : ["http://localhost:3000"]; // Default for development
 
 const isPublicRoute = createRouteMatcher([
-  "/api/webhooks/(.*)",
+  "/api/webhooks(.*)",
   "/sign-in(.*)",
   "/sign-up(.*)",
   "/about",
