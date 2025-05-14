@@ -6,7 +6,7 @@ import { useClerk } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import LoadingAuth from "@/app/components/public/loading-auth";
+import LoadingAuth from "@/components/public/loading-auth";
 import signInStyle from "@/app/components/public/style.module.css";
 
 type SignInProps = {
@@ -128,6 +128,9 @@ function SignInButtons({ setOpen }: SignInProps) {
           </div>
         </Clerk.Connection> */}
       </SignIn.Step>
+
+      <div id="clerk-captcha" />
+
       <Link
         href="/sign-up"
         className="text-[#4A9D5B] font-semibold hover:underline p-2 mt-6"
