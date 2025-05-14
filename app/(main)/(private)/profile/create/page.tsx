@@ -1,6 +1,6 @@
 export default function CreateProfile() {
   return (
-    <div className="create-profile">
+    <div className="">
       <h1>Create Your Profile</h1>
       <p>Welcome to Greender! Let's get started.</p>
       <form>
