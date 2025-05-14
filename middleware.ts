@@ -11,6 +11,8 @@ const isPublicRoute = createRouteMatcher([
   "/api/webhooks(.*)",
   "/sign-in(.*)",
   "/sign-up(.*)",
+  "/opengraph-image(.*)",
+  "/twitter-image(.*)",
   "/about",
   "/",
 ]);
