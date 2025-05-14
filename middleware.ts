@@ -1,7 +1,7 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 const AUTHORIZED_PARTIES =
-  process.env.NODE_ENV == "production" || process.env.NODE_ENV == "test"
+  process.env.NODE_ENV == "production"
     ? ["https://greender.com"]
     : ["http://localhost:3000"];
 
