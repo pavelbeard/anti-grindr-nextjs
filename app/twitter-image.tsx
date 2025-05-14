@@ -7,7 +7,7 @@ export const contentType = "image/png";
 
 export const size = {
   width: 600,
-  height: 335,
+  height: 600,
 };
 
 export default async function TwitterImage() {
