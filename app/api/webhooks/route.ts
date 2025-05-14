@@ -1,4 +1,4 @@
-import * as UserApp from "@/app/lib/services/user";
+import * as UserApp from "@/lib/services/user";
 import { verifyWebhook } from "@clerk/nextjs/webhooks";
 import { NextRequest } from "next/server";
 
@@ -21,9 +21,7 @@ export async function POST(req: NextRequest) {
       return new Response(null, { status: 204 });
     }
 
-    return new Response(JSON.stringify(user), {
-      status: 200,
-    });
+    return new Response("Ok", { status: 200 });
   } catch (error) {
     console.error("Error verifying webhook:", error);
     return new Response("Server error", { status: 500 });
