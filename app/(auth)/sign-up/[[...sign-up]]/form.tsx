@@ -5,7 +5,6 @@ import * as Clerk from "@clerk/elements/common";
 import { useClerk } from "@clerk/nextjs";
 import LoadingAuth from "@/components/auth/loading-auth";
 
-import "@/components/public/style.css";
 import Link from "next/link";
 
 export default function SignUpForm() {

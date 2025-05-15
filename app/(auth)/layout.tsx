@@ -1,4 +1,4 @@
-import "@/components/public/style.css";
+import "@/components/auth/style.css";
 
 export default function RootLayout({
   children,
