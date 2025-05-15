@@ -76,6 +76,24 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  --background-side-nav: oklch(72.3% 0.219 149.579);
+  --bg-image-landing: url("../public/muscular-men-hugging2.webp");
+  --bg-image-public: url("../public/the-best-background-ever.webp");
+  --bg-side-nav-border-color: #838383ba;
+  --bg-sso-color: #1e1f1f88;
+  --label-color: #aaa8a8;
+  --placeholder-color: #cacddc;
+  --features-color: #b5b5ba;
+  --disabled-color: #b9c3c3f5;
+  --input-color: #d7d7d7;
+  --input-ring-color: #6e7373ad;
+  --links-color: #aaa8a8;
+  --small-text-color: #aaa8a8;
+  --input-ring-color-hover: #6e7373;
+
+  --list-style-type: url("../public/list-style-type.svg");
+  /* --background-side-nav: #4C8638; */
 }
 
 .dark {
