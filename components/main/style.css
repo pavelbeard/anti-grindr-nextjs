@@ -31,13 +31,14 @@
 }
 
 .mainContent {
-  background-image: var(--bg-image-landing);
-  background-size: cover;
+  background-image: 
+    linear-gradient(rgba(0,0,0,0.3), rgba(0, 0, 0, 0.018)),
+    var(--bg-image-landing);
   @apply flex-auto flex flex-col space-y-4 px-8 py-6;
 }
 
 .landingText {
-  @apply text-[92px] leading-none text-white uppercase w-[700px] font-bold;
+  @apply text-[92px] leading-none text-white text-shadow-xs text-shadow-gray-500 uppercase w-[700px] font-bold;
 }
 
 .sideNav {
@@ -51,12 +52,19 @@
 }
 
 .sideNavLink {
-  background-image: var(--list-);
   padding-left: 3rem;
+}
+
+.sideNavLink.active {
+  background-image: var(--list-style-type);
+
+  background-position: 1rem;
+  background-repeat: no-repeat;
 }
 
 .sideNavLinkPadding {
   padding: 10px 0;
+  text-transform: uppercase;
   border-bottom: 1px solid var(--bg-side-nav-border-color);
 }
 
@@ -66,5 +74,5 @@
 }
 
 .description {
-  @apply text-lg text-white font-light;
+  @apply text-lg text-white text-shadow-xs text-shadow-gray-500 font-light;
 }

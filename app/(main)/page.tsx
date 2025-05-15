@@ -1,5 +1,4 @@
 import Link from "next/link";
-import GreenderLogo from "@/components/landing/greender-logo";
 
 import "@/components/landing/style.css";
 
