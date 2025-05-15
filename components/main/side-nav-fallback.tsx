@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { headers } from "next/headers";
 
-import "@/components/landing/style.css";
+import "@/components/main/style.css";
 import clsx from "clsx";
 
 export default async function SideNavFallback() {

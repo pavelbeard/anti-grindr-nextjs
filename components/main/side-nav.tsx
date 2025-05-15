@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 
-import "@/components/landing/style.css";
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+
+import "@/components/main/style.css";
 
 export default function SideNav() {
   const navRef = useRef<HTMLElement>(null);
