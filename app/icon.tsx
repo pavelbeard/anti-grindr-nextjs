@@ -10,7 +10,7 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Icon() {
-  const iconData = await readFile(join(process.cwd(), "public", "icon.png"));
+  const iconData = await readFile(join(process.cwd(), "public", "favicon.ico"));
   const iconSrc = Uint8Array.from(iconData).buffer;
 
   return new ImageResponse(
