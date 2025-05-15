@@ -13,7 +13,11 @@ const isPublicRoute = createRouteMatcher([
   "/sign-up(.*)",
   "/opengraph-image(.*)",
   "/twitter-image(.*)",
-  "/about",
+  "/about(.*)",
+  "/privacy-policy(.*)",
+  "/community-guidelines(.*)",
+  "/terms(.*)",
+  "/contact(.*)",
   "/",
 ]);
 
