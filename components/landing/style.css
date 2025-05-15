@@ -1,10 +1,10 @@
-@import "tailwindcss";
+@reference "tailwindcss";
 
 #banner {
-  @apply flex bg-black h-10 text-white items-center justify-center font-bold text-lg gap-x-4 overflow-hidden;
+  @apply flex bg-black h-10 text-white items-center justify-center font-semibold text-lg gap-x-4 overflow-hidden;
 }
 
-.landing-banner {
+.landingBanner {
   @apply sticky top-0 left-0 right-0;
 }
 
@@ -28,4 +28,43 @@
 .exiting {
   visibility: visible;
   transform: translate3d(0, 4em, 0);
+}
+
+.mainContent {
+  background-image: var(--bg-image-landing);
+  background-size: cover;
+  @apply flex-auto flex flex-col space-y-4 px-8 py-6;
+}
+
+.landingText {
+  @apply text-[92px] leading-none text-white uppercase w-[700px] font-bold;
+}
+
+.sideNav {
+  background-color: var(--background-side-nav);
+  padding: 0 2rem;
+}
+
+.sideNavLinks {
+  display: flex;
+  flex-direction: column;
+}
+
+.sideNavLink {
+  background-image: var(--list-);
+  padding-left: 3rem;
+}
+
+.sideNavLinkPadding {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--bg-side-nav-border-color);
+}
+
+.signInBtn {
+  @apply flex items-center justify-center py-3 px-8 rounded-full 
+  bg-white hover:bg-green-500 text-black font-semibold w-96;
+}
+
+.description {
+  @apply text-lg text-white font-light;
 }

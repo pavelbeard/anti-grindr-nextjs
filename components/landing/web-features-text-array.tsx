@@ -28,7 +28,7 @@ export default function WebFeaturesTextArray() {
   }, [features.length]);
 
   return (
-    <div className="text-left text-[#B5B5BA] w-[10em] relative min-h-[18px] overflow-hidden">
+    <div className="text-left text-[var(--features-color)] w-[10em] relative min-h-[18px] overflow-hidden">
       {/* Adjusted min-h for typical line height and added overflow-hidden */}
       {features.map((feature, index) => {
         let featureClass = "feature"; // Default state

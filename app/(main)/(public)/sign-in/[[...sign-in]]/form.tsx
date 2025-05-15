@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import LoadingAuth from "@/components/public/loading-auth";
-import signInStyle from "@/app/components/public/style.module.css";
+
+import "@/components/public/style.css";
 
 type SignInProps = {
   setOpen: (open: boolean) => void;
@@ -34,11 +35,11 @@ function EmailForm({ setOpen }: SignInProps) {
           onClick={() => setOpen(false)}
           className="hover:bg-white/10 p-2 rounded-full"
         >
-          <ArrowLeftIcon className="size-6 text-[#ffffff]" />
+          <ArrowLeftIcon className="size-6 text-white" />
         </button>
         <Link
           href="/sign-up"
-          className="text-[#4A9D5B] font-semibold hover:underline"
+          className="text-green-600 font-semibold hover:underline"
         >
           Create account
         </Link>
@@ -49,8 +50,8 @@ function EmailForm({ setOpen }: SignInProps) {
           className="flex flex-col gap-4 items-center w-80"
         >
           <Clerk.GlobalError className="block text-sm text-rose-400" />
-          <Clerk.Field name="identifier" className={signInStyle.field}>
-            <Clerk.Label className="text-xs font-light text-[#b9c3c3f5]">
+          <Clerk.Field name="identifier" className="field">
+            <Clerk.Label className="text-xs font-light text-[var(--label-color)]">
               Email
             </Clerk.Label>
             <Clerk.Input
@@ -62,12 +63,12 @@ function EmailForm({ setOpen }: SignInProps) {
               }
               required
               placeholder="Email"
-              className="outline-none"
+              className="outline-none placeholder:text-[var(--placeholder-color)]"
             />
             <Clerk.FieldError className="block text-sm text-rose-400" />
           </Clerk.Field>
-          <Clerk.Field name="password" className={signInStyle.field}>
-            <Clerk.Label className="text-xs font-light text-[#b9c3c3f5]">
+          <Clerk.Field name="password" className="field">
+            <Clerk.Label className="text-xs font-light text-[var(--label-color)]">
               Password
             </Clerk.Label>
             <Clerk.Input
@@ -80,15 +81,11 @@ function EmailForm({ setOpen }: SignInProps) {
               }
               required
               placeholder="Password"
-              className="outline-none"
+              className="outline-none placeholder:text-[var(--placeholder-color)]"
             />
             <Clerk.FieldError className="block text-sm text-rose-400" />
           </Clerk.Field>
-          <SignIn.Action
-            disabled={!signInEnabled}
-            className={signInStyle.action}
-            submit
-          >
+          <SignIn.Action disabled={!signInEnabled} className="action" submit>
             Sign in
           </SignIn.Action>
         </SignIn.Step>
@@ -105,15 +102,12 @@ function SignInButtons({ setOpen }: SignInProps) {
         className="flex flex-col gap-4 items-center w-80"
       >
         <Clerk.Field name="identifier" className="mb-6 w-full">
-          <Clerk.Label
-            onClick={() => setOpen(true)}
-            className={signInStyle.label}
-          >
+          <Clerk.Label onClick={() => setOpen(true)} className="label">
             Sign in with email
           </Clerk.Label>
         </Clerk.Field>
         <Clerk.Connection name="google" className="w-full">
-          <div className={signInStyle.connection}>
+          <div className="connection">
             <Clerk.Icon className="size-4" />
             Sign in with Google
           </div>
@@ -133,7 +127,7 @@ function SignInButtons({ setOpen }: SignInProps) {
 
       <Link
         href="/sign-up"
-        className="text-[#4A9D5B] font-semibold hover:underline p-2 mt-6"
+        className="text-green-600 font-semibold hover:underline p-2 mt-6"
       >
         Create account
       </Link>

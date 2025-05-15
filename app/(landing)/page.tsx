@@ -1,7 +1,24 @@
+import Link from "next/link";
+import GreenderLogo from "@/components/landing/greender-logo";
+
+import "@/components/landing/style.css";
+
 export default function LandingPage() {
   return (
-    <section>
-      <h1>Welcome to Greender. Is a LANDING page</h1>
+    <section className="flex flex-auto">
+      <div className="mainContent">
+        <h1 className="landingText">
+          be free <br />
+          from bindings.
+          <br />
+          you are <br />
+          our focus.
+        </h1>
+        <p className="description">On any device, any platform, any time.</p>
+        <Link href="/sign-in" className="signInBtn">
+          Sign in with Web
+        </Link>
+      </div>
     </section>
   );
 }

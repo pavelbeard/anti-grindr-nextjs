@@ -4,7 +4,9 @@ import * as SignUp from "@clerk/elements/sign-up";
 import * as Clerk from "@clerk/elements/common";
 import { useClerk } from "@clerk/nextjs";
 import LoadingAuth from "@/components/public/loading-auth";
-import signUpStyle from "@/app/components/public/style.module.css";
+
+import "@/components/public/style.css";
+import Link from "next/link";
 
 export default function SignUpForm() {
   const clerk = useClerk();
@@ -20,48 +22,59 @@ export default function SignUpForm() {
         className="flex flex-col gap-4 items-center w-80"
       >
         <Clerk.GlobalError className="block text-sm text-rose-400" />
-        <Clerk.Field name="emailAddress" className={signUpStyle.field}>
-          <Clerk.Label className="text-xs font-light text-[#b9c3c3f5]">
+        <Clerk.Field name="emailAddress" className="field">
+          <Clerk.Label className="text-xs font-light text-[var(--label-color)]">
             Email
           </Clerk.Label>
-          <Clerk.Input placeholder="Email" required className="outline-none" />
+          <Clerk.Input
+            placeholder="Email"
+            required
+            className="outline-none placeholder:text-[var(--placeholder-color)] "
+          />
         </Clerk.Field>
-        <Clerk.Field name="password" className={signUpStyle.field}>
-          <Clerk.Label className="text-xs font-light text-[#b9c3c3f5]">
+        <Clerk.Field name="password" className="field">
+          <Clerk.Label className="text-xs font-light text-[var(--label-color)]">
             Password
           </Clerk.Label>
           <Clerk.Input
             type="password"
             placeholder="Password"
             required
-            className="outline-none"
+            className="outline-none placeholder:text-[var(--placeholder-color)]"
           />
           <Clerk.FieldError className="block text-sm text-rose-400" />
         </Clerk.Field>
-        <SignUp.Action className={signUpStyle.action} submit>
+        <SignUp.Action className="action" submit>
           Sign up
         </SignUp.Action>
 
         <div className="flex items-center justify-center gap-2 w-full">
-          <div className="h-0.5 w-full bg-[#4f4f4ff5]"></div>
-          <p
-            className="cl-dividerText 🔒️ cl-internal-oqzvix"
-            data-localization-key="divider-text"
-          >
+          <div className="h-0.5 w-full bg-zinc-600"></div>
+          <p className="text-white" data-localization-key="divider-text">
             or
           </p>
-          <div className="h-0.5 w-full bg-[#4f4f4ff5]"></div>
+          <div className="h-0.5 w-full bg-zinc-600"></div>
         </div>
 
         <Clerk.Connection name="google" className="w-full">
-          <div className={signUpStyle.connection}>
+          <div className="connection">
             <Clerk.Icon className="size-4" />
             Sign up with Google
           </div>
         </Clerk.Connection>
 
+        <p className="p-2 text-[0.75em] text-[var(--small-text-color)] text-center">
+          Do you already have an account?{" "}
+          <Link
+            href="/sign-in"
+            className="text-green-600 font-semibold hover:underline"
+          >
+            Sign In
+          </Link>
+        </p>
+
         {/* if I would achieve ever apple values for apple SSO */}
-        
+
         {/* <Clerk.Connection name="apple" className="w-full">
           <div className={signUpStyle.connection}>
             <Clerk.Icon className="size-4" />
@@ -78,14 +91,18 @@ export default function SignUpForm() {
       >
         <Clerk.GlobalError className="block text-sm text-red-400" />
         <SignUp.Strategy name="email_code">
-          <Clerk.Field name="code" className={signUpStyle.field}>
-            <Clerk.Label className="text-xs font-light text-[#b9c3c3f5]">
+          <Clerk.Field name="code" className="field">
+            <Clerk.Label className="text-xs font-light text-[var(--label-color)]">
               Verification Code
             </Clerk.Label>
-            <Clerk.Input type="otp" required className="outline-none" />
+            <Clerk.Input
+              type="otp"
+              required
+              className="outline-none placeholder:text-[var(--placeholder-color)]"
+            />
             <Clerk.FieldError className="block text-sm text-rose-400" />
           </Clerk.Field>
-          <SignUp.Action className={signUpStyle.action} submit>
+          <SignUp.Action className="action" submit>
             Verify
           </SignUp.Action>
         </SignUp.Strategy>

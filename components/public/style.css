@@ -1,0 +1,38 @@
+@reference "tailwindcss";
+
+.connection {
+  @apply flex items-center justify-center gap-2 py-3 px-8
+  ring-[0.5px] ring-inset ring-[var(--input-ring-color)] hover:ring-[var(--input-ring-color-hover)]
+  focus:ring-[1.5px] focus:ring-zinc-950
+  bg-[var(--bg-sso-color)] hover:bg-transparent rounded-full cursor-pointer
+  transition-all duration-200 ease-in-out
+  text-white font-semibold;
+}
+
+.field {
+  @apply flex flex-col gap-2 
+    bg-[#45474774] text-[var(--input-color)]
+    px-4 py-2 rounded-xl w-full
+    ring-[0.5px] ring-inset 
+  ring-zinc-500 hover:ring-zinc-400 focus:ring-[1.5px] focus:ring-zinc-950
+  data-[invalid]:ring-rose-500;
+}
+
+.action {
+  @apply flex items-center justify-center gap-2 py-3 px-8 
+    disabled:bg-[#45474774] enabled:bg-green-600 enabled:hover:bg-green-500
+    rounded-full disabled:text-[var(--disabled-color)] enabled:text-white w-full font-semibold;
+}
+
+.label {
+  @apply flex flex-col w-full py-3 px-8 
+  bg-green-600 hover:bg-green-500 rounded-full text-center font-semibold text-white;
+}
+
+.layout {
+  background-image: var(--bg-image-public);
+  background-size: cover;
+  background-position-y: 0;
+  background-position-x: center;
+  background-repeat: no-repeat;
+}
