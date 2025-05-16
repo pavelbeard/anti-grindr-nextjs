@@ -1,11 +1,33 @@
-import * as ProfileApp from "@/lib/services/profile";
-import { getUserByClerkId } from "@/lib/services/user";
+import { DOBSchema } from "@/lib/api/profile/profile.schemas";
+import * as ProfileApp from "@/lib/api/profile/profile.service";
+import { getUserByClerkId } from "@/lib/api/user/user.service";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   const { userId: clerkUserId } = await auth();
-  const { date_of_birth } = await request.json();
+  const { day, month, year } = await request.json();
+
+  const validatedData = DOBSchema.safeParse({ day, month, year });
+  if (!validatedData.success) {
+    return new Response(
+      JSON.stringify({
+        error: "Invalid date of birth",
+      }),
+      {
+        status: 400,
+      }
+    );
+  }
+  const {
+    day: validatedDay,
+    month: validatedMonth,
+    year: validatedYear,
+  } = validatedData.data;
+
+  const date_of_birth = new Date(
+    Date.parse(`${validatedYear}-${validatedMonth}-${validatedDay}`)
+  );
 
   if (!clerkUserId) {
     return new Response("Unauthorized", { status: 401 });
@@ -18,7 +40,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (await ProfileApp.getProfileByUserId(user.id)) {
-    return new Response("Profile already exists", { status: 409 });
+    return new Response("Profile already exists", { status: 400 });
   }
 
   const user_data = {

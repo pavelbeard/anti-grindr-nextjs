@@ -18,12 +18,6 @@
   data-[invalid]:ring-rose-500;
 }
 
-.action {
-  @apply flex items-center justify-center gap-2 py-3 px-8 
-    disabled:bg-[#45474774] enabled:bg-green-600 enabled:hover:bg-green-500
-    rounded-full disabled:text-[var(--disabled-color)] enabled:text-white w-full font-semibold;
-}
-
 .label {
   @apply flex flex-col w-full py-3 px-8 
   bg-green-600 hover:bg-green-500 rounded-full text-center font-semibold text-white;

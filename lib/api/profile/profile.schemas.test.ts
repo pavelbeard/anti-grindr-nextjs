@@ -63,4 +63,16 @@ describe("DOB Schema", () => {
       "Year should not be earlier than 1925"
     );
   });
+
+  it("should throw error for age <18", () => {
+    const invalidData = {
+      day: "01",
+      month: "01",
+      year: "2020", // Future date
+    };
+
+    expect(() => ProfileSchemas.DOBSchema.parse(invalidData)).toThrow(
+      "You must be at least 18 years old."
+    );
+  });
 });

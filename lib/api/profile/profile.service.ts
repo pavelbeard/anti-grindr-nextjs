@@ -18,3 +18,17 @@ export const getProfileByUserId = async (userId: string) => {
     },
   });
 };
+
+export const getProfileByClerkId = async (clerkUserId: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      clerkUserId,
+    },
+  });
+
+  return await prisma.profile.findUnique({
+    where: {
+      userId: user?.id,
+    },
+  });
+};

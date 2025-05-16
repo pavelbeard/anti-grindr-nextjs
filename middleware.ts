@@ -13,12 +13,7 @@ const isPublicRoute = createRouteMatcher([
   "/sign-up(.*)",
   "/opengraph-image(.*)",
   "/twitter-image(.*)",
-  "/about(.*)",
-  "/privacy-policy(.*)",
-  "/community-guidelines(.*)",
-  "/terms(.*)",
-  "/contact(.*)",
-  "/blog(.*)",
+  "/about",
   "/",
 ]);
 
@@ -31,6 +26,7 @@ export default clerkMiddleware(
   },
   {
     authorizedParties: AUTHORIZED_PARTIES,
+    // debug: process.env.NODE_ENV !== "production",
   }
 );
 

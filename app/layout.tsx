@@ -4,7 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import DevLogo from "@/components/svg/staff/dev-logo";
 import PreviewLogo from "@/components/svg/staff/preview-logo";
 
-import "@/app/globals.css";
+import "./globals.css";
 
 import favicon from "./favicon.ico";
 

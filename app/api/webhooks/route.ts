@@ -1,4 +1,4 @@
-import * as UserApp from "@/lib/services/user";
+import * as UserApp from "@/lib/api/user/user.service";
 import { verifyWebhook } from "@clerk/nextjs/webhooks";
 import { NextRequest } from "next/server";
 
