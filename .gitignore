@@ -51,3 +51,6 @@ app/generated
 
 # docker compose dev
 docker-compose.dev.yml
+
+# old pictures
+/public/old
