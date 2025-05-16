@@ -54,3 +54,6 @@ docker-compose.dev.yml
 
 # old pictures
 /public/old
+
+# test faces
+/public/test_faces
