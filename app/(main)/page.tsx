@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-import "@/components/main/style.css";
-
 export default function LandingPage() {
   return (
     <section className="flex flex-auto">

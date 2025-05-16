@@ -18,6 +18,7 @@ const isPublicRoute = createRouteMatcher([
   "/community-guidelines(.*)",
   "/terms(.*)",
   "/contact(.*)",
+  "/blog(.*)",
   "/",
 ]);
 

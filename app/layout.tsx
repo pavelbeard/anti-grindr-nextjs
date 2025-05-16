@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import DevLogo from "@/components/svg/dev-logo";
-import PreviewLogo from "@/components/svg/preview-logo";
+import DevLogo from "@/components/svg/staff/dev-logo";
+import PreviewLogo from "@/components/svg/staff/preview-logo";
 
 import "@/app/globals.css";
 

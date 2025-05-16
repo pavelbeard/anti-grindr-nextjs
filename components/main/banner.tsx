@@ -10,7 +10,7 @@ import "./style.css";
 
 export default function LandingBanner() {
   return (
-    <div className="landing-banner">
+    <div className="landingBanner">
       <section id="banner" role="banner">
         <div className="flair">WOW</div>
         <Link href="/members">Try Greender on the Web.</Link>

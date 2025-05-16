@@ -1,11 +1,13 @@
 @reference "tailwindcss";
 
-#banner {
-  @apply flex bg-black h-10 text-white items-center justify-center font-semibold text-lg gap-x-4 overflow-hidden;
-}
+/* BANNER */
 
 .landingBanner {
   @apply sticky top-0 left-0 right-0;
+}
+
+#banner {
+  @apply flex bg-black h-10 text-white items-center justify-center font-semibold text-[16px] gap-x-4 overflow-hidden;
 }
 
 .flair {
@@ -30,9 +32,11 @@
   transform: translate3d(0, 4em, 0);
 }
 
+/* LANDING PAGE */
+
 .mainContent {
-  background-image: 
-    linear-gradient(rgba(0,0,0,0.3), rgba(0, 0, 0, 0.018)),
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.018)),
     var(--bg-image-landing);
   @apply flex-auto flex flex-col space-y-4 px-8 py-6;
 }
@@ -41,31 +45,8 @@
   @apply text-[92px] leading-none text-white text-shadow-xs text-shadow-gray-500 uppercase w-[700px] font-bold;
 }
 
-.sideNav {
-  background-color: var(--background-side-nav);
-  padding: 0 2rem;
-}
-
-.sideNavLinks {
-  display: flex;
-  flex-direction: column;
-}
-
-.sideNavLink {
-  padding-left: 3rem;
-}
-
-.sideNavLink.active {
-  background-image: var(--list-style-type);
-
-  background-position: 1rem;
-  background-repeat: no-repeat;
-}
-
-.sideNavLinkPadding {
-  padding: 10px 0;
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--bg-side-nav-border-color);
+.description {
+  @apply text-lg text-white text-shadow-xs text-shadow-gray-500 font-light;
 }
 
 .signInBtn {
@@ -73,6 +54,72 @@
   bg-white hover:bg-green-500 text-black font-semibold w-96;
 }
 
-.description {
-  @apply text-lg text-white text-shadow-xs text-shadow-gray-500 font-light;
+/* SIDE NAV */
+
+.sideNav {
+  background-color: var(--background-side-nav);
+  padding: 2em 1em 1em;
+  min-width: 320px;
+}
+
+.sideNavLinks {
+  display: flex;
+  flex-direction: column;
+}
+
+.sideNavPrimaryLinks {
+  display: flex;
+  flex-direction: column;
+  column-gap: 0.75em;
+  row-gap: 0;
+  font-weight: 600;
+}
+
+.sideNavLink {
+  padding-left: 2rem;
+}
+
+.sideNavLink.active {
+  background-image: var(--list-style-type);
+  background-position: 0.75em;
+  background-repeat: no-repeat;
+}
+
+.sideNavLinkPadding {
+  padding: 0.75em 0;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--bg-side-nav-border-color);
+}
+
+.sideNavSecondaryLinks,
+.socialLinks,
+.footer {
+  padding-left: 2rem;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.socialLinks > div[aria-label="Social Links"] {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.followUs {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.sideNavPrimaryLinks, .followUs {
+  font-size: 14px
+}
+
+.sideNavSecondaryLink {
+  @apply text-sm text-gray-800 capitalize;
+}
+
+.footer {
+  @apply text-sm text-gray-800;
 }

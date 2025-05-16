@@ -2,60 +2,82 @@
 
 import Link from "next/link";
 
-import { useEffect, useRef } from "react";
+import { cloneElement, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-
-import "@/components/main/style.css";
+import Facebook from "../svg/social/facebook";
+import XformerlyTwitter from "../svg/social/x";
+import Instagram from "../svg/social/instagram";
 
 export default function SideNav() {
   const navRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
+  const [hoveredHref, setHoveredHref] = useState<string | null>(null);
 
-  const links = [
+  const primaryLinks = [
     { href: "/", label: "download" },
     { href: "/about", label: "about" },
     { href: "/blog", label: "blog" },
     { href: "/contact", label: "contact" },
   ];
-  const activeLink = links.find((link) => link.href === pathname);
-  const activeLinkClass = activeLink ? "active" : "";
 
-  useEffect(() => {
-    if (navRef.current) {
-      const links = navRef.current.querySelectorAll(".sideNavLink");
+  const secondaryLinks = [
+    { href: "/terms", label: "terms" },
+    { href: "/privacy-policy", label: "privacy policy" },
+    { href: "/cookies", label: "cookies" },
+    { href: "/community-guidelines", label: "community guidelines" },
+  ];
 
-      links.forEach((link) => {
-        const linkPath = link.getAttribute("href");
-        if (linkPath === pathname) {
-          link.classList.add("active");
-        }
-
-        link.addEventListener("mouseenter", () => {
-          link.classList.add("active");
-        });
-        link.addEventListener("mouseleave", () => {
-          if (linkPath !== pathname) {
-            link.classList.remove("active");
-          }
-        });
-      });
-    }
-  }, []);
+  const socialLinks = [
+    { href: "/facebook", label: <Facebook /> },
+    { href: "/twitter", label: <XformerlyTwitter /> },
+    { href: "/instagram", label: <Instagram /> },
+  ];
 
   return (
     <nav ref={navRef} className="sideNavLinks">
-      {links.map((link) => (
-        <Link
-          key={link.href}
-          href={link.href}
-          className={clsx("sideNavLink", {
-            [activeLinkClass]: link === activeLink,
-          })}
-        >
-          <div className="sideNavLinkPadding">{link.label}</div>
-        </Link>
-      ))}
+      <div className="sideNavPrimaryLinks">
+        {primaryLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={clsx("sideNavLink", {
+              active: hoveredHref === link.href || pathname === link.href,
+            })}
+            onMouseEnter={() => setHoveredHref(link.href)}
+            onMouseLeave={() => setHoveredHref(null)}
+          >
+            <div className="sideNavLinkPadding">{link.label}</div>
+          </Link>
+        ))}
+      </div>
+
+      <div className="sideNavSecondaryLinks">
+        {secondaryLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="sideNavSecondaryLink"
+          >
+            {link.label}
+          </Link>
+        ))}
+      </div>
+
+      <div className="socialLinks">
+        <div className="followUs">Follow us</div>
+        <div aria-label="Social Links">
+          {socialLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="sideNavSocialLink"
+            >
+              {cloneElement(link.label, { className: "size-6" })}
+            </Link>
+          ))}
+        </div>
+      </div>
     </nav>
   );
 }

@@ -41,7 +41,7 @@ export default function WebFeaturesTextArray() {
         return (
           <div
             key={index}
-            className={`feature text-lg font-light ${featureClass}`}
+            className={`feature text-[16px] font-light ${featureClass}`}
           >
             {feature}
           </div>
