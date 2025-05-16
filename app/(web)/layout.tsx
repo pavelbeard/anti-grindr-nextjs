@@ -4,7 +4,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="flex flex-col bg-[var(--bg-image-public)]">
+    <main className="flex-auto flex flex-col bg-[var(--bg-image-public)]">
       {children}
     </main>
   );
