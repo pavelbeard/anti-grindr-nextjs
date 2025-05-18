@@ -11,6 +11,22 @@ export const createUser = async (
   });
 };
 
+export const getUsersExceptCurrent = async (
+  clerkUserId: Prisma.UserWhereUniqueInput["clerkUserId"]
+) => {
+  return await prisma.user.findMany({
+    where: {
+      clerkUserId: {
+        not: clerkUserId,
+      },
+    },
+    select: {
+      id: true,
+      Profile: true,
+    },
+  });
+};
+
 export const getUserByClerkId = async (
   clerkUserId: Prisma.UserWhereUniqueInput["clerkUserId"]
 ) => {
