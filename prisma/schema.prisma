@@ -24,10 +24,12 @@ enum SYSTEM_ROLE {
 
 model User {
   id          String   @id @default(cuid())
+  clerkUserId String?  @unique
+  online      Boolean  @default(false)
+  Profile     Profile?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  clerkUserId String?  @unique
-  Profile     Profile?
+  lastActive  DateTime @default(now())
 }
 
 // ---
