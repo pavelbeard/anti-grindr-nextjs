@@ -57,3 +57,6 @@ docker-compose.dev.yml
 
 # test faces
 /public/test_faces
+
+# local env files
+.env*.local
