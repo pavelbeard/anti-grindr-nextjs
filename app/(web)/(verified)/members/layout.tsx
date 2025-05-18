@@ -1,15 +1,33 @@
-export default function MembersLayout({
+import IconsSet from "@/components/web/members/Icons-set";
+import { UserButton } from "@clerk/nextjs";
+
+export async function generateMetadata() {
+  return {
+    title: "Greender | Members Area",
+    description: "Access to the members area",
+  };
+}
+
+export default async function MembersLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <main className="grid grid-rows-[100px_1fr_100px] items-center justify-center min-h-screen">
-      <header className="text-center">
-        <h1 className="text-2xl font-bold">Members Area</h1>
+    <>
+      <header className="text-center sticky top-0 w-full bg-black h-16 p-4">
+        {/* PROFILE */}
+        <UserButton />
+        <h1 className="text-2xl font-bold text-white">Members Area</h1>
       </header>
-      {children}
-      <footer className="flex-auto text-center">Footer</footer>
-    </main>
+      <main className="min-h-screen">
+        <section className="overflow-y-auto flex justify-center items-center">
+          {children}
+        </section>
+      </main>
+      <footer className="sticky bottom-0 w-full bg-black h-24 p-4 text-center">
+        <IconsSet />
+      </footer>
+    </>
   );
 }
