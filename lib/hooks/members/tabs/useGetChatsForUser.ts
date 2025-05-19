@@ -1,5 +1,5 @@
 import { client } from "@/lib/api/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function useGetChatsForUser() {
   // This is a placeholder for the actual implementation.
@@ -20,6 +20,10 @@ export default function useGetChatsForUser() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchChats();
+  }, []);
 
   return {
     chats,
