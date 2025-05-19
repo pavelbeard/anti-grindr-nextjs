@@ -7,18 +7,21 @@ import ChatIcon from "@/public/ui-icons/chat-zinc-800.png";
 import TreeIconHover from "@/public/ui-icons/tree-zinc-800-amber-800.png";
 import EyesIconHover from "@/public/ui-icons/eyes-zinc-800-white-green-500-black.svg";
 import ChatIconHover from "@/public/ui-icons/chat-zinc-800-blue-500.png";
+import { useTab } from "@/lib/stores/tabs-store";
 
 export default function IconsSet() {
+  const { tab, setTab } = useTab();
+
   const icons = [
-    { src: TreeIcon.src, alt: "Tree Icon" },
-    { src: EyesIcon.src, alt: "Eyes Icon" },
-    { src: ChatIcon.src, alt: "Chat Icon" },
+    { src: TreeIcon.src, alt: "members" },
+    { src: EyesIcon.src, alt: "gazes" },
+    { src: ChatIcon.src, alt: "chats" },
   ];
 
   const hoverIcons = [
-    { src: TreeIconHover.src, alt: "Tree Icon" },
-    { src: EyesIconHover.src, alt: "Eyes Icon" },
-    { src: ChatIconHover.src, alt: "Chat Icon" },
+    { src: TreeIconHover.src, alt: "members" },
+    { src: EyesIconHover.src, alt: "gazes" },
+    { src: ChatIconHover.src, alt: "chats" },
   ];
 
   const [hoveredIcon, setHoveredIcon] = useState<number | null>(null);
@@ -37,9 +40,16 @@ export default function IconsSet() {
       {icons.map((icon, index) => (
         <img
           key={index}
-          src={index === hoveredIcon ? hoverIcons[index].src : icon.src}
+          src={
+            index === hoveredIcon
+              ? hoverIcons[index].src
+              : tab === icon.alt
+                ? hoverIcons[index].src
+                : icon.src
+          }
           alt={icon.alt}
-          className="size-20"
+          className="size-12"
+          onClick={() => setTab(icon.alt)}
           onMouseEnter={() => handleMouseEnter(index)}
           onMouseLeave={() => handleMouseLeave()}
         />

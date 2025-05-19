@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import DevLogo from "@/components/svg/staff/dev-logo";
-import PreviewLogo from "@/components/svg/staff/preview-logo";
+import dynamic from "next/dynamic";
 
 import "./globals.css";
-
 import favicon from "./favicon.ico";
+
+const DevStatus = dynamic(() =>
+  import("@/components/staff/dev-status").then((mod) => mod.default)
+);
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,15 +39,7 @@ export default async function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
         >
-          {process.env.NODE_ENV !== "production" && (
-            <div className="fixed z-100 flex place-content-center bottom-5 right-5 bg-[#b7acac] rounded-full p-0.5 font-bold">
-              {process.env.NODE_ENV == "test" ? (
-                <PreviewLogo height={48} width={48} />
-              ) : (
-                <DevLogo height={48} width={48} />
-              )}
-            </div>
-          )}
+          <DevStatus />
           {children}
         </body>
       </html>

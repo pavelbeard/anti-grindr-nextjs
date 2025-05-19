@@ -1,4 +1,4 @@
-import * as ProfileApp from "@/lib/api/profile/profile.controller";
+import { checkAge } from "@/lib/helpers/profile/checkAge";
 import { redirect } from "next/navigation";
 
 export default async function AuthorizedLayout({
@@ -6,7 +6,7 @@ export default async function AuthorizedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isUserHave18 = await ProfileApp.checkAge();
+  const isUserHave18 = await checkAge();
 
   if (!isUserHave18) {
     redirect("/profile/create");

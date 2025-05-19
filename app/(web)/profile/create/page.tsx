@@ -1,9 +1,9 @@
-import * as ProfileApp from "@/lib/api/profile/profile.controller";
+import { checkAge } from "@/lib/helpers/profile/checkAge";
 import CreateProfileForm from "./form";
 import { redirect } from "next/navigation";
 
 export default async function CreateProfilePage() {
-  const isUserHave18 = await ProfileApp.checkAge();
+  const isUserHave18 = await checkAge();
 
   if (isUserHave18) {
     redirect("/members");

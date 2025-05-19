@@ -1,16 +1,26 @@
-import useGetUserProfiles from "@/lib/hooks/useGetUserProfiles";
+import { formatStatus } from "@/lib/helpers/formatStatus";
+import useGetUserProfiles from "@/lib/hooks/members/tabs/useGetUserProfiles";
 import clsx from "clsx";
+import Link from "next/link";
 
 export default function Grid() {
-  const { userProfiles, loading, error } = useGetUserProfiles();
+  const { error, loading, userProfiles } = useGetUserProfiles();
 
   if (error) return <div>Error loading user profiles</div>;
+  if (loading) return <div className="size-32">Loading...</div>;
 
   return (
     <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 bg-zinc-700 gap-[1px] p-[1px]">
       {userProfiles.map((member, index) => {
+        const status = formatStatus({
+          userId: member.id,
+          online: member.online,
+          lastActive: member.lastActive,
+        });
+
         return (
-          <div
+          <Link
+            href={`/member/${member.Profile?.userId}`}
             key={index}
             style={{
               backgroundImage: `url(${process.env.NEXT_PUBLIC_BASE_URL}/without-photo.png)`,
@@ -20,22 +30,26 @@ export default function Grid() {
             className="flex flex-col-reverse items-center p-4 h-64 w-52"
           >
             <section className="flex items-center w-full gap-1">
-              {/* <span
+              <span
                 className={clsx(
                   "size-3 flex-none",
-                  {
-                    "bg-green-500": member.Profile?.status == "online",
-                    "bg-gray-500": member.Profile?.status == "offline",
-                    "bg-yellow-500": member.Profile?.status == "recent_connected",
-                  },
+                  member.online
+                    ? "bg-green-500"
+                    : {
+                        "bg-gray-500": status === "offline",
+                        "bg-yellow-500": status === "recentlyOnline",
+                      },
+
+                  // "bg-yellow-500": member.Profile?.status == "recent_connected",
+                  // },
                   "rounded-full"
                 )}
-              /> */}
+              />
               <span className="flex-auto text-xs text-white font-light">
-                {member.Profile?.id}
+                {member.Profile?.name}
               </span>
             </section>
-          </div>
+          </Link>
         );
       })}
     </div>

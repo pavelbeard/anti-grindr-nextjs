@@ -15,12 +15,13 @@ Actualmente se puede iniciar sesión con email o cuenta de Google.
 ## 💬 Funcionalidades actuales  
 
 - ✅ Creación de perfiles  
+- ✅ Chat en tiempo real
 - ✅ Visualización en formato *grid* de los usuarios cercanos
 
 ## 🚧 En desarrollo  
 
 - 📍 Geolocalización  
-- 💬 Chat en tiempo real  
+- 🖼️ Subida de avatares
 - 🛠️ Editor avanzado de perfiles  
 - 🖼️ Albumes
 

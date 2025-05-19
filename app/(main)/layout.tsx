@@ -24,7 +24,7 @@ export default function LandingLayout({
           </Suspense>
           <footer className="footer">
             <p>
-              &copy; {new Date().getFullYear()} Greender.
+              &copy; Greender.
             </p>
           </footer>
         </section>

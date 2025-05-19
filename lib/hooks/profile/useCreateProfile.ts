@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { DOBSchema, DOBType } from "../api/profile/profile.schemas";
+import { DOBSchema, DOBType } from "../../api/profile/profile.schemas";
 
 export default function useCreateProfile() {
   const router = useRouter();

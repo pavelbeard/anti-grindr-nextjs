@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import useCreateProfile from "@/lib/hooks/useCreateProfile";
+import useCreateProfile from "@/lib/hooks/profile/useCreateProfile";
 
 export default function CreateProfileForm() {
   const { form, errorState, errorIssue, onSubmit } = useCreateProfile();

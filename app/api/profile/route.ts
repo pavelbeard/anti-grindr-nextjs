@@ -4,6 +4,23 @@ import { getUserByClerkId } from "@/lib/api/user/user.service";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest } from "next/server";
 
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const userId = searchParams.get("userId");
+
+  if (!userId) {
+    return new Response("User id is required", { status: 400 });
+  }
+
+  const profile = await ProfileApp.getProfileByUserId(userId);
+
+  if (!profile) {
+    return new Response("Profile not found", { status: 404 });
+  }
+
+  return new Response(JSON.stringify(profile), { status: 200 });
+}
+
 export async function POST(request: NextRequest) {
   const { userId: clerkUserId } = await auth();
   const { day, month, year } = await request.json();
