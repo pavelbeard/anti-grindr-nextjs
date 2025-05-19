@@ -51,7 +51,15 @@ export const getChatsForUserByClerkId = async (clerkUserId: string) => {
         },
       },
       include: {
-        members: true,
+        members: {
+          include: {
+            user: {
+              include: {
+                Profile: true,
+              },
+            },
+          },
+        },
         messages: {
           orderBy: {
             createdAt: "desc",
