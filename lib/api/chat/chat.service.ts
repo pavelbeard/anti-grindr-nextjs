@@ -1,3 +1,4 @@
+import { User } from "@/app/generated/prisma";
 import prisma from "@/lib/prisma";
 
 export const createChat = async (userA: string, userB: string) => {
@@ -30,6 +31,37 @@ export const createMessage = async (data: {
       userId,
       text,
     },
+  });
+};
+
+export const getChatsForUserByClerkId = async (clerkUserId: string) => {
+  return await prisma.$transaction(async (tx) => {
+    const user = (await tx.user.findUnique({
+      where: {
+        clerkUserId,
+      },
+    })) as User;
+
+    const chats = await tx.chat.findMany({
+      where: {
+        members: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+      include: {
+        members: true,
+        messages: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          take: 1,
+        },
+      },
+    });
+
+    return chats;
   });
 };
 
