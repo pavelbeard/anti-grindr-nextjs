@@ -52,27 +52,28 @@ export const updateUser = async ({
   clerkUserId?: Prisma.UserWhereUniqueInput["clerkUserId"];
   data: Prisma.UserUpdateInput;
 }) => {
-  if (!userId && !clerkUserId) {
-    throw new Error("Either userId or clerkUserId must be provided");
-  }
+  return await prisma.$transaction(async (tx) => {
+    if (!userId && !clerkUserId) {
+      throw new Error("Either userId or clerkUserId must be provided");
+    }
 
-  if (userId) {
-    return await prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data,
-    });
-  }
-
-  if (clerkUserId) {
-    return await prisma.user.update({
-      where: {
-        clerkUserId,
-      },
-      data,
-    });
-  }
+    if (userId) {
+      return await tx.user.update({
+        where: {
+          id: userId,
+        },
+        data,
+      });
+    }
+    if (clerkUserId) {
+      return await tx.user.update({
+        where: {
+          clerkUserId,
+        },
+        data,
+      });
+    }
+  });
 };
 
 export const deleteUser = async (
