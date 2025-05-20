@@ -29,4 +29,4 @@ Actualmente se puede iniciar sesión con email o cuenta de Google.
 
 ## 🔗 URL del proyecto  
 
-👉 [https://greenderchat.com](https://greenderchat.com)
+👉 [https://staging.greenderchat.com](https://staging.greenderchat.com)
