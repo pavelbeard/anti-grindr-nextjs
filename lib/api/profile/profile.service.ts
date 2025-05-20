@@ -1,8 +1,9 @@
-import { Prisma, User } from "@/app/generated/prisma";
+import { Prisma } from "@/app/generated/prisma";
 import prisma from "@/lib/prisma";
 
 export const createProfile = async (user_data: Prisma.ProfileCreateInput) => {
   const { user, date_of_birth } = user_data;
+
   return await prisma.profile.create({
     data: {
       user,
@@ -20,17 +21,15 @@ export const getProfileByUserId = async (userId: string) => {
 };
 
 export const getProfileByClerkId = async (clerkUserId: string) => {
-  return await prisma.$transaction(async (tx) => {
-    const user = (await tx.user.findUnique({
-      where: {
-        clerkUserId,
-      },
-    })) as User;
+  const user = await prisma.user.findUnique({
+    where: {
+      clerkUserId,
+    },
+  });
 
-    return await tx.profile.findUnique({
-      where: {
-        userId: user.id,
-      },
-    });
+  return await prisma.profile.findUnique({
+    where: {
+      userId: user?.id,
+    },
   });
 };

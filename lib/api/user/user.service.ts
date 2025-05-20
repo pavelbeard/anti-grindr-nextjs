@@ -11,6 +11,28 @@ export const createUser = async (
   });
 };
 
+export const createUserLocation = async ({
+  clerkUserId,
+  latitude,
+  longitude,
+}: {
+  clerkUserId: string;
+  latitude: number;
+  longitude: number;
+}) => {
+  return await prisma.location.create({
+    data: {
+      user: {
+        connect: {
+          clerkUserId,
+        },
+      },
+      latitude,
+      longitude,
+    },
+  });
+};
+
 export const getAllUsers = async () => {
   return await prisma.user.findMany();
 };

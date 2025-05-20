@@ -32,6 +32,15 @@ export const createMessage = async (data: {
       text,
     },
   });
+
+  await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      lastActive: new Date(),
+    },
+  });
 };
 
 export const getChatsForUserByClerkId = async (clerkUserId: string) => {
