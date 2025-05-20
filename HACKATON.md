@@ -24,6 +24,7 @@ Actualmente se puede iniciar sesión con email o cuenta de Google.
 - 🖼️ Subida de avatares
 - 🛠️ Editor avanzado de perfiles  
 - 🖼️ Albumes
+- 👀 "Gazes"
 
 ## 🔗 URL del proyecto  
 
