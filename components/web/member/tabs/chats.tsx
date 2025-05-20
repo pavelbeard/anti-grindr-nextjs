@@ -1,11 +1,11 @@
 import useGetChatsForUser from "@/lib/hooks/members/tabs/useGetChatsForUser";
+import Link from "next/link";
 
 export default function Chats() {
   const { chats, loading, error } = useGetChatsForUser();
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full">
-      <h1 className="text-2xl font-bold">Chats</h1>
+    <div className="flex flex-col items-center min-w-[600px] h-full bg-black p-4">
       {error && <div>Error loading chats</div>}
       {loading && <div className="size-32">Loading...</div>}
       {chats && chats.length === 0 && (
@@ -17,12 +17,18 @@ export default function Chats() {
         </div>
       )}
       {chats && chats.length > 0 && (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col text-white w-full">
           {chats.map((chat, index) => (
-            <div key={index} className="p-4 border-b border-gray-300">
-              {/* <h2 className="text-lg font-semibold">{chat.name}</h2> */}
-              {/* <p className="text-sm text-gray-500">{chat.lastMessage}</p> */}
-            </div>
+            <Link
+              key={index}
+              href={`/member/${chat.members[1].userId}/chat`}
+              className="flex items-center gap-x-4 p-4 border-b-[0.5px] border-zinc-700"
+            >
+              <h2 className="text-lg font-semibold">
+                {chat.members[1].user.Profile.name}
+              </h2>
+              <p className="text-sm text-gray-500">{chat.messages[0].text}</p>
+            </Link>
           ))}
         </div>
       )}

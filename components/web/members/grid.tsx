@@ -6,6 +6,9 @@ import Link from "next/link";
 export default function Grid() {
   const { error, loading, userProfiles } = useGetUserProfiles();
 
+  if (!userProfiles || userProfiles.length === 0) {
+    return <div>No users found nearby</div>;
+  }
   if (error) return <div>Error loading user profiles</div>;
   if (loading) return <div className="size-32">Loading...</div>;
 
@@ -13,7 +16,6 @@ export default function Grid() {
     <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 bg-zinc-700 gap-[1px] p-[1px]">
       {userProfiles.map((member, index) => {
         const status = formatStatus({
-          userId: member.id,
           online: member.online,
           lastActive: member.lastActive,
         });

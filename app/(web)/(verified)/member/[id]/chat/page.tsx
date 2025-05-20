@@ -84,6 +84,8 @@ export default function ChatPage() {
 
   // Listen for new messages via SSE
   useEffect(() => {
+    console.log('debug');
+    
     if (!chatId) return;
     const eventSource = new EventSource(`/api/chat/${chatId}/stream`);
     eventSource.onmessage = (event) => {
