@@ -1,15 +1,16 @@
 const FIFTEEN_MINUTES = 15 * 60 * 1000;
 
 export type UserStatus = {
-  userId: string;
   online: boolean;
   lastActive: Date | null;
 };
 
-export function formatStatus({ userId, online, lastActive }: UserStatus) {
+export function formatStatus({ online, lastActive }: UserStatus) {
   if (online) {
     return "online";
   }
+
+  console.log("lastActive", lastActive);
 
   const lastActiveDate = new Date(lastActive!);
   const diff = Date.now() - lastActiveDate.getTime();

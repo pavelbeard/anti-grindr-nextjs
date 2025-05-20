@@ -1,3 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
   output   = "../app/generated/prisma"
@@ -9,40 +15,50 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+// --- USER APP
+enum SYSTEM_ROLE {
+  owner
+  moderator
+  user
+}
+
 model User {
   id          String       @id @default(cuid())
+  clerkUserId String?      @unique
+  online      Boolean      @default(false)
+  Profile     Profile?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  clerkUserId String?      @unique
   lastActive  DateTime     @default(now())
-  online      Boolean      @default(false)
+  messages    Message[]
   chats       ChatMember[]
   Location    Location[]
-  messages    Message[]
-  Profile     Profile?
 }
 
 model Location {
   id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   latitude  Float
   longitude Float
   accuracy  Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// ---
+
+// --- PROFILE APP
 model Album {
   id        String    @id @default(cuid())
   name      String
   order     Int
   isPrivate Boolean   @default(false)
   profileId String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
   profile   Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
   pictures  Picture[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@unique([profileId, order])
   @@index([createdAt])
@@ -54,83 +70,13 @@ model Picture {
   url       String
   order     Int
   albumId   String?
+  album     Album?   @relation(fields: [albumId], references: [id], onDelete: Cascade)
   profileId String?
+  profile   Profile? @relation(fields: [profileId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  album     Album?   @relation(fields: [albumId], references: [id], onDelete: Cascade)
-  profile   Profile? @relation(fields: [profileId], references: [id])
 
   @@unique([albumId, order])
-}
-
-model Gender {
-  id       Int       @id @default(autoincrement())
-  name     GENDER
-  profiles Profile[] @relation("GenderToProfile")
-}
-
-model Pronoun {
-  id       Int       @id @default(autoincrement())
-  name     PRONOUN
-  profiles Profile[] @relation("ProfileToPronoun")
-}
-
-model Profile {
-  id            String       @id @default(cuid())
-  userId        String       @unique
-  name          String?
-  height        Float?
-  weight        Float?
-  sexRole       SEXUAL_ROLE?
-  bio           String?
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  date_of_birth DateTime?    @db.Date
-  albums        Album[]
-  Message       Message[]
-  pictures      Picture[]
-  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  genders       Gender[]     @relation("GenderToProfile")
-  pronouns      Pronoun[]    @relation("ProfileToPronoun")
-
-  @@index([createdAt])
-}
-
-model Chat {
-  id        String       @id @default(cuid())
-  createdAt DateTime     @default(now())
-  members   ChatMember[]
-  messages  Message[]
-}
-
-model ChatMember {
-  id        String   @id @default(cuid())
-  chatId    String
-  userId    String
-  createdAt DateTime @default(now())
-  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([chatId, userId])
-  @@index([createdAt])
-}
-
-model Message {
-  id        String   @id @default(cuid())
-  profileId String?
-  createdAt DateTime @default(now())
-  chatId    String?
-  text      String
-  userId    String?
-  Chat      Chat?    @relation(fields: [chatId], references: [id])
-  Profile   Profile? @relation(fields: [profileId], references: [id])
-  User      User?    @relation(fields: [userId], references: [id])
-}
-
-enum SYSTEM_ROLE {
-  owner
-  moderator
-  user
 }
 
 enum GENDER {
@@ -143,6 +89,12 @@ enum GENDER {
   nonbinary
 }
 
+model Gender {
+  id       Int       @id @default(autoincrement())
+  name     GENDER
+  profiles Profile[]
+}
+
 enum PRONOUN {
   he_him_his
   she_her_hers
@@ -153,6 +105,12 @@ enum PRONOUN {
   ask_me
 }
 
+model Pronoun {
+  id       Int       @id @default(autoincrement())
+  name     PRONOUN
+  profiles Profile[]
+}
+
 enum SEXUAL_ROLE {
   top
   bottom
@@ -161,3 +119,59 @@ enum SEXUAL_ROLE {
   vers_bottom
   side
 }
+
+model Profile {
+  id            String       @id @default(cuid())
+  userId        String       @unique
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date_of_birth DateTime?    @db.Date
+  name          String?
+  height        Float?
+  weight        Float?
+  sexRole       SEXUAL_ROLE?
+  pictures      Picture[]
+  albums        Album[]
+  genders       Gender[]
+  pronouns      Pronoun[]
+  bio           String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  Message       Message[]
+
+  @@index([createdAt])
+}
+
+// CHAT APP
+
+model Chat {
+  id        String       @id @default(cuid())
+  createdAt DateTime     @default(now())
+  members   ChatMember[]
+  messages  Message[]
+}
+
+model ChatMember {
+  id        String   @id @default(cuid())
+  chatId    String
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([chatId, userId])
+  @@index([createdAt])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  text      String
+  createdAt DateTime @default(now())
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  Chat      Chat?    @relation(fields: [chatId], references: [id])
+  chatId    String?
+  Profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?
+}
+
+// ---

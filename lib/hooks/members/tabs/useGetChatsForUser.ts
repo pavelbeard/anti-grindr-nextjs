@@ -1,12 +1,24 @@
+import { ChatMember, Message, Profile } from "@/app/generated/prisma";
 import { client } from "@/lib/api/client";
 import { useEffect, useState } from "react";
+
+type ChatMemberWithUser = ChatMember & {
+  user: {
+    Profile: Profile;
+  };
+};
+
+type Chat = {
+  messages: Message[];
+  members: ChatMemberWithUser[];
+};
 
 export default function useGetChatsForUser() {
   // This is a placeholder for the actual implementation.
   // You would typically fetch data from an API or a database here.
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [chats, setChats] = useState([]);
+  const [chats, setChats] = useState<Chat[]>([]);
 
   const fetchChats = async () => {
     try {
