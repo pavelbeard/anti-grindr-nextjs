@@ -1,71 +1,32 @@
-# 🌈 Greender  
-**(Codename: Anti-Grindr — the name may change in the future)**
+# 🌈 Greender – Una app de citas para el colectivo LGBTIQ+
 
-> 💬 *An alternative to Grindr, which abuses its dominant position and prioritizes profit over people.*  
-> The goal is to build a safe, ethical, and empowering LGBTQ+ platform that puts **users first**.
+## 📝 Descripción  
 
----
+**Greender** es una alternativa a Grindr, pensada para quienes buscan una experiencia más segura, ética y libre de excesiva publicidad.  
+La app pone en el centro a las personas, no al dinero.
 
-## 🚀 MVP Development Status
+Nuestro objetivo es ofrecer un espacio más amable, donde los usuarios puedan conocerse con tranquilidad y sin interrupciones constantes.  
 
-### 📦 Backend Features
+## 🔐 Autenticación  
 
-| Feature                        | Status   |
-|-------------------------------|----------|
-| 👤 Create user                 | ⏳ To Do  |
-| 🔐 Login                      | ⏳ To Do  |
-| 🔓 Logout                     | ⏳ To Do  |
-| ♻️ Refresh token              | ⏳ To Do |
-| 🧑‍💻 Create profile            | ⏳ To Do |
-| 🛠️ Update profile             | ⏳ To Do |
-| 🖼️ Albums (private/public)     | ⏳ To Do |
-| 💬 Messaging                   | ⏳ To Do |
+La autenticación está implementada con **Clerk**, lo que permite un acceso rápido y seguro.  
+Actualmente se puede iniciar sesión con email o cuenta de Google.
 
-**Backend Progress:** **`0%`**
+## 💬 Funcionalidades actuales  
 
----
+- ✅ Creación de perfiles  
+- ✅ Chat en tiempo real
+- ✅ Visualización en formato *grid* de los usuarios cercanos
+- ✅ Online/Offline
 
-### 🎨 Frontend Features
+## 🚧 En desarrollo  
 
-| Feature       | Status   |
-|---------------|----------|
-| 📝 Sign up     | ⏳ To Do |
-| 🔐 Sign in     | ⏳ To Do |
-| 🔓 Sign out    | ⏳ To Do |
-| 🏠 Main page   | ⏳ To Do |
-| 💬 Chats       | ⏳ To Do |
-| 🧑 Profile     | ⏳ To Do |
-| 🖼️ Albums      | ⏳ To Do |
+- 📍 Geolocalización  
+- 🖼️ Subida de avatares
+- 🛠️ Editor avanzado de perfiles  
+- 🖼️ Albumes
+- 👀 "Gazes"
 
-**Frontend Progress:** **`0%`**
+## 🔗 URL del proyecto  
 
----
-
-### 📊 Total Project Progress
-
-- ✅ **Completed:** `0 / 15`
-- 📈 **Total Progress:** **`0%`**
-
----
-
-## ✨ Core Principles & Features
-
-- 🔒 **Enhanced user safety**  
-  Verified users can block messages from unverified ones. Users can also block by device.
-
-- 🧼 **Anti-abuse protection**  
-  Prevents repeated account creation (e.g. one per week per device).
-
-- 🚫 **Combat illegal activity**  
-  Actively discourages illegal solicitation and unsafe behavior.
-
-- 🏆 **Gamified experience**  
-  Users earn achievements, badges, and unlockable features.
-
-- ⚠️ **False report penalties**  
-  Users who abuse the reporting system face consequences.
-
-- 💎 **Premium done right**  
-  Premium features here mean premium, not just a way to remove ads and restrictions.
-
----
+👉 [https://greenderchat.com](https://greenderchat.com)
