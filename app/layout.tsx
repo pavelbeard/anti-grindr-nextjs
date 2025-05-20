@@ -5,9 +5,15 @@ import dynamic from "next/dynamic";
 
 import "./globals.css";
 import favicon from "./favicon.ico";
+import { lazy } from "react";
+import UserStatus from "@/components/staff/user-status";
 
 const DevStatus = dynamic(() =>
   import("@/components/staff/dev-status").then((mod) => mod.default)
+);
+
+const Geolocalization = lazy(
+  () => import("@/components/staff/geolocalization")
 );
 
 const geistSans = Geist({
@@ -38,7 +44,10 @@ export default async function RootLayout({
         </head>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
+          suppressHydrationWarning
         >
+          <UserStatus />
+          <Geolocalization />
           <DevStatus />
           {children}
         </body>
