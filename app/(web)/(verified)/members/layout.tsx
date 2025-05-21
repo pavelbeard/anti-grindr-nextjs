@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import UserBar from "@/components/web/members/user-bar";
 import WithoutPhoto from "@/public/without-photo.png";
 import { Profile } from "@/app/generated/prisma";
-import IconsSet from "@/components/web/members/icons-set";
+import IconsSet from "@/components/web/members/Icons-set";
 
 import "@/components/web/members/style.css";
 
