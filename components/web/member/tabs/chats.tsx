@@ -13,7 +13,7 @@ export default function Chats({ userId }: { userId: string }) {
           {chats.map((chat, index) => (
             <Link
               key={index}
-              href={`/member/${chat.members[1].userId}/chat`}
+              href={`/members/${chat.members[1].userId}/chat`}
               className="flex items-center gap-x-4 p-4 border-b-[0.5px] border-zinc-700"
             >
               <h2 className="text-lg font-semibold">

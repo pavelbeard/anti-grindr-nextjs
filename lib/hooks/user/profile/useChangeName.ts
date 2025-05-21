@@ -1,6 +1,6 @@
 import {
   UpdateNameSchema,
-  UpdateNameType,
+  type UpdateNameType,
 } from "@/lib/api/user/profile/profile.schemas";
 import { client } from "@/lib/fetchClient";
 import { zodResolver } from "@hookform/resolvers/zod";

@@ -1,7 +1,11 @@
+import type { SendMessageType } from "@/lib/api/member/chat/chat.schemas";
+import { SendMessageSchema } from "@/lib/api/member/chat/chat.schemas";
 import { Message } from "@/lib/api/member/chat/chat.types";
 import { client } from "@/lib/fetchClient";
 import getOrCreateChat from "@/lib/helpers/chat/getOrCreateChat";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function useChat({
   userId,
@@ -12,12 +16,18 @@ export default function useChat({
 }) {
   const [chatId, setChatId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [text, setText] = useState("");
   const [stopLoading, setStopLoading] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const lastMessageRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+  const form = useForm({
+    resolver: zodResolver(SendMessageSchema),
+    defaultValues: {
+      text: "",
+    },
+  });
 
   // Track how many messages we've loaded for pagination
   const [offset, setOffset] = useState(20);
@@ -124,24 +134,22 @@ export default function useChat({
   }, [chatId, offset]);
 
   // Send message
-  const handleSend = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!text.trim() || !userId || !chatId) return;
+  const handleSend = async (data: SendMessageType) => {
     await fetch(`/api/chat/${chatId}/send`, {
       method: "POST",
-      body: JSON.stringify({ userId, text }),
+      body: JSON.stringify({ userId, text: data.text }),
       headers: { "Content-Type": "application/json" },
     });
-    setText("");
+
     inputRef.current?.focus();
     scrollToBottom();
+    form.reset();
   };
 
   return {
     messages,
     sendMessage: handleSend,
-    text,
-    setText,
+    form,
     inputRef,
     lastMessageRef,
     messagesContainerRef,

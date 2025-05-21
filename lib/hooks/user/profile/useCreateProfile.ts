@@ -1,4 +1,7 @@
-import { DOBSchema, DOBType } from "@/lib/api/user/profile/profile.schemas";
+import {
+  DOBSchema,
+  type DOBType,
+} from "@/lib/api/user/profile/profile.schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
