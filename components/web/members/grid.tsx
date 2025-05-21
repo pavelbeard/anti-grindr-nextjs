@@ -1,10 +1,10 @@
 import { formatStatus } from "@/lib/helpers/formatStatus";
-import useGetUserProfiles from "@/lib/hooks/members/tabs/useGetUserProfiles";
+import useGetMembers from "@/lib/hooks/members/tabs/useGetMembers";
 import clsx from "clsx";
 import Link from "next/link";
 
-export default function Grid() {
-  const { error, loading, userProfiles } = useGetUserProfiles();
+export default function Grid({ userId }: { userId: string }) {
+  const { error, loading, userProfiles } = useGetMembers(userId);
 
   if (!userProfiles || userProfiles.length === 0) {
     return <div>No users found nearby</div>;
@@ -13,7 +13,7 @@ export default function Grid() {
   if (loading) return <div className="size-32">Loading...</div>;
 
   return (
-    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 bg-zinc-700 gap-[1px] p-[1px]">
+    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 bg-zinc-700 gap-0.25 px-0.25">
       {userProfiles.map((member, index) => {
         const status = formatStatus({
           online: member.online,

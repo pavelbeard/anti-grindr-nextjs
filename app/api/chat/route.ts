@@ -1,4 +1,4 @@
-import * as ChatsService from "@/lib/api/chat/chat.service";
+import * as ChatsService from "@/lib/api/member/chat/chat.service";
 import { auth } from "@clerk/nextjs/server";
 
 export async function GET(request: Request) {
@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const chats = await ChatsService.getChatsForUserByClerkId(clerkUserId);
+  const chats = await ChatsService.getChatsForUser(clerkUserId);
 
   return new Response(JSON.stringify(chats), {
     status: 200,

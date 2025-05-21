@@ -1,5 +1,5 @@
 import { ChatMember, Message, Profile } from "@/app/generated/prisma";
-import { client } from "@/lib/api/client";
+import { client } from "@/lib/fetchClient";
 import { useEffect, useState } from "react";
 
 type ChatMemberWithUser = ChatMember & {
@@ -13,9 +13,7 @@ type Chat = {
   members: ChatMemberWithUser[];
 };
 
-export default function useGetChatsForUser() {
-  // This is a placeholder for the actual implementation.
-  // You would typically fetch data from an API or a database here.
+export default function useGetChatsForUser(userId: string) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [chats, setChats] = useState<Chat[]>([]);
@@ -23,7 +21,7 @@ export default function useGetChatsForUser() {
   const fetchChats = async () => {
     try {
       setLoading(true);
-      const data = await client("/api/chat", { method: "GET" });
+      const data = await client(`/api/user/${userId}/chats`, { method: "GET" });
       setChats(data);
     } catch (error: any) {
       console.error("Error fetching chats:", error);

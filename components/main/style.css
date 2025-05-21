@@ -38,7 +38,7 @@
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.018)),
     var(--bg-image-landing);
-  @apply flex-auto flex flex-col space-y-4 px-8 py-6;
+  @apply flex-auto flex flex-col space-y-4 px-8 py-[2em];
 }
 
 .landingText {

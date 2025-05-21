@@ -1,4 +1,4 @@
-import * as ChatService from "@/lib/api/chat/chat.service";
+import * as ChatService from "@/lib/api/member/chat/chat.service";
 
 type Params = {
   chatId: string;

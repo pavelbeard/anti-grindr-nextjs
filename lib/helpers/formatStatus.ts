@@ -10,8 +10,6 @@ export function formatStatus({ online, lastActive }: UserStatus) {
     return "online";
   }
 
-  console.log("lastActive", lastActive);
-
   const lastActiveDate = new Date(lastActive!);
   const diff = Date.now() - lastActiveDate.getTime();
   const ifRecentlyOnline = diff < FIFTEEN_MINUTES;

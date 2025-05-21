@@ -1,12 +1,12 @@
-import { client } from "@/lib/api/client";
+import { client } from "@/lib/fetchClient";
 
 export default async function getOrCreateChat(
-  currentMemberId: string,
-  userId: string
+  userId: string,
+  memberId: string
 ) {
   const chat = await client(`/api/chat/between`, {
     method: "POST",
-    body: JSON.stringify({ userA: currentMemberId, userB: userId }),
+    body: JSON.stringify({ userA: memberId, userB: userId }),
     headers: { "Content-Type": "application/json" },
   });
 

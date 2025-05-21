@@ -12,11 +12,11 @@ export const createUser = async (
 };
 
 export const createUserLocation = async ({
-  clerkUserId,
+  userId,
   latitude,
   longitude,
 }: {
-  clerkUserId: string;
+  userId: string;
   latitude: number;
   longitude: number;
 }) => {
@@ -24,7 +24,7 @@ export const createUserLocation = async ({
     data: {
       user: {
         connect: {
-          clerkUserId,
+          id: userId,
         },
       },
       latitude,
@@ -37,13 +37,16 @@ export const getAllUsers = async () => {
   return await prisma.user.findMany();
 };
 
-export const getUsersExceptCurrent = async (
-  clerkUserId: Prisma.UserWhereUniqueInput["clerkUserId"]
-) => {
+/*
+  Get all users except the current user
+  @param userId - The ID of the current user
+  @returns An array of users excluding the current user
+*/
+export const getMembers = async (userId: string) => {
   return await prisma.user.findMany({
     where: {
-      clerkUserId: {
-        not: clerkUserId,
+      id: {
+        not: userId,
       },
     },
     select: {
@@ -61,6 +64,14 @@ export const getUserByClerkId = async (
   return await prisma.user.findUnique({
     where: {
       clerkUserId,
+    },
+  });
+};
+
+export const getUserById = async (userId: string) => {
+  return await prisma.user.findUnique({
+    where: {
+      id: userId,
     },
   });
 };

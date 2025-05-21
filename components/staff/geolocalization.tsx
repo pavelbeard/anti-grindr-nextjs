@@ -44,33 +44,5 @@ export default function Geolocalization() {
     );
   }, []);
 
-  if (process.env.NODE_ENV !== "production") {
-    // Only show the geolocation section in non-production environments
-    // This is useful for testing purposes
-    // and to avoid showing it in production builds.
-    // You can remove this check if you want to show it in production as well
-    // or if you want to show it conditionally based on some other criteria.
-
-    return (
-      <section
-        className={clsx(
-          "fixed z-50 bottom-0 right-24 m-4 p-4 bg-white rounded shadow-lg"
-        )}
-      >
-        <h2 className="text-lg font-semibold">Geolocation</h2>
-        {location && (
-          <p className="text-sm text-gray-500">
-            Latitude: {location.coords.latitude}, Longitude:{" "}
-            {location.coords.longitude}
-          </p>
-        )}
-        {error && (
-          <p className="text-sm text-red-500">
-            Error:{" "}
-            {error instanceof GeolocationPositionError ? error.message : error}
-          </p>
-        )}
-      </section>
-    ); // or render something based on the location or error state
-  }
+  return null;
 }

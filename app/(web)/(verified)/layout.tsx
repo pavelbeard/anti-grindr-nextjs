@@ -1,4 +1,4 @@
-import { checkAge } from "@/lib/helpers/profile/checkAge";
+import { checkAge } from "@/lib/helpers/user/profile/checkAge";
 import { redirect } from "next/navigation";
 
 export default async function AuthorizedLayout({

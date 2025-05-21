@@ -1,35 +1,8 @@
-"use client";
+import MembersClient from "@/components/web/members/members-client";
+import getUser from "@/lib/helpers/user/getUser";
 
-import Grid from "@/components/web/members/grid";
-import Chats from "@/components/web/member/tabs/chats";
-import { useTab } from "@/lib/stores/tabs-store";
-import { useEffect, useRef } from "react";
+export default async function MembersPage() {
+  const user = await getUser();
 
-export default function MembersPage() {
-  const { tab } = useTab();
-  const startLookingPointRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    console.log(tab);
-
-    if (startLookingPointRef.current) {
-      startLookingPointRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
-    }
-  }, [tab]);
-
-  return (
-    <>
-      <div
-        id="start-looking-point"
-        className="mt-16"
-        ref={startLookingPointRef}
-      ></div>
-      {tab === "members" && <Grid />}
-      {tab === "gazes" && <div>Gazes</div>}
-      {tab === "chats" && <Chats />}
-    </>
-  );
+  return <MembersClient user={user} />;
 }

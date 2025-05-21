@@ -1,7 +1,9 @@
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import { create } from "zustand";
 
 type Tabs = {
-  tab: "members" | "gazes" | "chats";
+  tab: "grid" | "gazes" | "chats";
 };
 
 type Action = {
@@ -9,20 +11,29 @@ type Action = {
 };
 
 const useTabStore = create<Tabs & Action>((set) => ({
-  tab: "members",
+  tab: "grid",
   setNewTab: (tab) => {
     set({ tab: tab as Tabs["tab"] });
   },
 }));
 
 const useTab = () => {
+  const pathname = usePathname();
   const tab = useTabStore((state) => state.tab);
   const setTab = useTabStore((state) => state.setNewTab);
+
+  useEffect(() => {
+    const anchor = window.location.hash;
+
+    if (anchor) {
+      setTab(anchor.split("#")[1] as Tabs["tab"]);
+    }
+  }, [pathname]);
 
   return {
     tab,
     setTab,
   };
-}
+};
 
 export { useTab };

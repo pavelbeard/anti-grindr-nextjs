@@ -24,7 +24,7 @@ export default function LandingLayout({
           </Suspense>
           <footer className="footer">
             <p>
-              &copy; Greender.
+              &copy; 2025 Greender.
             </p>
           </footer>
         </section>

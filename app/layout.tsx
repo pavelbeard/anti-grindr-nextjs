@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import "./globals.css";
 import favicon from "./favicon.ico";
 import { lazy } from "react";
-import UserStatus from "@/components/staff/user-status";
+import UserStatus from "@/components/staff/user-status-wrapper";
 
 const DevStatus = dynamic(() =>
   import("@/components/staff/dev-status").then((mod) => mod.default)
@@ -47,7 +47,7 @@ export default async function RootLayout({
           suppressHydrationWarning
         >
           <UserStatus />
-          <Geolocalization />
+          {/* <Geolocalization /> */}
           <DevStatus />
           {children}
         </body>

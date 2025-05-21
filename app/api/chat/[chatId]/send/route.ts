@@ -1,5 +1,4 @@
-import * as ChatService from "@/lib/api/chat/chat.service";
-import { NextResponse } from "next/server";
+import * as ChatService from "@/lib/api/member/chat/chat.service";
 
 export async function POST(
   request: Request,
@@ -25,5 +24,5 @@ export async function POST(
     text,
   });
 
-  return NextResponse.json("ok", { status: 200 });
+  return new Response("ok", { status: 200 });
 }

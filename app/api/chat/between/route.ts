@@ -1,4 +1,4 @@
-import * as ChatService from "@/lib/api/chat/chat.service";
+import * as ChatService from "@/lib/api/member/chat/chat.service";
 
 export async function POST(request: Request) {
   const { userA, userB } = await request.json();
