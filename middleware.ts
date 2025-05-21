@@ -2,9 +2,9 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 const AUTHORIZED_PARTIES =
   process.env.NODE_ENV === "production"
-    ? ["https://greender.com"]
+    ? ["https://greenderchat.com"]
     : process.env.NODE_ENV === "test"
-      ? [] // For preview environment with no fixed domain
+      ? ["https://staging.greenderchat.com"] // For preview environment with no fixed domain
       : ["http://localhost:3000"]; // Default for development
 
 const isPublicRoute = createRouteMatcher([
@@ -13,11 +13,13 @@ const isPublicRoute = createRouteMatcher([
   "/sign-up(.*)",
   "/opengraph-image(.*)",
   "/twitter-image(.*)",
-  "/about",
-  "/",
+  "/about(.*)",
+  "/blog(.*)",
+  "/contact(.*)",
+  "/privacy-policy(.*)",
+  "/member(.*)",
 ]);
 
-// Make sure that the `/api/webhooks/(.*)` route is not protected here
 export default clerkMiddleware(
   async (auth, req) => {
     if (!isPublicRoute(req)) {
