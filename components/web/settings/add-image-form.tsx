@@ -6,8 +6,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 export default function AddImageForm() {
+  const AddImageSchema = z.object({
+    file: z
+      .any()
+      .refine((file) => file && file.length > 0, {
+        message: "File is required",
+      })
+      .refine((file) => file[0].size <= 2 * 1024 * 1024, {
+        message: "File size must be less than 2MB",
+      }),
+  });
   const form = useForm({
     resolver: zodResolver(AddImageSchema),
     defaultValues: {
@@ -27,7 +38,7 @@ export default function AddImageForm() {
       {isOpen &&
         createPortal(
           <>
-            <Form></Form>
+            {/* <Form></Form> */}
           </>,
           document.body
         )}
