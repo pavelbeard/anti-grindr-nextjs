@@ -1,6 +1,5 @@
 "use client";
 import { client } from "@/lib/fetchClient";
-import getUser from "@/lib/helpers/user/getUser";
 import { useEffect } from "react";
 
 export default function UserStatusClient({ userId }: { userId: string }) {
@@ -14,6 +13,8 @@ export default function UserStatusClient({ userId }: { userId: string }) {
   };
 
   const goOffline = async () => {
+    console.log("Sending offline status");
+
     navigator.sendBeacon(
       `/api/user/${userId}/status`,
       JSON.stringify({ status: "offline", lastSeen: Date.now() })

@@ -1,3 +1,5 @@
+@reference "tailwindcss";
+
 .layout {
-    background-image: var(--bg-image-public);
+  background-image: var(--bg-image-public);
 }

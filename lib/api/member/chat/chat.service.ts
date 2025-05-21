@@ -67,6 +67,11 @@ export const getChatsForUser = async (userId: string) => {
         },
         take: 1,
       },
+      _count: {
+        select: {
+          messages: true,
+        },
+      },
     },
   });
 };

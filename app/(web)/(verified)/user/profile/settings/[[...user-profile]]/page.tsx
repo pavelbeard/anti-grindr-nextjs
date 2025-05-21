@@ -1,48 +1,32 @@
 "use client";
 
-import { UserProfile } from "@clerk/nextjs";
+import { SignOutButton, UserProfile } from "@clerk/nextjs";
 
 import "@/components/web/user/profile/style.css";
+import {
+  ArrowRightEndOnRectangleIcon,
+} from "@heroicons/react/24/outline";
 
-const DotIcon = () => {
+const SignOutPage = () => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 512 512"
-      fill="currentColor"
-    >
-      <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-    </svg>
-  );
-};
-
-const CustomPage = () => {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-2xl font-bold mb-4">User Profile</h1>
-      <p className="text-gray-600">This is a custom user profile page.</p>
+    <div className="bg-zinc-600 hover:bg-zinc-500 text-white font-bold py-2 px-4 rounded">
+      <SignOutButton />
     </div>
   );
 };
 
 const UserProfilePage = () => (
-  <UserProfile
-    path="/user/profile/settings"
-    routing="path"
-    appearance={{
-      elements: {
-        rootBox: "w-full",
-      },
-    }}
-  >
-    <UserProfile.Page
-      label="Custom Page"
-      labelIcon={<DotIcon />}
-      url="custom-page"
-    >
-      <CustomPage />
-    </UserProfile.Page>
-  </UserProfile>
+  <main className="flex flex-col items-center justify-start min-h-screen bg-black">
+    <UserProfile path="/user/profile/settings" routing="path">
+      <UserProfile.Page
+        label="Sign Out"
+        labelIcon={<ArrowRightEndOnRectangleIcon />}
+        url="sign-out"
+      >
+        <SignOutPage />
+      </UserProfile.Page>
+    </UserProfile>
+  </main>
 );
 
 export default UserProfilePage;

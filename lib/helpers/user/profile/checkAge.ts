@@ -5,7 +5,7 @@ export async function checkAge() {
   const { userId: clerkUserId } = await auth();
 
   if (!clerkUserId) {
-    throw new Error("User not authenticated");
+    return false;
   }
 
   const profile = await ProfileService.getProfileByClerkId(clerkUserId);

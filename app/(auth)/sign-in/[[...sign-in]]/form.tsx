@@ -119,16 +119,15 @@ function SignInButtons({ setOpen }: SignInProps) {
             Sign in with Apple
           </div>
         </Clerk.Connection> */}
+        <Link
+          href="/sign-up"
+          className="text-green-600 font-semibold hover:underline p-2 mt-6"
+        >
+          Create account
+        </Link>
       </SignIn.Step>
 
       <div id="clerk-captcha" />
-
-      <Link
-        href="/sign-up"
-        className="text-green-600 font-semibold hover:underline p-2 mt-6"
-      >
-        Create account
-      </Link>
     </SignIn.Root>
   );
 }

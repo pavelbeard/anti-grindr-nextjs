@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, SignedIn } from "@clerk/nextjs";
 import dynamic from "next/dynamic";
 
 import "./globals.css";
@@ -46,7 +46,9 @@ export default async function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
           suppressHydrationWarning
         >
-          <UserStatus />
+          <SignedIn>
+            <UserStatus />
+          </SignedIn>
           {/* <Geolocalization /> */}
           <DevStatus />
           {children}

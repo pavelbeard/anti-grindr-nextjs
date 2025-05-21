@@ -1,3 +1,4 @@
+import { DOBSchema } from "@/lib/api/user/profile/profile.schemas";
 import * as ProfileService from "@/lib/api/user/profile/profile.service";
 
 export async function GET(

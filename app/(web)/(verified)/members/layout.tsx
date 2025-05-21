@@ -6,6 +6,8 @@ import WithoutPhoto from "@/public/without-photo.png";
 import { Profile } from "@/app/generated/prisma";
 import IconsSet from "@/components/web/members/icons-set";
 
+import "@/components/web/members/style.css";
+
 export async function generateMetadata() {
   return {
     title: "Greender | Members Area",
@@ -33,8 +35,8 @@ export default async function MembersLayout({
   }
 
   return (
-    <main className="min-h-screen grid grid-rows-[80px_1fr_102px] bg-black">
-      <header className="text-center sticky top-0 flex items-center gap-x-4 w-full bg-black h-16 p-4 border-b border-zinc-700">
+    <main className="min-h-screen absolute top-0 bottom-0 left-0 right-0 grid grid-rows-[64px_1fr_96px] bg-black">
+      <header className="text-center flex items-center gap-x-4 w-full bg-black h-16 p-4 border-b border-zinc-700">
         <Suspense
           fallback={
             <img
@@ -52,10 +54,8 @@ export default async function MembersLayout({
 
         <h1 className="text-2xl font-bold text-white">{profile.name}</h1>
       </header>
-      <section className="overflow-y-auto flex justify-center items-center">
-        {children}
-      </section>
-      <footer className="sticky bottom-0 w-full bg-black h-24 p-4 text-center border-t border-zinc-700">
+      {children}
+      <footer className="w-full bg-black h-24 p-4 text-center border-t border-zinc-700">
         <IconsSet />
       </footer>
     </main>

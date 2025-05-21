@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.user-bar-btns {
+  @apply flex items-center gap-x-2 text-white py-2 px-4 font-semibold;
+}

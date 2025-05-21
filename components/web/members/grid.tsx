@@ -13,7 +13,7 @@ export default function Grid({ userId }: { userId: string }) {
   if (loading) return <div className="size-32">Loading...</div>;
 
   return (
-    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 bg-zinc-700 gap-0.25 px-0.25">
+    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 bg-zinc-700 gap-0.25 px-0.25">
       {userProfiles.map((member, index) => {
         const status = formatStatus({
           online: member.online,
