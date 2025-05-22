@@ -10,8 +10,8 @@
     "test": "vitest",
     "migrate:dev": "npx prisma migrate dev",
     "migrate:deploy": "npx prisma migrate deploy",
-    "postinstall": "prisma generate --no-engine",
-    "vercel-build": "prisma generate --no-engine && prisma migrate deploy && next build"
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "dependencies": {
     "@clerk/elements": "^0.23.25",
