@@ -18,6 +18,7 @@ const isPublicRoute = createRouteMatcher([
   "/contact(.*)",
   "/privacy-policy(.*)",
   "/member(.*)",
+  "/",
 ]);
 
 export default clerkMiddleware(
