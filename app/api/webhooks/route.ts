@@ -3,7 +3,8 @@ import { WebhookEvent } from "@clerk/nextjs/webhooks";
 import { headers } from "next/headers";
 import { Webhook } from "svix";
 
-const CLERK_WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET || ``;
+const CLERK_WEBHOOK_SIGNING_SECRET =
+  process.env.CLERK_WEBHOOK_SIGNING_SECRET || ``;
 
 async function verifyRequest(request: Request) {
   const payloadString = await request.text();
@@ -15,7 +16,7 @@ async function verifyRequest(request: Request) {
     "svix-signature": headerPayload.get("svix-signature")!,
   };
 
-  const wh = new Webhook(CLERK_WEBHOOK_SECRET);
+  const wh = new Webhook(CLERK_WEBHOOK_SIGNING_SECRET);
   return wh.verify(payloadString, svixHeaders) as WebhookEvent;
 }
 
