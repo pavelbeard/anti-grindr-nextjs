@@ -1,5 +1,5 @@
 export async function GET(request: Request) {
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.VERCEL_ENV === "development") {
     return new Response(JSON.stringify({ env: process.env }), {
       status: 200,
       headers: {

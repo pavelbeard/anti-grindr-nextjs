@@ -1,9 +1,9 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 const AUTHORIZED_PARTIES =
-  process.env.NODE_ENV === "production"
+  process.env.VERCEL_ENV === "production"
     ? ["https://greenderchat.com"]
-    : process.env.NODE_ENV === "test"
+    : process.env.VERCEL_ENV === "test"
       ? ["https://staging.greenderchat.com"] // For preview environment with no fixed domain
       : ["http://localhost:3000"]; // Default for development
 
@@ -28,7 +28,7 @@ export default clerkMiddleware(
   },
   {
     authorizedParties: AUTHORIZED_PARTIES,
-    // debug: process.env.NODE_ENV !== "production",
+    // debug: process.env.VERCEL_ENV !== "production",
   }
 );
 
