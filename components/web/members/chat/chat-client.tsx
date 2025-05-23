@@ -4,17 +4,23 @@ import useChat from "@/lib/hooks/chat/useChat";
 import ChatForm from "./form";
 import ChatMessages from "./messages";
 import ChatHeader from "./header";
+import useSWR from "swr";
+import { mutate } from "swr";
+import { useEffect } from "react";
+import useSWRInfinite from "swr/infinite";
+import { fetcher } from "@/lib/fetchClient";
+import { PAGE_SIZE } from "@/lib/constants";
 
 export default function ChatClient({
-  userAId: userAId,
-  userBId: userBId,
+  userA,
+  userB,
   profileName,
   profileAvatar,
   online,
   lastActive,
 }: {
-  userAId: string;
-  userBId: string;
+  userA: string;
+  userB: string;
   profileName: string | null;
   profileAvatar: string;
   online: boolean;
@@ -30,8 +36,8 @@ export default function ChatClient({
     lastMessageRef,
     messagesContainerRef,
   } = useChat({
-    userAId,
-    userBId,
+    userA: userA,
+    userB: userB,
   });
 
   return (
@@ -60,7 +66,7 @@ export default function ChatClient({
       {messages.length > 0 && (
         <ChatMessages
           messages={messages}
-          userAId={userAId}
+          userAId={userA}
           lastMessageRef={lastMessageRef as React.RefObject<HTMLDivElement>}
           messagesContainerRef={
             messagesContainerRef as React.RefObject<HTMLDivElement>

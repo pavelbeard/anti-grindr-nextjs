@@ -5,7 +5,7 @@ import { useEffect } from "react";
 export default function UserStatusClient({ userId }: { userId: string }) {
   const goOnline = async () => {
     await client(`/api/user/${userId}/status`, {
-      method: "PATCH",
+      method: "POST",
       body: JSON.stringify({
         status: "online",
       }),

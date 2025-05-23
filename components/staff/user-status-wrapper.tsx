@@ -2,9 +2,15 @@ import getUser from "@/lib/helpers/user/getUser";
 import UserStatusClient from "./user-status-client";
 
 export default async function UserStatus() {
-  const user = await getUser();
+  try {
+    const user = await getUser();
 
-  if (!user) return null;
+    if (!user) {
+      return null;
+    }
 
-  return <UserStatusClient userId={user.id} />;
+    return <UserStatusClient userId={user.id} />;
+  } catch {
+    return null;
+  }
 }

@@ -7,11 +7,11 @@ import { useForm } from "react-hook-form";
 import useMessages from "./useMessages";
 
 export default function useChat({
-  userAId,
-  userBId,
+  userA,
+  userB,
 }: {
-  userAId: string;
-  userBId: string;
+  userA: string;
+  userB: string;
 }) {
   const [chatId, setChatId] = useState<string | null>(null);
 
@@ -35,16 +35,16 @@ export default function useChat({
 
   // fetch user profile and chatId
   useEffect(() => {
-    if (!userAId || !userBId) return;
+    if (!userA || !userB) return;
 
-    getOrCreateChat(userAId, userBId).then(setChatId);
-  }, [userAId, userBId]);
+    getOrCreateChat(userA, userB).then(setChatId);
+  }, [userA, userB]);
 
   // Send message
   const handleSend = async (data: SendMessageType) => {
     await fetch(`/api/chat/${chatId}/send`, {
       method: "POST",
-      body: JSON.stringify({ userId: userAId, text: data.text }),
+      body: JSON.stringify({ userId: userA, text: data.text }),
       headers: { "Content-Type": "application/json" },
     });
 

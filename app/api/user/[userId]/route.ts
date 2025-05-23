@@ -7,7 +7,7 @@ export async function GET(
   const { userId } = await params;
 
   if (!userId) {
-    return new Response("Unauthorized", { status: 401 });
+    return new Response("User id is required", { status: 400 });
   }
 
   const user = await UserService.getUserById(userId);

@@ -1,6 +1,6 @@
 import * as UserService from "@/lib/api/user/user.service";
 
-export async function PATCH(
+export async function POST(
   request: Request,
   { params }: { params: Promise<{ userId: string }> }
 ) {

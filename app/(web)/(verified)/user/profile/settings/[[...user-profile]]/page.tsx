@@ -2,7 +2,7 @@
 
 import { SignOutButton, UserProfile } from "@clerk/nextjs";
 
-import "@/components/web/user/profile/style.css";
+// import "@/components/web/user/profile/style.css";
 import {
   ArrowRightEndOnRectangleIcon,
 } from "@heroicons/react/24/outline";

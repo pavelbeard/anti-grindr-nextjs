@@ -1,6 +1,9 @@
 import * as UserService from "@/lib/api/user/user.service";
 import { auth } from "@clerk/nextjs/server";
 
+/**
+ * Get the currently authenticated user.
+ */
 export default async function getUser() {
   const { userId: clerkUserId } = await auth();
 

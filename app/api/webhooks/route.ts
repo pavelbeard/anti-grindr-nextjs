@@ -1,28 +1,10 @@
 import * as UserApp from "@/lib/api/user/user.service";
-import { WebhookEvent } from "@clerk/nextjs/webhooks";
-import { headers } from "next/headers";
-import { Webhook } from "svix";
-
-const CLERK_WEBHOOK_SIGNING_SECRET =
-  process.env.CLERK_WEBHOOK_SIGNING_SECRET || ``;
-
-async function verifyRequest(request: Request) {
-  const payloadString = await request.text();
-  const headerPayload = await headers();
-
-  const svixHeaders = {
-    "svix-id": headerPayload.get("svix-id")!,
-    "svix-timestamp": headerPayload.get("svix-timestamp")!,
-    "svix-signature": headerPayload.get("svix-signature")!,
-  };
-
-  const wh = new Webhook(CLERK_WEBHOOK_SIGNING_SECRET);
-  return wh.verify(payloadString, svixHeaders) as WebhookEvent;
-}
+import { verifyWebhook } from "@clerk/nextjs/webhooks";
+import type { NextRequest } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const evt = await verifyRequest(request);
+    const evt = await verifyWebhook(request as NextRequest);
     const { id: clerkUserId } = evt.data;
 
     if (!clerkUserId) {

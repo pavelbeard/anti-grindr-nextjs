@@ -1,0 +1,15 @@
+services:
+  dev-database:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Ual1z3r
+      POSTGRES_DB: greender-dev
+    ports:
+      - "6432:5432"
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+
+volumes:
+  dev-db-data:
+    driver: local

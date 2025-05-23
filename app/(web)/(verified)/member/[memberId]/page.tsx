@@ -6,11 +6,14 @@ import { formatStatus } from "@/lib/helpers/formatStatus";
 import setLastActiveAgo from "@/lib/helpers/member/setLastActiveAgo";
 import clsx from "clsx";
 import Controls from "@/components/web/member/controls";
+import ChatButton from "@/components/web/members/chat/chat-button";
+import getUser from "@/lib/helpers/user/getUser";
 
 type Params = Promise<{ memberId: string }>;
 
 export default async function MemberPage({ params }: { params: Params }) {
   const { memberId } = await params;
+  const userA = await getUser();
   const member = await UserService.getUserById(memberId);
 
   if (!member || !memberId) {
@@ -113,12 +116,13 @@ export default async function MemberPage({ params }: { params: Params }) {
           </>
         )}
       </summary>
-      <Link
+      {/* <Link
         className="action bg-green-600 hover:bg-green-500"
         href={`/member/${memberId}/chat`}
       >
         Send Message
-      </Link>
+      </Link> */}
+      <ChatButton userA={userA.id} userB={memberId} />
     </section>
   );
 }

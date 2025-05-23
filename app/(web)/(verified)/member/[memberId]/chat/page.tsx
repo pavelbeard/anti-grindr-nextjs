@@ -25,8 +25,8 @@ export default async function ChatPage({
 
   return (
     <ChatClient
-      userAId={userA.id}
-      userBId={memberId}
+      userA={userA.id}
+      userB={memberId}
       profileAvatar={profile?.avatar ?? WithoutPhoto.src}
       profileName={profile?.name ?? null}
       online={userB?.online ?? false}

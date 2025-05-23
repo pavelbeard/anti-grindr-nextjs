@@ -1,32 +1,43 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-type SetValue<T> = (value: T | ((val: T) => T)) => void;
+type SetValue<T> = Dispatch<SetStateAction<T>>;
 
+/*
+ * SSR friendly useLocalStorage hook, which allows you to avoid hydration mismatch issues.
+ * This hook will only run in the browser and will not throw an error during SSR.
+ * @param key - The key to store the value under
+ * @param initialValue - The initial value to set if the key does not exist
+ * @returns - A tuple containing the stored value and a function to update it
+ */
 export default function useLocalStorage<T>(
   key: string,
   initialValue: T
 ): [T, SetValue<T>] {
-  const isClient = typeof window !== "undefined";
+  // Initialize value with initialValue to avoid hydration mismatch
+  const [storedValue, setStoredValue] = useState<T>(initialValue);
 
-  const [storedValue, setStoredValue] = useState<T>(() => {
-    try {
-      if (isClient) {
+  // On mount, read the value if it exists in localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      try {
         const item = window.localStorage.getItem(key);
-        return item ? JSON.parse(item) : initialValue;
+        if (item) {
+          setStoredValue(JSON.parse(item) as T);
+        } else {
+          setStoredValue(initialValue);
+        }
+      } catch (error) {
+        console.error(`error getting localStorage key "${key}":`, error);
       }
-      return initialValue;
-    } catch (error) {
-      console.error(`error getting localStorage key "${key}":`, error);
-      return initialValue;
     }
-  });
+  }, [key]);
 
   const setValue: SetValue<T> = (value) => {
     try {
       const valueToStore =
         value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
-      if (isClient) {
+      if (typeof window !== "undefined") {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
     } catch (error) {
@@ -35,7 +46,7 @@ export default function useLocalStorage<T>(
   };
 
   useEffect(() => {
-    if (!isClient) return;
+    if (typeof window === "undefined") return;
 
     const handleStorage = (event: StorageEvent) => {
       if (event.key === key) {
@@ -53,7 +64,7 @@ export default function useLocalStorage<T>(
     return () => {
       window.removeEventListener("storage", handleStorage);
     };
-  }, [key, initialValue, isClient]);
+  }, [key, initialValue]);
 
   return [storedValue, setValue];
 }

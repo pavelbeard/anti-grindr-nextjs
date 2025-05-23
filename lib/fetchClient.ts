@@ -16,3 +16,6 @@ export async function client(url: string, options: RequestInit) {
 
   return res.json();
 }
+
+export const fetcher = (...args: Parameters<typeof fetch>) =>
+  fetch(...args).then((res) => res.json());

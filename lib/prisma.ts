@@ -2,10 +2,10 @@ import { PrismaClient } from "@/app/generated/prisma/client";
 
 // Prevent multiple instances of PrismaClient in development
 const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined;
+  prisma: PrismaClient;
 };
 
-const prisma = globalForPrisma.prisma ?? new PrismaClient();
+const prisma = globalForPrisma.prisma || new PrismaClient();
 
 if (process.env.VERCEL_ENV !== "production") globalForPrisma.prisma = prisma;
 

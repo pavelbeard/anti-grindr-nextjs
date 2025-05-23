@@ -1,7 +1,11 @@
 import { Message } from "@/lib/api/member/chat/chat.types";
 import { useEffect, useRef, useState } from "react";
 
+const PAGE_SIZE = 20;
+
 export default function useMessages(chatId: string | null) {
+  // const { data: message, error, isLoading } = useSWR();
+
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -12,7 +16,6 @@ export default function useMessages(chatId: string | null) {
 
   // Track how many messages we've loaded for pagination
   const [offset, setOffset] = useState(20);
-  const PAGE_SIZE = 20;
 
   const fetchMessages = async () => {
     try {
