@@ -1,21 +1,42 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import type { SendMessageType } from "@/lib/api/member/chat/chat.schemas";
+import {
+  SendMessageSchema,
+  type SendMessageType,
+} from "@/lib/api/member/chat/chat.schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
+import { useEffect, useRef, useState } from "react";
+import { useForm, UseFormReturn } from "react-hook-form";
 
 export default function ChatForm({
-  sendMessage,
-  inputRef,
-  form,
+  chatId,
+  userB,
 }: {
-  sendMessage: (data: SendMessageType) => void;
-  inputRef: React.RefObject<HTMLInputElement>;
-  form: UseFormReturn<SendMessageType>;
+  chatId: string | null;
+  userB: string | null;
 }) {
   const [isDisabled, setIsDisabled] = useState(true);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const form = useForm({
+    resolver: zodResolver(SendMessageSchema),
+    defaultValues: {
+      text: "",
+    },
+  });
+
+  const sendMessage = async (data: SendMessageType) => {
+    await fetch(`/api/chat/${chatId}/send?userId=${userB}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(data.text.trim()),
+    });
+  };
 
   useEffect(() => {
     if (form.watch("text").length > 0) {
@@ -28,7 +49,7 @@ export default function ChatForm({
   return (
     <Form {...form}>
       <form
-        className="bg-black flex w-full items-center gap-x-2 p-4"
+        className="flex w-full items-center gap-x-2 p-4"
         onSubmit={form.handleSubmit(sendMessage)}
       >
         <FormField

@@ -89,11 +89,15 @@ export const getPrivateChat = async (userA: string, userB: string) => {
   });
 };
 
-export const getMessagesByChatId = async (
-  chatId: string,
-  limit: number = 20,
-  offset: number = 0
-) => {
+export const getMessagesByChatId = async ({
+  chatId,
+  limit = 20,
+  offset = 0,
+}: {
+  chatId: string;
+  limit?: number;
+  offset?: number;
+}) => {
   const msg = await prisma.message.findMany({
     where: {
       chatId,

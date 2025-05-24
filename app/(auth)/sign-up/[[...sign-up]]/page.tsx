@@ -1,7 +1,7 @@
-import GreenderLogo from "@/components/auth/greender-logo";
+import GreenderLogo from "@/components/auth/auth-greender-logo";
 import AuthFormContainer from "@/components/auth/auth-form-container";
 import SignUpForm from "./form";
-import Links from "@/components/auth/links";
+import Links from "@/components/auth/auth-links";
 
 export default function SignUpPage() {
   return (

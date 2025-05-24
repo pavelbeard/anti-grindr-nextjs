@@ -9,6 +9,7 @@
     "lint": "next lint",
     "test": "vitest",
     "test:int": "./__scripts__/run-integration.sh",
+    "migrate:local": "dotenv -e .env.local -- npx prisma migrate dev",
     "migrate:dev": "npx prisma migrate dev",
     "migrate:deploy": "npx prisma migrate deploy",
     "postinstall": "prisma generate",

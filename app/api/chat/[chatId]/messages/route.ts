@@ -14,11 +14,11 @@ export async function GET(
   const limit = parseInt(searchParams.get("limit") || "20", 0);
 
   try {
-    const messages = await ChatService.getMessagesByChatId(
+    const messages = await ChatService.getMessagesByChatId({
       chatId,
       offset,
-      limit
-    );
+      limit,
+    });
 
     return new Response(JSON.stringify(messages), {
       headers: {

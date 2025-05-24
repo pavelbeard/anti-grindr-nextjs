@@ -3,7 +3,7 @@
 import * as SignUp from "@clerk/elements/sign-up";
 import * as Clerk from "@clerk/elements/common";
 import { useClerk } from "@clerk/nextjs";
-import LoadingAuth from "@/components/auth/loading-auth";
+import LoadingAuth from "@/components/auth/auth-loading";
 
 import Link from "next/link";
 

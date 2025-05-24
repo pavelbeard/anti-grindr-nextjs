@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { Suspense, lazy } from "react";
-import WebFeaturesTextFallback from "./web-features-text-fallback";
+import WebFeaturesTextFallback from "./main-web-features-text-fallback";
 
-const WebFeaturesTextArray = lazy(() => import("./web-features-text-array"));
+const WebFeaturesTextArray = lazy(() => import("./main-web-features-text-array"));
 
 import "./style.css";
 

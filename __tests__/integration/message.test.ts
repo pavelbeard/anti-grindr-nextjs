@@ -73,7 +73,7 @@ describe("Testing message API", () => {
 
           expect(data).toBeInstanceOf(Array);
           expect(data.length).toBe(20);
-          expect(data[0].text).toBe("Message 1");
+          expect(data[0].text).toBe("Message 81");
           expect(data[0].userId).toBe(user1!.clerkUserId);
           expect(data[0].profileId).toBe(user1!.Profile!.id);
         },

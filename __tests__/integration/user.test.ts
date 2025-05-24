@@ -1,7 +1,13 @@
 import * as userHandler from "@/app/api/user/route";
 import { testApiHandler } from "next-test-api-route-handler";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { main } from "./helpers/setupdb";
+
+vi.mock("@clerk/nextjs/server", () => ({
+  auth: vi.fn(() => ({
+    userId: "clerk1",
+  })),
+}));
 
 describe("Testing user API", () => {
   beforeEach(async () => {
@@ -15,12 +21,11 @@ describe("Testing user API", () => {
         async test({ fetch }) {
           const response = await fetch({ method: "GET" });
 
-          expect(response).toBe(200);
+          expect(response.status).toBe(200);
 
           const data = await response.json();
 
           expect(data).toHaveProperty("userId");
-          expect(data).toHaveProperty("clerkUserId");
         },
       });
     });

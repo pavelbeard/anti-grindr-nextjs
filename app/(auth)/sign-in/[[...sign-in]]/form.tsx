@@ -6,7 +6,7 @@ import { useClerk } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import LoadingAuth from "@/components/auth/loading-auth";
+import LoadingAuth from "@/components/auth/auth-loading";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 
