@@ -1,23 +1,61 @@
 import type { SendMessageType } from "@/lib/api/member/chat/chat.schemas";
 import { SendMessageSchema } from "@/lib/api/member/chat/chat.schemas";
-import getOrCreateChat from "@/lib/helpers/chat/getOrCreateChat";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import useSWR from "swr";
 import useMessages from "./useMessages";
 
-export default function useChat({
-  userA,
-  userB,
-}: {
-  userA: string;
-  userB: string;
-}) {
+const createPrivateChat = async (userB: string) => {
+  const response = await fetch(`/api/chat/between?userB=${userB}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to create chat");
+  }
+
+  return response.json();
+};
+
+const getPrivateChat = async (userB: string) => {
+  const { data, error, isLoading } = useSWR(
+    `/api/chat/between?userB=${userB}`,
+    async (url) => {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch chat");
+      }
+
+      return response.json();
+    }
+  );
+
+  return { data, error, isLoading };
+};
+
+const getOrCreateChat = async (userB: string) => {
+  const chat = await getPrivateChat(userB);
+
+  if (chat.error) {
+    const newChat = await createPrivateChat(userB);
+    return newChat.id;
+  }
+
+  return chat.data.id;
+};
+
+export default function useChat(userB: string | null) {
   const [chatId, setChatId] = useState<string | null>(null);
 
   const {
     error,
-    loading,
+    loading: isLoading,
     messages,
     lastMessageRef,
     messagesContainerRef,
@@ -35,16 +73,16 @@ export default function useChat({
 
   // fetch user profile and chatId
   useEffect(() => {
-    if (!userA || !userB) return;
+    if (!userB) return;
 
-    getOrCreateChat(userA, userB).then(setChatId);
-  }, [userA, userB]);
+    getOrCreateChat(userB).then(setChatId);
+  }, [userB]);
 
   // Send message
   const handleSend = async (data: SendMessageType) => {
     await fetch(`/api/chat/${chatId}/send`, {
       method: "POST",
-      body: JSON.stringify({ userId: userA, text: data.text }),
+      body: JSON.stringify({ text: data.text }),
       headers: { "Content-Type": "application/json" },
     });
 
@@ -55,9 +93,10 @@ export default function useChat({
 
   return {
     error,
-    loading,
+    isLoading,
     messages,
     sendMessage: handleSend,
+    chatId,
     form,
     inputRef,
     lastMessageRef,

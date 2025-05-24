@@ -3,8 +3,9 @@ import useGetMembers from "@/lib/hooks/members/tabs/useGetMembers";
 import clsx from "clsx";
 import Link from "next/link";
 
-export default function Grid({ userId }: { userId: string }) {
-  const { error, loading, userProfiles } = useGetMembers(userId);
+// CHANGED
+export default function Grid() {
+  const { error, loading, userProfiles } = useGetMembers();
 
   if (!userProfiles || userProfiles.length === 0) {
     return <div>No users found nearby</div>;

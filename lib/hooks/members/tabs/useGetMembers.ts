@@ -2,7 +2,8 @@ import { UserProfile } from "@/lib/api/user/profile/profile.types";
 import { client } from "@/lib/fetchClient";
 import { useCallback, useEffect, useState } from "react";
 
-export default function useGetMembers(userId: string) {
+// CHANGED
+export default function useGetMembers() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userProfiles, setUserProfiles] = useState<UserProfile[]>([]);
@@ -10,7 +11,7 @@ export default function useGetMembers(userId: string) {
   const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await client(`/api/user/${userId}/profile/members`, {
+      const data = await client(`/api/user/profile/members`, {
         method: "GET",
       });
       setUserProfiles(data);
@@ -21,7 +22,7 @@ export default function useGetMembers(userId: string) {
     } finally {
       setLoading(false);
     }
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
     fetchUsers();

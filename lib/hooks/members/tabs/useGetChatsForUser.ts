@@ -13,7 +13,8 @@ type Chat = {
   members: ChatMemberWithUser[];
 };
 
-export default function useGetChatsForUser(userId: string) {
+// CHANGED
+export default function useGetChatsForUser() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [chats, setChats] = useState<Chat[]>([]);
@@ -21,7 +22,7 @@ export default function useGetChatsForUser(userId: string) {
   const fetchChats = async () => {
     try {
       setLoading(true);
-      const data = await client(`/api/user/${userId}/chats`, { method: "GET" });
+      const data = await client(`/api/user/chats`, { method: "GET" });
       setChats(data);
     } catch (error: any) {
       console.error("Error fetching chats:", error);

@@ -1,6 +1,24 @@
 import { PAGE_SIZE } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 
+export const createMessage = async ({
+  chatId,
+  userId,
+  text,
+}: {
+  chatId: string;
+  userId: string;
+  text: string;
+}) => {
+  await prisma.message.create({
+    data: {
+      chatId,
+      userId,
+      text,
+    },
+  });
+};
+
 export const getMessagesForChat = async ({
   chatId,
   offset = 0,

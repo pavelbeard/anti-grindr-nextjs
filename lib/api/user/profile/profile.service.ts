@@ -12,14 +12,6 @@ export const createProfile = async (user_data: Prisma.ProfileCreateInput) => {
   });
 };
 
-export const getProfileByUserId = async (userId: string) => {
-  return await prisma.profile.findUnique({
-    where: {
-      userId,
-    },
-  });
-};
-
 export const getProfileByClerkId = async (clerkUserId: string) => {
   const user = await prisma.user.findUnique({
     where: {
@@ -29,7 +21,18 @@ export const getProfileByClerkId = async (clerkUserId: string) => {
 
   return await prisma.profile.findUnique({
     where: {
-      userId: user?.id,
+      userId: user?.clerkUserId,
+    },
+  });
+};
+
+export const getProfileByUserId = async (userId: string) => {
+  return await prisma.profile.findUnique({
+    where: {
+      userId,
+    },
+    include: {
+      user: true,
     },
   });
 };

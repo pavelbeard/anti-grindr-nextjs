@@ -1,17 +1,16 @@
 import { DOBSchema } from "@/lib/api/user/profile/profile.schemas";
 import * as ProfileService from "@/lib/api/user/profile/profile.service";
+import { auth } from "@clerk/nextjs/server";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ userId: string }> }
-) {
-  const { userId } = await params;
+// CHANGED
+export async function GET(request: Request) {
+  const { userId } = await auth();
 
   if (!userId) {
-    return new Response("User id is required", { status: 400 });
+    return new Response("Unauthorized", { status: 401 });
   }
 
-  const profile = await ProfileService.getProfileByUserId(userId);
+  const profile = await ProfileService.getProfileByClerkId(userId);
 
   if (!profile) {
     return new Response("Profile not found", { status: 404 });
@@ -20,12 +19,14 @@ export async function GET(
   return new Response(JSON.stringify(profile), { status: 200 });
 }
 
-export async function POST(
-  request: Request,
-  { params }: { params: Promise<{ userId: string }> }
-) {
-  const { userId } = await params;
+// CHANGED
+export async function POST(request: Request) {
+  const { userId } = await auth();
   const { day, month, year } = await request.json();
+
+  if (!userId) {
+    return new Response("Unauthorized", { status: 401 });
+  }
 
   const validatedData = DOBSchema.safeParse({ day, month, year });
   if (!validatedData.success) {
@@ -48,17 +49,13 @@ export async function POST(
     Date.parse(`${validatedYear}-${validatedMonth}-${validatedDay}`)
   );
 
-  if (!userId) {
-    return new Response("User id is required", { status: 400 });
-  }
-
-  if (await ProfileService.getProfileByUserId(userId)) {
+  if (await ProfileService.getProfileByClerkId(userId)) {
     return new Response("Profile already exists", { status: 400 });
   }
 
   const user_data = {
     user: {
-      connect: { id: userId },
+      connect: { clerkUserId: userId },
     },
     date_of_birth,
   };
@@ -68,18 +65,16 @@ export async function POST(
   return new Response("Profile created", { status: 201 });
 }
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: Promise<{ userId: string }> }
-) {
-  const { userId } = await params;
+// CHANGED
+export async function PATCH(request: Request) {
+  const { userId } = await auth();
   const data = await request.json();
 
   if (!userId) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const profile = await ProfileService.getProfileByUserId(userId);
+  const profile = await ProfileService.getProfileByClerkId(userId);
 
   if (!profile) {
     return new Response("Profile not found", { status: 404 });

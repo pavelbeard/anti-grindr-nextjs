@@ -7,24 +7,24 @@ import {
   SendMessageSchema,
   SendMessageType,
 } from "@/lib/api/member/chat/chat.schemas";
-import { Message } from "@/lib/api/member/chat/chat.types";
-import { PAGE_SIZE } from "@/lib/constants";
-import { fetcher } from "@/lib/fetchClient";
-import { useChatContext } from "@/lib/providers/chat-provider";
+import { useChatContext } from "@/lib/providers/chat/chat-provider";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import useSWR, { mutate } from "swr";
-import useSWRInfinite from "swr/infinite";
 
 function ChatModalFallback() {
+  const { closeChat } = useChatContext();
+
   return (
     <div className="fixed bottom-0 right-12 w-96 h-96 bg-zinc-700 shadow-lg rounded-t-lg p-4">
       <div className="flex items-center justify-between">
         <h2 className="text-white">Loading...</h2>
-        <Button className="bg-transparent hover:bg-transparent hover:text-zinc-400">
+        <Button
+          onClick={closeChat}
+          className="bg-transparent hover:bg-transparent hover:text-zinc-400"
+        >
           <XMarkIcon className="size-8 text-white" />
         </Button>
       </div>
@@ -33,44 +33,26 @@ function ChatModalFallback() {
 }
 
 export default function ChatModal() {
-  const { closeChat, isChatModalOpen, chatId, userB } = useChatContext();
+  const {
+    error,
+    isLoading,
+    closeChat,
+    isChatModalOpen,
+    chatId,
+    userB,
+    messages,
+  } = useChatContext();
 
-  const { data, size, setSize, isValidating, error, isLoading } =
-    useSWRInfinite(
-      (index) =>
-        `/api/chat/${chatId}?offset=${index * PAGE_SIZE}&limit=${PAGE_SIZE}`,
-      fetcher
-    );
+  console.log("ChatModal rendered", {
+    error,
+    isChatModalOpen,
+    chatId,
+    userB,
+    isLoading,
+    messages,
+  });
 
-  const messages: Message[] = data ? [].concat(...data.reverse()) : [];
-  const isLoadingMore =
-    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
-  const isEmpty = data?.[0]?.length === 0;
-  const isReachingEnd =
-    isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
-  const isRefreshing = isValidating && data && data.length === size;
-
-  useEffect(() => {
-    if (!chatId) return;
-
-    console.log("ChatId", chatId);
-
-    const eventSource = new EventSource(`/api/chat/${chatId}/stream`);
-    eventSource.onmessage = (e) => {
-      const messages = JSON.parse(e.data);
-      console.log("New message", messages);
-      mutate(`/api/chat/${chatId}?offset=0&limit=${PAGE_SIZE}`);
-    };
-
-    eventSource.onerror = () => {
-      // console.error("EventSource failed");
-      eventSource.close();
-    };
-
-    return () => {
-      eventSource.close();
-    };
-  }, [chatId]);
+  const isEmpty = messages.length === 0;
 
   const [isDisabled, setIsDisabled] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -86,7 +68,7 @@ export default function ChatModal() {
   }, [form.watch("text")]);
 
   const sendMessage = async (data: SendMessageType) => {
-    await fetch(`/api/chat/${chatId}/send?userId=${userB?.id}`, {
+    await fetch(`/api/chat/${chatId}/send?userId=${userB}`, {
       method: "POST",
       headers: {
         "Content-Type": "text/plain",
@@ -96,7 +78,7 @@ export default function ChatModal() {
     });
   };
 
-  if (isLoading) {
+  if (isLoading && isChatModalOpen) {
     return <ChatModalFallback />;
   }
 
@@ -109,7 +91,7 @@ export default function ChatModal() {
         aria-hidden={!isChatModalOpen}
         aria-label="Chat window"
         data-chatid={chatId}
-        data-userbid={userB?.id}
+        data-userbid={userB}
         className="fixed bottom-0 right-12 flex flex-col w-96 h-[400px] bg-zinc-700 shadow-lg rounded-t-lg p-4"
       >
         <div className="flex items-center justify-between">
@@ -122,7 +104,7 @@ export default function ChatModal() {
           </Button>
         </div>
         {/* MESSAGES */}
-        <div className="flex flex-col items-center justify-center gap-y-4 w-full overflow-y-auto h-full">
+        <div className="flex flex-col justify-center gap-y-4 w-full overflow-y-auto h-full">
           {isEmpty && (
             <p className="text-white">
               No messages yet. Start the conversation!
@@ -131,7 +113,7 @@ export default function ChatModal() {
           {messages.map((message, index) => (
             <div
               key={index}
-              className={`flex items-center gap-x-2 ${
+              className={`flex gap-x-2 ${
                 message.userId === userB ? "justify-start" : "justify-end"
               }`}
             >
@@ -144,7 +126,6 @@ export default function ChatModal() {
               </div>
             </div>
           ))}
-          {isLoadingMore && <p className="text-white">Loading more...</p>}
         </div>
 
         <Form {...form}>

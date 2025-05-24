@@ -1,13 +1,12 @@
 import * as UserService from "@/lib/api/user/user.service";
+import { auth } from "@clerk/nextjs/server";
 
-export async function POST(
-  request: Request,
-  { params }: { params: Promise<{ userId: string }> }
-) {
-  const { userId } = await params;
+// CHANGED
+export async function POST(request: Request) {
+  const { userId } = await auth();
 
   if (!userId) {
-    return new Response("userId is required.", { status: 400 });
+    return new Response("Unauthorized", { status: 401 });
   }
 
   const body = await request.json();
@@ -17,7 +16,7 @@ export async function POST(
   }
 
   await UserService.updateUser({
-    userId,
+    clerkUserId: userId,
     data: {
       online: body.status === "online",
       lastActive: new Date(),

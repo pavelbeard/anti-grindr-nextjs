@@ -1,6 +1,6 @@
 import ChatModal from "@/components/web/members/chat/chat-modal";
 import { checkAge } from "@/lib/helpers/user/profile/checkAge";
-import { ChatProvider } from "@/lib/providers/chat-provider";
+import { ChatProvider } from "@/lib/providers/chat/chat-provider";
 import { redirect } from "next/navigation";
 
 export default async function AuthorizedLayout({

@@ -1,19 +1,20 @@
 import * as ChatService from "@/lib/api/member/chat/chat.service";
+import { auth } from "@clerk/nextjs/server";
 
+// CHANGED
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const userA = searchParams.get("userA");
+  const { userId: userA } = await auth();
   const userB = searchParams.get("userB");
 
-  if (!userA || !userB) {
-    return new Response(
-      JSON.stringify({
-        error: "Missing userA or userB",
-      }),
-      {
-        status: 400,
-      }
-    );
+  if (!userA) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  if (!userB) {
+    return new Response(JSON.stringify({ error: "Missing userB" }), {
+      status: 400,
+    });
   }
 
   const chat = (await ChatService.getPrivateChat(userA, userB)).find(
@@ -38,19 +39,18 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const { userId: userA } = await auth();
   const { searchParams } = new URL(request.url);
-  const userA = searchParams.get("userA");
   const userB = searchParams.get("userB");
 
-  if (!userA || !userB) {
-    return new Response(
-      JSON.stringify({
-        error: "Missing userA or userB",
-      }),
-      {
-        status: 400,
-      }
-    );
+  if (!userA) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  if (!userB) {
+    return new Response(JSON.stringify({ error: "Missing userB" }), {
+      status: 400,
+    });
   }
 
   const createdChat = await ChatService.createChat(userA, userB);

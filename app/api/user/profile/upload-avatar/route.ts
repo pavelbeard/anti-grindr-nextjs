@@ -1,5 +1,6 @@
 import * as ProfileService from "@/lib/api/user/profile/profile.service";
 import { supabase } from "@/lib/supabaseClient";
+import { auth } from "@clerk/nextjs/server";
 
 const allowedFileExtensions = ["jpg", "jpeg", "png", "heic"];
 
@@ -11,16 +12,14 @@ const checkExtension = (filename: string) => {
   return allowedFileExtensions.includes(extension);
 };
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: Promise<{ userId: string }> }
-) {
-  const { userId } = await params;
+// CHANGED
+export async function PATCH(request: Request) {
+  const { userId } = await auth();
   const formData = await request.formData();
   const file = formData.get("file") as File | null;
 
   if (!userId) {
-    return new Response("User id is required", { status: 400 });
+    return new Response("Unauthorized", { status: 401 });
   }
 
   if (!file) {

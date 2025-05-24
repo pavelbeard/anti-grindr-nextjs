@@ -12,10 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import useCreateProfile from "@/lib/hooks/user/profile/useCreateProfile";
 
-export default function CreateProfileForm({ userId }: { userId: string }) {
-  const { form, errorState, errorIssue, onSubmit } = useCreateProfile({
-    userId,
-  });
+export default function CreateProfileForm() {
+  const { form, errorState, errorIssue, onSubmit } = useCreateProfile();
 
   return (
     <Form {...form}>

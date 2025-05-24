@@ -5,10 +5,10 @@ import { lazy, Suspense, useEffect, useRef } from "react";
 const Grid = lazy(() => import("./grid"));
 const Chats = lazy(() => import("./tabs/chats"));
 
-import { User } from "@/app/generated/prisma";
 import Loading from "@/components/staff/loading";
 
-export default function MembersClient({ user }: { user: User }) {
+// CHANGED
+export default function MembersClient() {
   const { tab } = useTab();
   const startLookingPointRef = useRef<HTMLDivElement>(null);
 
@@ -29,9 +29,9 @@ export default function MembersClient({ user }: { user: User }) {
         ref={startLookingPointRef}
       />
       <Suspense fallback={<Loading />}>
-        {tab === "grid" && <Grid userId={user.id} />}
+        {tab === "grid" && <Grid />}
         {tab === "gazes" && <div>Gazes</div>}
-        {tab === "chats" && <Chats userId={user.id} />}
+        {tab === "chats" && <Chats />}
       </Suspense>
     </section>
   );

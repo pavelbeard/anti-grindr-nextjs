@@ -19,7 +19,7 @@ export default function useChangeName(userId: string) {
 
   useEffect(() => {
     const fetchName = async () => {
-      const profile = await client(`/api/user/${userId}/profile`, {
+      const profile = await client(`/api/user/profile`, {
         method: "GET",
       });
 

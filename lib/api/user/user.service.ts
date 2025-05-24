@@ -1,9 +1,7 @@
 import { Prisma } from "@/app/generated/prisma/client";
 import prisma from "@/lib/prisma";
 
-export const createUser = async (
-  clerkUserId: Prisma.UserCreateInput["clerkUserId"]
-) => {
+export const createUser = async (clerkUserId: string) => {
   return await prisma.user.create({
     data: {
       clerkUserId,
@@ -11,12 +9,13 @@ export const createUser = async (
   });
 };
 
+// CHANGED
 export const createUserLocation = async ({
-  userId,
+  clerkUserId,
   latitude,
   longitude,
 }: {
-  userId: string;
+  clerkUserId: string;
   latitude: number;
   longitude: number;
 }) => {
@@ -24,7 +23,7 @@ export const createUserLocation = async ({
     data: {
       user: {
         connect: {
-          id: userId,
+          clerkUserId,
         },
       },
       latitude,
@@ -42,15 +41,16 @@ export const getAllUsers = async () => {
   @param userId - The ID of the current user
   @returns An array of users excluding the current user
 */
-export const getMembers = async (userId: string) => {
+// CHANGED
+export const getMembers = async (clerkUserId: string) => {
   return await prisma.user.findMany({
     where: {
-      id: {
-        not: userId,
+      clerkUserId: {
+        not: clerkUserId,
       },
     },
     select: {
-      id: true,
+      clerkUserId: true,
       online: true,
       lastActive: true,
       Profile: true,
@@ -58,9 +58,7 @@ export const getMembers = async (userId: string) => {
   });
 };
 
-export const getUserByClerkId = async (
-  clerkUserId: Prisma.UserWhereUniqueInput["clerkUserId"]
-) => {
+export const getUserById = async (clerkUserId: string) => {
   return await prisma.user.findUnique({
     where: {
       clerkUserId,
@@ -68,50 +66,24 @@ export const getUserByClerkId = async (
   });
 };
 
-export const getUserById = async (userId: string) => {
-  return await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
-};
-
+// CHANGED
 export const updateUser = async ({
-  userId,
   clerkUserId,
   data,
 }: {
-  userId?: Prisma.UserWhereUniqueInput["id"];
-  clerkUserId?: Prisma.UserWhereUniqueInput["clerkUserId"];
+  clerkUserId: string;
   data: Prisma.UserUpdateInput;
 }) => {
-  return await prisma.$transaction(async (tx) => {
-    if (!userId && !clerkUserId) {
-      throw new Error("Either userId or clerkUserId must be provided");
-    }
-
-    if (userId) {
-      return await tx.user.update({
-        where: {
-          id: userId,
-        },
-        data,
-      });
-    }
-    if (clerkUserId) {
-      return await tx.user.update({
-        where: {
-          clerkUserId,
-        },
-        data,
-      });
-    }
+  return await prisma.user.update({
+    where: {
+      clerkUserId,
+    },
+    data,
   });
 };
 
-export const deleteUser = async (
-  clerkUserId: Prisma.UserWhereUniqueInput["clerkUserId"]
-) => {
+// CHANGED
+export const deleteUser = async (clerkUserId: string) => {
   await prisma.user.delete({
     where: {
       clerkUserId,

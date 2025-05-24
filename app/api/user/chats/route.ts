@@ -1,13 +1,13 @@
 import * as ChatsService from "@/lib/api/member/chat/chat.service";
+import { auth } from "@clerk/nextjs/server";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ userId: string }> }
-) {
-  const { userId } = await params;
+// CHANGED
+// CHANGE getChatsForUser
+export async function GET(request: Request) {
+  const { userId } = await auth();
 
   if (!userId) {
-    return new Response("userId is required", { status: 400 });
+    return new Response("Unauthorized", { status: 401 });
   }
 
   const chats = await ChatsService.getChatsForUser(userId);

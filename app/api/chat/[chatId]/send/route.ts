@@ -1,22 +1,25 @@
 import * as ChatService from "@/lib/api/member/chat/chat.service";
+import { auth } from "@clerk/nextjs/server";
 
+// CHANGED
 export async function POST(
   request: Request,
-  { params }: { params: Promise<{ chatId: string; userId: string }> }
+  { params }: { params: Promise<{ chatId: string }> }
 ) {
   const chatId = (await params).chatId;
-  const userId = (await params).userId;
+  const userId = (await auth()).userId;
   const text = await request.json();
 
-  if (!userId || !text) {
-    return new Response(
-      JSON.stringify({
-        error: "Missing userId or text",
-      }),
-      {
-        status: 400,
-      }
-    );
+  if (!userId) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  if (!chatId) {
+    return new Response("Chat id is required", { status: 400 });
+  }
+
+  if (!text) {
+    return new Response("Text is required", { status: 400 });
   }
 
   await ChatService.createMessage({

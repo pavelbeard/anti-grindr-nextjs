@@ -1,8 +1,9 @@
 import useGetChatsForUser from "@/lib/hooks/members/tabs/useGetChatsForUser";
 import Link from "next/link";
 
-export default function Chats({ userId }: { userId: string }) {
-  const { chats, loading, error } = useGetChatsForUser(userId);
+// CHANGED
+export default function Chats() {
+  const { chats, loading, error } = useGetChatsForUser();
 
   return (
     <div className="flex flex-col items-center min-w-[600px] h-full bg-black p-4">

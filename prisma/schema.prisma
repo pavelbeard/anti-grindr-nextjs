@@ -10,10 +10,9 @@ datasource db {
 }
 
 model User {
-  id          String       @id @default(cuid())
+  clerkUserId String       @id @unique
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  clerkUserId String?      @unique
   lastActive  DateTime     @default(now())
   online      Boolean      @default(false)
   chats       ChatMember[]
@@ -30,7 +29,7 @@ model Location {
   accuracy  Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [clerkUserId], onDelete: Cascade)
 }
 
 model Album {
@@ -90,7 +89,7 @@ model Profile {
   albums        Album[]
   Message       Message[]
   pictures      Picture[]
-  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User         @relation(fields: [userId], references: [clerkUserId], onDelete: Cascade)
   genders       Gender[]     @relation("GenderToProfile")
   pronouns      Pronoun[]    @relation("ProfileToPronoun")
 
@@ -110,7 +109,7 @@ model ChatMember {
   userId    String
   createdAt DateTime @default(now())
   chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [clerkUserId], onDelete: Cascade)
 
   @@unique([chatId, userId])
   @@index([createdAt])
@@ -125,7 +124,7 @@ model Message {
   userId    String?
   Chat      Chat?    @relation(fields: [chatId], references: [id])
   Profile   Profile? @relation(fields: [profileId], references: [id])
-  User      User?    @relation(fields: [userId], references: [id])
+  User      User?    @relation(fields: [userId], references: [clerkUserId], onDelete: Cascade)
 }
 
 enum SYSTEM_ROLE {

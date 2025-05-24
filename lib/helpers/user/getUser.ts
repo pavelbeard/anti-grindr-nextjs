@@ -11,7 +11,7 @@ export default async function getUser() {
     throw new Error("Clerk user ID not found");
   }
 
-  const user = await UserService.getUserByClerkId(clerkUserId);
+  const user = await UserService.getUserById(clerkUserId);
 
   if (!user) {
     throw new Error("User not found");

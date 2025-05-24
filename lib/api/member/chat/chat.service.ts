@@ -31,23 +31,17 @@ export const createMessage = async (data: {
       text,
     },
   });
-
-  await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      lastActive: new Date(),
-    },
-  });
 };
 
+// CHANGED
 export const getChatsForUser = async (userId: string) => {
   return await prisma.chat.findMany({
     where: {
       members: {
         some: {
-          userId,
+          user: {
+            clerkUserId: userId,
+          },
         },
       },
     },
@@ -76,6 +70,7 @@ export const getChatsForUser = async (userId: string) => {
   });
 };
 
+// CHANGED
 export const getPrivateChat = async (userA: string, userB: string) => {
   return await prisma.chat.findMany({
     where: {

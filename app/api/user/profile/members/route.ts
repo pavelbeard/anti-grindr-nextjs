@@ -1,10 +1,9 @@
 import * as UserService from "@/lib/api/user/user.service";
+import { auth } from "@clerk/nextjs/server";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ userId: string }> }
-) {
-  const { userId } = await params;
+// CHANGED
+export async function GET(request: Request) {
+  const { userId } = await auth();
 
   if (!userId) {
     return new Response("Unauthorized", { status: 401 });

@@ -12,11 +12,7 @@ export async function GET(
 
   const user = await UserService.getUserById(userId);
 
-  if (!user) {
-    return new Response("User not found", { status: 404 });
-  }
-
-  return new Response(JSON.stringify({ userId: user.id }), {
+  return new Response(JSON.stringify(user), {
     status: 200,
     headers: {
       "Content-Type": "application/json",

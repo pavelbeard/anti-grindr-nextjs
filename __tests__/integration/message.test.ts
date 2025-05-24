@@ -1,4 +1,5 @@
-import { GET } from "@/app/api/messages/[chatId]/route";
+import * as messagesHandler from "@/app/api/chat/[chatId]/messages/route";
+import { testApiHandler } from "next-test-api-route-handler";
 import {
   afterAll,
   beforeAll,
@@ -9,8 +10,7 @@ import {
   vi,
 } from "vitest";
 import prisma from "./helpers/prisma";
-// import { PAGE_SIZE } from "@/lib/constants";
-// import { Message } from "@/app/generated/prisma";
+import { main } from "./helpers/setupdb";
 
 describe("Testing message API", () => {
   beforeAll(() => {
@@ -22,103 +22,62 @@ describe("Testing message API", () => {
   });
 
   beforeEach(async () => {
-    // Create Genders and Pronouns (required for Profile relations)
-    const [maleGender, femaleGender] = await Promise.all([
-      prisma.gender.create({
-        data: { name: "male" },
-      }),
-      prisma.gender.create({
-        data: { name: "female" },
-      }),
-    ]);
-
-    const [hePronoun, shePronoun] = await Promise.all([
-      prisma.pronoun.create({
-        data: { name: "he_him_his" },
-      }),
-      prisma.pronoun.create({
-        data: { name: "she_her_hers" },
-      }),
-    ]);
-
-    // Create Users
-    const user1 = await prisma.user.create({
-      data: {
-        clerkUserId: "clerk1",
-        online: true,
-        Profile: {
-          create: {
-            name: "Alice",
-            height: 170,
-            weight: 65,
-            bio: "Hello, I am Alice.",
-            genders: { connect: { id: femaleGender.id } },
-            pronouns: { connect: { id: shePronoun.id } },
-          },
-        },
-      },
-      include: { Profile: true },
-    });
-
-    const user2 = await prisma.user.create({
-      data: {
-        clerkUserId: "clerk2",
-        online: true,
-        Profile: {
-          create: {
-            name: "Bob",
-            height: 180,
-            weight: 80,
-            bio: "Hey, I am Bob.",
-            genders: { connect: { id: maleGender.id } },
-            pronouns: { connect: { id: hePronoun.id } },
-          },
-        },
-      },
-      include: { Profile: true },
-    });
-
-    // Create Chat
-    const chat = await prisma.chat.create({
-      data: {
-        members: {
-          create: [{ userId: user1.id }, { userId: user2.id }],
-        },
-      },
-    });
-
-    // Create 100 Messages (alternating users)
-    const messagesData = Array.from({ length: 100 }).map((_, i) => ({
-      text: `Message ${i + 1}`,
-      chatId: chat.id,
-      userId: i % 2 === 0 ? user1.id : user2.id,
-      profileId: i % 2 === 0 ? user1.Profile!.id : user2.Profile!.id,
-      createdAt: new Date(Date.now() - (100 - i) * 1000), // spread out timestamps
-    }));
-
-    await prisma.message.createMany({ data: messagesData });
+    await main();
   });
 
   describe("GET /api/messages/:chatId", () => {
     it("Should return 200 and list of messages", async () => {
-      const chatId = "cmb10r2do0004s7495pzlxt5p";
+      // get user1 and user2
+      const user1 = await prisma.user.findUnique({
+        where: { clerkUserId: "clerk1" },
+        include: { Profile: true },
+      });
 
-      const mockPromise = new Promise((resolve) =>
-        resolve({ chatId })
-      ) as Promise<{ chatId: string }>;
-      const mockResponse = new Request(
-        `http://localhost:3000/api/messages/${chatId}`,
-        {
-          method: "GET",
-        }
-      );
+      const user2 = await prisma.user.findUnique({
+        where: { clerkUserId: "clerk2" },
+        include: { Profile: true },
+      });
 
-      const response = await GET(mockResponse, { params: mockPromise });
-      expect(response.status).toBe(200);
-      const data = await response.json();
-      console.log("data", data);
+      // get chat
+      const chat = await prisma.chat.findFirst({
+        where: {
+          members: {
+            some: {
+              userId: { in: [user1!.clerkUserId, user2!.clerkUserId] },
+            },
+          },
+        },
+        include: {
+          members: {
+            include: {
+              user: {
+                include: { Profile: true },
+              },
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "asc",
+        },
+      });
 
-      expect(data).toBeInstanceOf(Array);
+      await testApiHandler({
+        appHandler: messagesHandler,
+        params: { chatId: chat!.id },
+        async test({ fetch }) {
+          const response = await fetch({ method: "GET" });
+
+          expect(response.status).toBe(200);
+          const data = await response.json();
+          console.log("data", data);
+
+          expect(data).toBeInstanceOf(Array);
+          expect(data.length).toBe(20);
+          expect(data[0].text).toBe("Message 1");
+          expect(data[0].userId).toBe(user1!.clerkUserId);
+          expect(data[0].profileId).toBe(user1!.Profile!.id);
+        },
+      });
     });
   });
 });

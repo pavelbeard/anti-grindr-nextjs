@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function useCreateProfile({ userId }: { userId: string }) {
+// CHANGED
+export default function useCreateProfile() {
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(DOBSchema),
@@ -46,7 +47,7 @@ export default function useCreateProfile({ userId }: { userId: string }) {
   }, [form.watch("day"), form.watch("month"), form.watch("year")]);
 
   const onSubmit = async (data: DOBType) => {
-    const response = await fetch(`/api/user/${userId}/profile`, {
+    const response = await fetch(`/api/user/profile`, {
       method: "POST",
       body: JSON.stringify(data),
     });
