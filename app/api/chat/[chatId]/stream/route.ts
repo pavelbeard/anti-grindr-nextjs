@@ -15,7 +15,7 @@ export async function GET(
 
   const stream = new ReadableStream({
     async start(controller) {
-      const messages = await ChatService.getMessagesByChatId(chatId);
+      const messages = await ChatService.getMessagesByChatId({ chatId });
       controller.enqueue(
         encoder.encode(`data: ${JSON.stringify(messages)}\n\n`)
       );

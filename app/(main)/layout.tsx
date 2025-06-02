@@ -1,11 +1,11 @@
 import { lazy, Suspense } from "react";
-import LandingBanner from "@/components/main/banner";
-import GreenderLogo from "@/components/main/greender-logo";
-import SideNavFallback from "@/components/main/side-nav-fallback";
+import LandingBanner from "@/components/main/main-banner";
+import GreenderLogo from "@/components/main/main-greender-logo";
+import SideNavFallback from "@/components/main/main-side-nav-fallback";
 
 import "@/components/main/style.css";
 
-const SideNav = lazy(() => import("@/components/main/side-nav"));
+const SideNav = lazy(() => import("@/components/main/mian-side-nav"));
 
 export default function LandingLayout({
   children,

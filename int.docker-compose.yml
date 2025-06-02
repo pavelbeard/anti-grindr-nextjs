@@ -9,7 +9,18 @@ services:
       - "6432:5432"
     volumes:
       - dev-db-data:/var/lib/postgresql/data
+    restart: always
+
+  dev-cache-database:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - dev-cache-data:/data
+    restart: always
 
 volumes:
   dev-db-data:
+    driver: local
+  dev-cache-data:
     driver: local

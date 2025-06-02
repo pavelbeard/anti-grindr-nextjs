@@ -5,7 +5,7 @@ import WithoutPhoto from "@/public/without-photo.png";
 import { formatStatus } from "@/lib/helpers/formatStatus";
 import setLastActiveAgo from "@/lib/helpers/member/setLastActiveAgo";
 import clsx from "clsx";
-import Controls from "@/components/web/member/controls";
+import Controls from "@/components/web/member/member-controls";
 import ChatButton from "@/components/web/members/chat/chat-button";
 
 type Params = Promise<{ memberId: string }>;

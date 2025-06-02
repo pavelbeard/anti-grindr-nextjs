@@ -1,17 +1,26 @@
+import { UserProfile } from "@/lib/api/user/profile/profile.types";
+import { fetcher } from "@/lib/fetchClient";
 import { formatStatus } from "@/lib/helpers/formatStatus";
-import useGetMembers from "@/lib/hooks/members/tabs/useGetMembers";
 import clsx from "clsx";
 import Link from "next/link";
+import useSWR from "swr";
 
 // CHANGED
 export default function Grid() {
-  const { error, loading, userProfiles } = useGetMembers();
+  const {
+    error,
+    isLoading,
+    data: userProfiles,
+  }: { error: any; isLoading: boolean; data: UserProfile[] } = useSWR(
+    `/api/user/profile/members`,
+    fetcher
+  );
 
   if (!userProfiles || userProfiles.length === 0) {
     return <div>No users found nearby</div>;
   }
   if (error) return <div>Error loading user profiles</div>;
-  if (loading) return <div className="size-32">Loading...</div>;
+  if (isLoading) return <div className="size-32">Loading...</div>;
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 bg-zinc-700 gap-0.25 px-0.25">

@@ -1,5 +1,5 @@
-import AddImageForm from "@/components/web/settings/add-image-form";
-import Images from "@/components/web/settings/images";
+import AddImageForm from "@/components/web/settings/settings-add-image-form";
+import Images from "@/components/web/settings/settings-images";
 
 export default function SettingsPage() {
   return (

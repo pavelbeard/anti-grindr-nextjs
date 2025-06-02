@@ -1,10 +1,10 @@
 import * as ProfileService from "@/lib/api/user/profile/profile.service";
 import { auth } from "@clerk/nextjs/server";
 import { Suspense } from "react";
-import UserBar from "@/components/web/members/user-bar";
+import UserBar from "@/components/web/members/members-user-bar";
 import WithoutPhoto from "@/public/without-photo.png";
 import { Profile } from "@/app/generated/prisma";
-import IconsSet from "@/components/web/members/Icons-set";
+import IconsSet from "@/components/web/members/members-icons-set";
 
 import "@/components/web/members/style.css";
 

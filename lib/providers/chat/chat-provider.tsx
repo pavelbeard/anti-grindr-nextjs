@@ -17,6 +17,10 @@ type ChatContextType = {
   minimizeChat: () => void;
   maximizeChat: () => void;
   messages: Message[];
+  scrollToBottom: () => void;
+  lastMessageRef?: React.RefObject<HTMLDivElement>;
+  messagesContainerRef?: React.RefObject<HTMLDivElement>;
+  setMessages?: React.Dispatch<React.SetStateAction<Message[]>>;
 };
 
 type ResponseData = {
@@ -247,6 +251,10 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         minimizeChat,
         maximizeChat,
         messages,
+        scrollToBottom,
+        lastMessageRef: lastMessageRef as React.RefObject<HTMLDivElement>,
+        messagesContainerRef: messagesContainerRef as React.RefObject<HTMLDivElement>,
+        setMessages, // Expose setMessages for external use if needed f.e. in optimistic updates
       }}
     >
       {children}

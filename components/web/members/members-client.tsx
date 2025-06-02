@@ -2,8 +2,8 @@
 
 import { useTab } from "@/lib/stores/tabs-store";
 import { lazy, Suspense, useEffect, useRef } from "react";
-const Grid = lazy(() => import("./grid"));
-const Chats = lazy(() => import("./tabs/chats"));
+const Grid = lazy(() => import("./members-grid"));
+const Chats = lazy(() => import("./tabs/tab-chats"));
 
 import Loading from "@/components/staff/loading";
 

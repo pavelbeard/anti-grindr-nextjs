@@ -5,9 +5,10 @@ import {
   SendMessageSchema,
   type SendMessageType,
 } from "@/lib/api/member/chat/chat.schemas";
+import { useChatContext } from "@/lib/providers/chat/chat-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useOptimistic, useRef, useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 
 export default function ChatForm({
@@ -17,7 +18,9 @@ export default function ChatForm({
   chatId: string | null;
   userB: string | null;
 }) {
+  const { setMessages } = useChatContext();
   const [isDisabled, setIsDisabled] = useState(true);
+  useOptimistic
 
   const inputRef = useRef<HTMLInputElement>(null);
   const form = useForm({
@@ -28,7 +31,7 @@ export default function ChatForm({
   });
 
   const sendMessage = async (data: SendMessageType) => {
-    await fetch(`/api/chat/${chatId}/send?userId=${userB}`, {
+    const response = await fetch(`/api/chat/${chatId}/send?userId=${userB}`, {
       method: "POST",
       headers: {
         "Content-Type": "text/plain",
@@ -36,6 +39,13 @@ export default function ChatForm({
       },
       body: JSON.stringify(data.text.trim()),
     });
+
+    if (response.ok) {
+      form.reset();
+      inputRef.current?.focus();
+    } else {
+      console.error("Failed to send message");
+    }
   };
 
   useEffect(() => {

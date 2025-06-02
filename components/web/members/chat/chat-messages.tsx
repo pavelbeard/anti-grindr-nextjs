@@ -1,6 +1,7 @@
 "use client";
 
 import { Message } from "@/lib/api/member/chat/chat.types";
+import { useChatContext } from "@/lib/providers/chat/chat-provider";
 
 export default function ChatMessages({
   messages,
@@ -11,13 +12,19 @@ export default function ChatMessages({
   userB: string | null;
   isEmpty?: boolean;
 }) {
+  const { lastMessageRef, messagesContainerRef } = useChatContext();
+
   return (
-    <div className="flex flex-col justify-center gap-y-4 w-full overflow-y-auto h-full">
+    <div
+      ref={messagesContainerRef}
+      className="flex flex-col justify-center gap-y-4 w-full overflow-y-auto h-full py-4"
+    >
       {isEmpty && (
         <p className="text-white">No messages yet. Start the conversation!</p>
       )}
       {messages.map((message, index) => (
         <div
+          ref={index === messages.length - 1 ? lastMessageRef : null}
           key={index}
           className={`flex gap-x-2 ${
             message.userId === userB ? "justify-start" : "justify-end"
