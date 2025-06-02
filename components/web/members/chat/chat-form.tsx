@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import {
   SendMessageSchema,
   type SendMessageType,
-} from "@/lib/api/member/chat/chat.schemas";
+} from "@/lib/data/member/chat/chat.schemas";
 import { useChatContext } from "@/lib/providers/chat/chat-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";

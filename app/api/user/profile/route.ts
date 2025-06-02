@@ -1,5 +1,5 @@
-import { DOBSchema } from "@/lib/api/user/profile/profile.schemas";
-import * as ProfileService from "@/lib/api/user/profile/profile.service";
+import { DOBSchema } from "@/lib/data/user/profile.schemas";
+import * as ProfileService from "@/lib/data/user/profile.service";
 import { auth } from "@clerk/nextjs/server";
 
 // CHANGED
@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const profile = await ProfileService.getProfileByClerkId(userId);
+  const profile = await ProfileService.getProfileByUserId(userId);
 
   if (!profile) {
     return new Response("Profile not found", { status: 404 });
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
     Date.parse(`${validatedYear}-${validatedMonth}-${validatedDay}`)
   );
 
-  if (await ProfileService.getProfileByClerkId(userId)) {
+  if (await ProfileService.getProfileByUserId(userId)) {
     return new Response("Profile already exists", { status: 400 });
   }
 
@@ -74,7 +74,7 @@ export async function PATCH(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const profile = await ProfileService.getProfileByClerkId(userId);
+  const profile = await ProfileService.getProfileByUserId(userId);
 
   if (!profile) {
     return new Response("Profile not found", { status: 404 });

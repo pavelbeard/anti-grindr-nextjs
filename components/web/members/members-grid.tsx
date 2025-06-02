@@ -1,30 +1,22 @@
-import { UserProfile } from "@/lib/api/user/profile/profile.types";
-import { fetcher } from "@/lib/fetchClient";
-import { formatStatus } from "@/lib/helpers/formatStatus";
+"use client";
+
+import { UserProfile } from "@/lib/data/user/profile.types";
+import formatStatus from "@/lib/helpers/formatStatus";
 import clsx from "clsx";
 import Link from "next/link";
-import useSWR from "swr";
+import { use } from "react";
 
 // CHANGED
-export default function Grid() {
-  const {
-    error,
-    isLoading,
-    data: userProfiles,
-  }: { error: any; isLoading: boolean; data: UserProfile[] } = useSWR(
-    `/api/user/profile/members`,
-    fetcher
-  );
-
-  if (!userProfiles || userProfiles.length === 0) {
-    return <div>No users found nearby</div>;
-  }
-  if (error) return <div>Error loading user profiles</div>;
-  if (isLoading) return <div className="size-32">Loading...</div>;
+export default function Grid({
+  membersPromise,
+}: {
+  membersPromise: Promise<UserProfile[]>;
+}) {
+  const members = use(membersPromise);
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 bg-zinc-700 gap-0.25 px-0.25">
-      {userProfiles.map((member, index) => {
+      {members.map((member, index) => {
         const status = formatStatus({
           online: member.online,
           lastActive: member.lastActive,

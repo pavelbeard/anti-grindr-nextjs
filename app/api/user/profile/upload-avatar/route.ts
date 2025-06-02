@@ -1,5 +1,5 @@
-import * as ProfileService from "@/lib/api/user/profile/profile.service";
-import { supabase } from "@/lib/supabaseClient";
+import * as ProfileService from "@/lib/data/user/profile.service";
+import { createClient } from "@/lib/supabase/server";
 import { auth } from "@clerk/nextjs/server";
 
 const allowedFileExtensions = ["jpg", "jpeg", "png", "heic"];
@@ -50,6 +50,8 @@ export async function PATCH(request: Request) {
     const fileName = `${userId}.${timestamp}.${fileExtension}`;
     const filePath = `avatars/${userId}/${fileName}`;
 
+    const supabase = await createClient();
+
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from("avatars")
       .upload(filePath, file, {
@@ -60,7 +62,7 @@ export async function PATCH(request: Request) {
 
     if (uploadError) {
       console.error("Error uploading file:", uploadError);
-      return new Response("Error to upload avatare", { status: 500 });
+      return new Response("Error to upload avatar", { status: 500 });
     }
 
     if (!uploadData) {

@@ -1,7 +1,7 @@
 import {
   UpdateNameSchema,
   type UpdateNameType,
-} from "@/lib/api/user/profile/profile.schemas";
+} from "@/lib/data/user/profile.schemas";
 import { client } from "@/lib/fetchClient";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";

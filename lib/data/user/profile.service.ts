@@ -12,20 +12,6 @@ export const createProfile = async (user_data: Prisma.ProfileCreateInput) => {
   });
 };
 
-export const getProfileByClerkId = async (clerkUserId: string) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      clerkUserId,
-    },
-  });
-
-  return await prisma.profile.findUnique({
-    where: {
-      userId: user?.clerkUserId,
-    },
-  });
-};
-
 export const getProfileByUserId = async (userId: string) => {
   return await prisma.profile.findUnique({
     where: {

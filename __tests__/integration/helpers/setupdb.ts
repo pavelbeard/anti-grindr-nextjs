@@ -122,6 +122,7 @@ export async function main() {
 
   // Create 100 Messages (alternating users)
   const messagesData = Array.from({ length: 100 }).map((_, i) => ({
+    id: `message-${i + 1}`,
     text: `Message ${i + 1}`,
     chatId: chat.id,
     userId: i % 2 === 0 ? user1.clerkUserId : user2.clerkUserId,
@@ -132,6 +133,7 @@ export async function main() {
   // Create Messages between each user in the app
   const messagesDataForUser1And4 = [
     ...Array.from({ length: 100 }).map((_, i) => ({
+      id: `message-${i + 101}`,
       text: `Message ${i + 1} from Alice to David`,
       chatId: chat3.id,
       userId: i % 2 === 0 ? user1.clerkUserId : user4.clerkUserId,

@@ -1,25 +1,9 @@
-import * as UserService from "@/lib/api/user/user.service";
-import { auth } from "@clerk/nextjs/server";
+import getMembers from "@/lib/features/members/getMembers";
 
 // CHANGED
-export async function GET(request: Request) {
-  const { userId } = await auth();
-
-  if (!userId) {
-    return new Response("Unauthorized", { status: 401 });
-  }
-
-  try {
-    const users = await UserService.getMembers(userId);
-
-    return new Response(JSON.stringify(users), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    return new Response("Internal Server Error", { status: 500 });
-  }
-}
+export const GET = async (request: Request) => {
+  const members = await getMembers();
+  return new Response(JSON.stringify({ users: members }), {
+    status: 200,
+  });
+};

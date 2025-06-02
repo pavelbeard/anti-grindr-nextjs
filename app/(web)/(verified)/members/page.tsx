@@ -1,8 +1,8 @@
 import MembersClient from "@/components/web/members/members-client";
-import getUser from "@/lib/helpers/user/getUser";
+import * as UserFeatures from "@/lib/features/user.features";
 
-export default async function MembersPage() {
-  const user = await getUser();
+export default function MembersPage() {
+  const members = UserFeatures.getMembers();
 
-  return <MembersClient user={user} />;
+  return <MembersClient membersPromise={members} />;
 }

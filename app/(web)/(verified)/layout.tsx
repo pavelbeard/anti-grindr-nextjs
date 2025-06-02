@@ -1,16 +1,16 @@
 import ChatModal from "@/components/web/members/chat/chat-modal";
-import { checkAge } from "@/lib/helpers/user/profile/checkAge";
+import * as UserFeatures from "@/lib/features/user.features";
 import { ChatProvider } from "@/lib/providers/chat/chat-provider";
 import { redirect } from "next/navigation";
 
-export default async function AuthorizedLayout({
+export default async function VerifiedLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const isUserHave18 = await checkAge();
+  const doesUserHave18 = await UserFeatures.checkAge();
 
-  if (!isUserHave18) {
+  if (!doesUserHave18) {
     redirect("/profile/create");
   }
 

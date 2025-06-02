@@ -1,13 +1,7 @@
 "use client";
 
 import { Profile } from "@/app/generated/prisma";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import useChangeName from "@/lib/hooks/user/profile/useChangeName";
 import { Cog8ToothIcon, PencilIcon } from "@heroicons/react/24/outline";
@@ -16,15 +10,13 @@ import { use, useState } from "react";
 import { createPortal } from "react-dom";
 
 export default function UserBar({
-  profilePromise,
+  profile,
   photoFallback,
 }: {
-  profilePromise: Promise<Profile>;
+  profile: Profile;
   photoFallback: string;
 }) {
-  const profile = use(profilePromise);
   const [isUserbarOpen, setIsUserbarOpen] = useState(false);
-
   const { inputRef, name, form, onSubmit } = useChangeName(profile.userId);
 
   return (
@@ -77,11 +69,9 @@ export default function UserBar({
                 </Form>
               </section>
               <section aria-label="buttons" className="flex flex-col gap-y-4">
-                <Link
-                  className="user-bar-btns"
-                  href="/user/profile/settings"
-                >
-                  <Cog8ToothIcon className="size-5 text-zinc-400" /> Go to Profile Settings
+                <Link className="user-bar-btns" href="/user/profile/settings">
+                  <Cog8ToothIcon className="size-5 text-zinc-400" /> Go to
+                  Profile Settings
                 </Link>
               </section>
             </div>

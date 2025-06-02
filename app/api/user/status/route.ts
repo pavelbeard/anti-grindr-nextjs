@@ -1,27 +1,13 @@
-import * as UserService from "@/lib/api/user/user.service";
-import { auth } from "@clerk/nextjs/server";
+import * as UserFeatures from "@/lib/features/user.features";
+import { withErrorHandler } from "@/lib/helpers/errorAPIHandler";
+import { NextResponse } from "next/server";
 
 // CHANGED
-export async function POST(request: Request) {
-  const { userId } = await auth();
-
-  if (!userId) {
-    return new Response("Unauthorized", { status: 401 });
-  }
-
+export const POST = withErrorHandler(async (request: Request) => {
   const body = await request.json();
-
-  if (!body.status) {
-    return new Response("Missing status", { status: 400 });
-  }
-
-  await UserService.updateUser({
-    clerkUserId: userId,
-    data: {
-      online: body.status === "online",
-      lastActive: new Date(),
-    },
-  });
-
-  return new Response("ok", { status: 200 });
-}
+  await UserFeatures.changeStatus(body.status);
+  return NextResponse.json(
+    { message: "Status updated successfully" },
+    { status: 200 }
+  );
+});

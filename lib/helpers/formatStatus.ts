@@ -1,11 +1,12 @@
-const ONE_DAY = 24 * 60 * 60 * 1000;
+import { ONE_DAY } from "@/lib/constants";
 
-export type UserStatus = {
+export default function formatStatus({
+  online,
+  lastActive,
+}: {
   online: boolean;
   lastActive: Date;
-};
-
-export function formatStatus({ online, lastActive }: UserStatus) {
+}) {
   if (online) {
     return "online";
   }

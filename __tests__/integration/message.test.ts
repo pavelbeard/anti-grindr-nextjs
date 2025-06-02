@@ -2,6 +2,7 @@ import * as messagesHandler from "@/app/api/chat/[chatId]/messages/route";
 import { testApiHandler } from "next-test-api-route-handler";
 import {
   afterAll,
+  afterEach,
   beforeAll,
   beforeEach,
   describe,
@@ -10,6 +11,7 @@ import {
   vi,
 } from "vitest";
 import prisma from "./helpers/prisma";
+import resetDb from "./helpers/resetDb";
 import { main } from "./helpers/setupdb";
 
 describe("Testing message API", () => {
@@ -23,6 +25,10 @@ describe("Testing message API", () => {
 
   beforeEach(async () => {
     await main();
+  });
+
+  afterEach(async () => {
+    await resetDb();
   });
 
   describe("GET /api/messages/:chatId", () => {

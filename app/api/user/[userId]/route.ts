@@ -1,4 +1,4 @@
-import * as UserService from "@/lib/api/user/user.service";
+import * as UserService from "@/lib/data/user/user.service";
 
 export async function GET(
   request: Request,

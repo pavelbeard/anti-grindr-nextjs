@@ -1,26 +1,12 @@
-import * as ProfileService from "@/lib/api/user/profile/profile.service";
-import { auth } from "@clerk/nextjs/server";
+import * as UserFeatures from "@/lib/features/user.features";
+import { withErrorHandler } from "@/lib/helpers/errorAPIHandler";
 
 // CHANGED
-export async function GET(request: Request) {
-  const { userId } = await auth();
-
-  if (!userId) {
-    return new Response("Unauthorized", { status: 401 });
-  }
-
-  const profile = await ProfileService.getProfileByUserId(userId);
-
-  if (!profile?.date_of_birth) {
-    return new Response(
-      JSON.stringify({
-        error: "Date of birth not found",
-      }),
-      {
-        status: 400,
-      }
-    );
+export const GET = withErrorHandler(async (request: Request) => {
+  const doesMemberHave18 = await UserFeatures.checkAge();
+  if (!doesMemberHave18) {
+    return new Response("User doesn't have 18", { status: 400 });
   }
 
   return new Response("ok", { status: 200 });
-}
+});

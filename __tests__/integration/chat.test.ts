@@ -2,6 +2,7 @@ import * as chatHandler from "@/app/api/chat/route";
 import { testApiHandler } from "next-test-api-route-handler";
 import {
   afterAll,
+  afterEach,
   beforeAll,
   beforeEach,
   describe,
@@ -9,6 +10,7 @@ import {
   it,
   vi,
 } from "vitest";
+import resetDb from "./helpers/resetDb";
 import { main } from "./helpers/setupdb";
 
 vi.mock("@clerk/nextjs/server", () => ({
@@ -28,6 +30,10 @@ describe("Testing chat API", () => {
 
   beforeEach(async () => {
     await main();
+  });
+
+  afterEach(async () => {
+    await resetDb();
   });
 
   describe("GET /api/chat", () => {

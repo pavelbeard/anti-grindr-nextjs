@@ -1,4 +1,4 @@
-import * as UserService from "@/lib/api/user/user.service";
+import * as UserService from "@/lib/data/user/user.service";
 import { auth } from "@clerk/nextjs/server";
 
 // CHANGED

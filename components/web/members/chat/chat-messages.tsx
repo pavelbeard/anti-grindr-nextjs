@@ -1,6 +1,6 @@
 "use client";
 
-import { Message } from "@/lib/api/member/chat/chat.types";
+import { Message } from "@/lib/data/member/chat/chat.types";
 import { useChatContext } from "@/lib/providers/chat/chat-provider";
 
 export default function ChatMessages({

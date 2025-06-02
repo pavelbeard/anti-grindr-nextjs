@@ -1,14 +1,18 @@
 "use client";
 
 import { useTab } from "@/lib/stores/tabs-store";
-import { lazy, Suspense, useEffect, useRef } from "react";
-const Grid = lazy(() => import("./members-grid"));
-const Chats = lazy(() => import("./tabs/tab-chats"));
-
+import { Suspense, useEffect, useRef } from "react";
+import { UserProfile } from "@/lib/data/user/profile.types";
 import Loading from "@/components/staff/loading";
+import Grid from "./members-grid";
+import Chats from "./tabs/tab-chats";
 
 // CHANGED
-export default function MembersClient() {
+export default function MembersClient({
+  membersPromise,
+}: {
+  membersPromise: Promise<UserProfile[]>;
+}) {
   const { tab } = useTab();
   const startLookingPointRef = useRef<HTMLDivElement>(null);
 
@@ -29,7 +33,8 @@ export default function MembersClient() {
         ref={startLookingPointRef}
       />
       <Suspense fallback={<Loading />}>
-        {tab === "grid" && <Grid />}
+        {tab === "" ||
+          (tab === "grid" && <Grid membersPromise={membersPromise} />)}
         {tab === "gazes" && <div>Gazes</div>}
         {tab === "chats" && <Chats />}
       </Suspense>

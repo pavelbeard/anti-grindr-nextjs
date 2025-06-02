@@ -1,4 +1,4 @@
-import * as ChatService from "@/lib/api/member/chat/chat.service";
+import * as ChatService from "@/lib/data/member/chat/chat.service";
 import { auth } from "@clerk/nextjs/server";
 
 // CHANGED

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { create } from "zustand";
 
 type Tabs = {
-  tab: "grid" | "gazes" | "chats";
+  tab: "grid" | "gazes" | "chats" | "";
 };
 
 type Action = {

@@ -10,7 +10,7 @@ import ChatIconHover from "@/public/ui-icons/chat-zinc-800-blue-500.png";
 import { useTab } from "@/lib/stores/tabs-store";
 import Link from "next/link";
 
-export default function IconsSet() {
+export default function MembersFooter() {
   const { tab, setTab } = useTab();
 
   const icons = [
@@ -36,26 +36,28 @@ export default function IconsSet() {
   };
 
   return (
-    <div className="flex justify-center items-center space-x-32">
-      {/* ICONS: MEMBERS, GAZES, MESSAGES  */}
-      {icons.map((icon, index) => (
-        <Link href={`#${icon.alt}`} key={index}>
-          <img
-            src={
-              index === hoveredIcon
-                ? hoverIcons[index].src
-                : tab === icon.alt
+    <footer className="w-full bg-black h-24 p-4 text-center border-t border-zinc-700">
+      <div className="flex justify-center items-center space-x-32">
+        {/* ICONS: MEMBERS, GAZES, MESSAGES  */}
+        {icons.map((icon, index) => (
+          <Link href={`#${icon.alt}`} key={index}>
+            <img
+              src={
+                index === hoveredIcon
                   ? hoverIcons[index].src
-                  : icon.src
-            }
-            alt={icon.alt}
-            className="size-12"
-            onClick={() => setTab(icon.alt)}
-            onMouseEnter={() => handleMouseEnter(index)}
-            onMouseLeave={() => handleMouseLeave()}
-          />
-        </Link>
-      ))}
-    </div>
+                  : tab === icon.alt
+                    ? hoverIcons[index].src
+                    : icon.src
+              }
+              alt={icon.alt}
+              className="size-12"
+              onClick={() => setTab(icon.alt)}
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={() => handleMouseLeave()}
+            />
+          </Link>
+        ))}
+      </div>
+    </footer>
   );
 }

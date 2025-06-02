@@ -7,6 +7,8 @@ import "./globals.css";
 import favicon from "./favicon.ico";
 import { lazy } from "react";
 import UserStatus from "@/components/staff/user-status-wrapper";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorPage from "./global-error";
 
 const DevStatus = dynamic(() =>
   import("@/components/staff/dev-status").then((mod) => mod.default)
@@ -37,23 +39,25 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <head>
-          <link rel="icon" href={favicon.src} sizes="16x16" />
-        </head>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
-          suppressHydrationWarning
-        >
-          <SignedIn>
-            <UserStatus />
-          </SignedIn>
-          {/* <Geolocalization /> */}
-          <DevStatus />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <ErrorBoundary FallbackComponent={ErrorPage}>
+      <ClerkProvider>
+        <html lang="en">
+          <head>
+            <link rel="icon" href={favicon.src} sizes="16x16" />
+          </head>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
+            suppressHydrationWarning
+          >
+            <SignedIn>
+              <UserStatus />
+            </SignedIn>
+            {/* <Geolocalization /> */}
+            <DevStatus />
+            {children}
+          </body>
+        </html>
+      </ClerkProvider>
+    </ErrorBoundary>
   );
 }

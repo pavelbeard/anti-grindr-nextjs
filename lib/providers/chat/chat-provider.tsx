@@ -2,7 +2,7 @@
 
 import { createContext, use, useEffect, useRef, useState } from "react";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { Message } from "../../api/member/chat/chat.types";
+import { Message } from "../../data/member/chat/chat.types";
 import { PAGE_SIZE } from "../../constants";
 
 type ChatContextType = {

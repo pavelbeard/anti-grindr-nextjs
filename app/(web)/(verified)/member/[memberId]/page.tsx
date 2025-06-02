@@ -1,9 +1,8 @@
-import Link from "next/link";
-import * as ProfileService from "@/lib/api/user/profile/profile.service";
-import * as UserService from "@/lib/api/user/user.service";
+import * as ProfileService from "@/lib/data/user/profile.service";
+import * as UserService from "@/lib/data/user/user.service";
 import WithoutPhoto from "@/public/without-photo.png";
-import { formatStatus } from "@/lib/helpers/formatStatus";
-import setLastActiveAgo from "@/lib/helpers/member/setLastActiveAgo";
+import formatStatus from "@/lib/helpers/formatStatus";
+import setLastActiveAgo from "@/lib/helpers/setLastActiveAgo";
 import clsx from "clsx";
 import Controls from "@/components/web/member/member-controls";
 import ChatButton from "@/components/web/members/chat/chat-button";
@@ -25,8 +24,8 @@ export default async function MemberPage({ params }: { params: Params }) {
   const profile = await ProfileService.getProfileByUserId(memberId);
 
   const profileBirthday = profile?.date_of_birth as Date;
-  const currentYear = new Date().getFullYear();
-  const birthYear = profileBirthday.getFullYear();
+  const currentYear = new Date()?.getFullYear();
+  const birthYear = profileBirthday?.getFullYear();
   const age = currentYear - birthYear;
 
   const lastActiveAgo = setLastActiveAgo(member.lastActive);

@@ -1,7 +1,6 @@
+import checkMinimumYear, { minimumYear } from "@/lib/helpers/checkMinimumYear";
+import doesHave18 from "@/lib/helpers/doesHave18";
 import { z } from "zod";
-
-const currentYear = new Date().getFullYear();
-const minimumYear = currentYear - 100;
 
 // to delete
 export const CreateProfileSchema = z.object({
@@ -9,13 +8,7 @@ export const CreateProfileSchema = z.object({
     .date()
     .refine(
       (date) => {
-        const today = new Date();
-        const eighteenYearsAgo = new Date(
-          today.getFullYear() - 18,
-          today.getMonth(),
-          today.getDate()
-        );
-        return date <= eighteenYearsAgo;
+        return doesHave18(date);
       },
       { message: "User must be at least 18 years old." }
     )
@@ -24,27 +17,6 @@ export const CreateProfileSchema = z.object({
 
 export type CreateProfileType = z.infer<typeof CreateProfileSchema>;
 //  ---
-
-const checkAge = ({
-  day,
-  month,
-  year,
-}: {
-  day: number;
-  month: number;
-  year: number;
-}) => {
-  const date = new Date(year, month - 1, day);
-  console.log("Date:", date.toDateString());
-
-  const today = new Date();
-  const eighteenYearsAgo = new Date(
-    today.getFullYear() - 18,
-    today.getMonth() - 1,
-    today.getDate()
-  );
-  return date <= eighteenYearsAgo;
-};
 
 const isValidDate = ({
   day,
@@ -83,11 +55,14 @@ export const DOBSchema = z
     message: "Date should be valid",
     path: ["data"],
   })
-  .refine(({ day, month, year }) => checkAge({ day, month, year }), {
-    message: "You must be at least 18 years old.",
-    path: ["data"],
-  })
-  .refine(({ year }) => year >= minimumYear, {
+  .refine(
+    ({ day, month, year }) => doesHave18(new Date(year, month - 1, day)),
+    {
+      message: "You must be at least 18 years old.",
+      path: ["data"],
+    }
+  )
+  .refine(({ year }) => checkMinimumYear(year), {
     message: `Year should not be earlier than ${minimumYear}`,
     path: ["year"],
   });

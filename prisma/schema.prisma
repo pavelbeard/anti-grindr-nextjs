@@ -10,9 +10,9 @@ datasource db {
 }
 
 model User {
-  clerkUserId String       @id @unique
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  clerkUserId String       @id @unique
   lastActive  DateTime     @default(now())
   online      Boolean      @default(false)
   chats       ChatMember[]
@@ -82,10 +82,10 @@ model Profile {
   weight        Float?
   sexRole       SEXUAL_ROLE?
   bio           String?
-  avatar        String?      @db.Text
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   date_of_birth DateTime?    @db.Date
+  avatar        String?
   albums        Album[]
   Message       Message[]
   pictures      Picture[]
@@ -116,7 +116,7 @@ model ChatMember {
 }
 
 model Message {
-  id        String   @id @default(cuid())
+  id        String   @id @default(dbgenerated("gen_random_uuid()"))
   profileId String?
   createdAt DateTime @default(now())
   chatId    String?
