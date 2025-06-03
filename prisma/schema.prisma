@@ -117,14 +117,14 @@ model ChatMember {
 
 model Message {
   id        String   @id @default(dbgenerated("gen_random_uuid()"))
-  profileId String?
   createdAt DateTime @default(now())
   chatId    String?
   text      String
   userId    String?
   Chat      Chat?    @relation(fields: [chatId], references: [id])
-  Profile   Profile? @relation(fields: [profileId], references: [id])
   User      User?    @relation(fields: [userId], references: [clerkUserId], onDelete: Cascade)
+  Profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?
 }
 
 enum SYSTEM_ROLE {

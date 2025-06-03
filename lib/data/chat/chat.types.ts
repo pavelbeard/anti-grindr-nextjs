@@ -8,3 +8,9 @@ export type Message = {
     Profile: Profile;
   };
 };
+
+export type SimpleMessage = {
+  createdAt: string;
+  userId: string;
+  text: string;
+};

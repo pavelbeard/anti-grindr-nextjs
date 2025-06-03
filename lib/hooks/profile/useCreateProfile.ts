@@ -1,4 +1,4 @@
-import { DOBSchema, type DOBType } from "@/lib/data/user/profile.schemas";
+import { DOBSchema, type DOBType } from "@/lib/data/profile/profile.schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -50,11 +50,9 @@ export default function useCreateProfile() {
     });
 
     if (response.ok) {
-      console.log("Profile created successfully");
       router.push("/members");
     } else {
       const errorData = await response.json();
-      console.error("Error creating profile:", errorData);
     }
   };
 

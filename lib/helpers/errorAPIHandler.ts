@@ -1,11 +1,11 @@
 import { AppError } from "./appError";
 
 export function withErrorHandler(
-  handler: (request: Request) => Promise<Response>
-): (request: Request) => Promise<Response> {
-  return async (request: Request) => {
+  handler: (...args: any[]) => Promise<Response>
+): (...args: any[]) => Promise<Response> {
+  return async (...args) => {
     try {
-      return await handler(request);
+      return await handler(...args);
     } catch (error) {
       if (error instanceof AppError) {
         return new Response(error.message, { status: error.statusCode });

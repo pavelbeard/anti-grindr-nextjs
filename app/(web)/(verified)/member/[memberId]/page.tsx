@@ -1,47 +1,27 @@
-import * as ProfileService from "@/lib/data/user/profile.service";
-import * as UserService from "@/lib/data/user/user.service";
+import * as UserFeatures from "@/lib/features/user.features";
 import WithoutPhoto from "@/public/without-photo.png";
-import formatStatus from "@/lib/helpers/formatStatus";
-import setLastActiveAgo from "@/lib/helpers/setLastActiveAgo";
 import clsx from "clsx";
-import Controls from "@/components/web/member/member-controls";
-import ChatButton from "@/components/web/members/chat/chat-button";
+import Controls from "@/components/web/members/member-controls";
+import ChatButton from "@/components/web/chat/chat-button";
 
 type Params = Promise<{ memberId: string }>;
 
 export default async function MemberPage({ params }: { params: Params }) {
   const { memberId } = await params;
-  const member = await UserService.getUserById(memberId);
 
-  if (!member || !memberId) {
-    return (
-      <section className="min-w-[600px] flex flex-col gap-y-4 flex-1 items-center justify-start max-w-xl border-l border-r border-zinc-700 p-4">
-        <p className="text-white">Member not found</p>
-      </section>
-    );
-  }
-
-  const profile = await ProfileService.getProfileByUserId(memberId);
-
-  const profileBirthday = profile?.date_of_birth as Date;
-  const currentYear = new Date()?.getFullYear();
-  const birthYear = profileBirthday?.getFullYear();
-  const age = currentYear - birthYear;
-
-  const lastActiveAgo = setLastActiveAgo(member.lastActive);
-
-  const status = formatStatus({
-    online: member.online,
-    lastActive: member.lastActive,
-  });
-
-  const showStatistics = [
-    profile?.sexRole,
-    profile?.height,
-    profile?.weight,
-  ].some(Boolean);
-
-  const showBio = profile?.bio && profile.bio.length > 0;
+  const {
+    age,
+    lastActiveAgo,
+    status,
+    showStatistics,
+    showBio,
+    name,
+    avatar,
+    height,
+    weight,
+    sexRole,
+    bio,
+  } = await UserFeatures.getMemberProfileInfo(memberId);
 
   return (
     <section className="min-w-[600px] flex flex-col gap-y-4 flex-1 items-center justify-start max-w-xl border-l border-r border-zinc-700 p-4">
@@ -49,7 +29,7 @@ export default async function MemberPage({ params }: { params: Params }) {
 
       <img
         className="rounded-lg"
-        src={profile?.avatar ?? WithoutPhoto.src}
+        src={avatar ?? WithoutPhoto.src}
         alt="profile picture"
       />
 
@@ -64,7 +44,7 @@ export default async function MemberPage({ params }: { params: Params }) {
           className="flex flex-col gap-y-2"
         >
           <div className="flex items-center space-x-1">
-            {profile?.name && <p className="font-bold">{profile?.name}</p>}
+            {name && <p className="font-bold">{name}</p>}
             <p>{age}</p>
           </div>
           <div className="flex items-center space-x-1">
@@ -90,17 +70,17 @@ export default async function MemberPage({ params }: { params: Params }) {
           <>
             <p className="text-zinc-400 uppercase font-semibold">statistics</p>
             <div aria-label="statistics" className="flex items-center gap-x-1">
-              {profile?.sexRole && (
+              {sexRole && (
                 <p>
-                  {profile.sexRole
+                  {sexRole
                     .split("_")
                     .join("-")
                     .replace(/^\w/, (c) => c.toUpperCase())}{" "}
                   |
                 </p>
               )}
-              {profile?.height && <p>{profile.height} cm |</p>}
-              {profile?.weight && <p>{profile.weight} kg</p>}
+              {height && <p>{height} cm |</p>}
+              {weight && <p>{weight} kg</p>}
             </div>
           </>
         )}
@@ -108,17 +88,12 @@ export default async function MemberPage({ params }: { params: Params }) {
           <>
             <p className="text-zinc-400 uppercase font-semibold">bio</p>
             <div aria-label="bio" className="p-4 bg-green-600/75 rounded-lg">
-              <p>{profile?.bio}</p>
+              <p>{bio}</p>
             </div>
           </>
         )}
       </summary>
-      {/* <Link
-        className="action bg-green-600 hover:bg-green-500"
-        href={`/member/${memberId}/chat`}
-      >
-        Send Message
-      </Link> */}
+      
       <ChatButton userB={memberId} />
     </section>
   );

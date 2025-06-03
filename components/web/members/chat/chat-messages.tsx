@@ -1,7 +1,7 @@
 "use client";
 
-import { Message } from "@/lib/data/member/chat/chat.types";
-import { useChatContext } from "@/lib/providers/chat/chat-provider";
+import { Message } from "@/lib/data/chat/chat.types";
+import { useChatContext } from "@/lib/providers/chat-provider";
 
 export default function ChatMessages({
   messages,
@@ -20,7 +20,7 @@ export default function ChatMessages({
       className="flex flex-col justify-center gap-y-4 w-full overflow-y-auto h-full py-4"
     >
       {isEmpty && (
-        <p className="text-white">No messages yet. Start the conversation!</p>
+        <p className="text-white text-center">No messages yet. Start the conversation!</p>
       )}
       {messages.map((message, index) => (
         <div

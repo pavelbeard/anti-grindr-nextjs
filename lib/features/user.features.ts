@@ -1,9 +1,11 @@
-import * as ProfileService from "@/lib/data/user/profile.service";
+import * as ProfileService from "@/lib/data/profile/profile.service";
+import { UserProfile } from "@/lib/data/profile/profile.types";
 import * as UserService from "@/lib/data/user/user.service";
 import { auth } from "@clerk/nextjs/server";
-import { UserProfile } from "../data/user/profile.types";
 import { AppError } from "../helpers/appError";
 import doesHave18 from "../helpers/doesHave18";
+import formatStatus from "../helpers/formatStatus";
+import setLastActiveAgo from "../helpers/setLastActiveAgo";
 
 export async function checkAge() {
   const { userId } = await auth();
@@ -41,36 +43,72 @@ export async function changeStatus(status: ("online" | "offline") | null) {
   });
 }
 
-export async function getUserProfile() {
-  const { userId } = await auth();
-
-  if (!userId) {
-    throw new AppError("UNAUTHORIZED", "Unauthorized");
+export async function getMemberById(memberId: string): Promise<UserProfile> {
+  if (!memberId) {
+    throw new AppError("BAD_REQUEST", "Member ID is required");
   }
 
-  const profile = await ProfileService.getProfileByUserId(userId);
+  const member = (await ProfileService.getProfileByUserId(
+    memberId
+  )) as unknown as UserProfile;
 
-  if (!profile) {
-    throw new AppError("NOT_FOUND", "Profile not found");
+  if (!member) {
+    throw new AppError("NOT_FOUND", "Member not found");
   }
 
-  return profile;
+  return member;
 }
 
-/*
- * Fetches current userProfile and members for the grid from the user service .
- * @returns {Promise<UserProfile[]>} A promise that resolves to an array of user profiles.
- */
-export async function getMembers(): Promise<UserProfile[]> {
-  const { userId } = await auth();
-
-  if (!userId) {
-    throw new AppError("UNAUTHORIZED", "Unauthorized");
+export async function getMemberProfileInfo(memberId: string) {
+  if (!memberId) {
+    throw new AppError("BAD_REQUEST", "Member ID is required");
   }
 
-  const members = UserService.getMembers(userId) as unknown as Promise<
-    UserProfile[]
-  >;
+  const profile = await ProfileService.getProfileByUserId(memberId);
 
-  return members;
+  if (!profile) {
+    throw new AppError("NOT_FOUND", "Member not found");
+  }
+
+  const profileBirthday = profile?.date_of_birth as Date;
+  const currentYear = new Date()?.getFullYear();
+  const birthYear = profileBirthday?.getFullYear();
+  const age = currentYear - birthYear;
+
+  const lastActiveAgo = setLastActiveAgo(profile.user.lastActive);
+
+  const status = formatStatus({
+    online: profile.user.online,
+    lastActive: profile.user.lastActive,
+  });
+
+  const showStatistics = [
+    profile?.sexRole,
+    profile?.height,
+    profile?.weight,
+  ].some(Boolean);
+
+  const showBio = profile?.bio && profile.bio.length > 0;
+
+  const name = profile.name;
+  const avatar = profile.avatar;
+
+  const height = profile?.height;
+  const weight = profile?.weight;
+  const sexRole = profile?.sexRole;
+  const bio = profile?.bio;
+
+  return {
+    age,
+    lastActiveAgo,
+    status,
+    showStatistics,
+    showBio,
+    name,
+    avatar,
+    height,
+    weight,
+    sexRole,
+    bio,
+  };
 }

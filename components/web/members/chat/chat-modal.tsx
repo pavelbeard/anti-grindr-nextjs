@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useChatContext } from "@/lib/providers/chat/chat-provider";
+import { useChatContext } from "@/lib/providers/chat-provider";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import ChatForm from "./chat-form";
 import ChatMessages from "./chat-messages";
@@ -35,15 +35,6 @@ export default function ChatModal() {
     userB,
     messages,
   } = useChatContext();
-
-  console.log("ChatModal rendered", {
-    error,
-    isChatModalOpen,
-    chatId,
-    userB,
-    isLoading,
-    messages,
-  });
 
   const isEmpty = messages.length === 0;
 

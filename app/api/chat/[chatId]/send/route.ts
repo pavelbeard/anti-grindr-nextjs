@@ -1,5 +1,6 @@
-import * as ChatService from "@/lib/data/member/chat/chat.service";
+import * as ChatService from "@/lib/data/chat/chat.service";
 import { auth } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 // CHANGED
 export async function POST(
@@ -28,5 +29,5 @@ export async function POST(
     text,
   });
 
-  return new Response("ok", { status: 200 });
+  return NextResponse.json({ status: 200 });
 }

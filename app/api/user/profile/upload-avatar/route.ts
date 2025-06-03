@@ -1,4 +1,4 @@
-import * as ProfileService from "@/lib/data/user/profile.service";
+import * as ProfileService from "@/lib/data/profile/profile.service";
 import { createClient } from "@/lib/supabase/server";
 import { auth } from "@clerk/nextjs/server";
 

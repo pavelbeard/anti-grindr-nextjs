@@ -1,20 +1,17 @@
 "use client";
 
-import {
-  ArrowLeftIcon,
-  NoSymbolIcon,
-  StarIcon,
-} from "@heroicons/react/24/outline";
-import { useRouter } from "next/navigation";
+import { NoSymbolIcon, StarIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
-export default function Controls() {
-  const router = useRouter();
+interface ControlsProps {
+  closeModal: () => void;
+}
 
+export default function Controls({ closeModal }: ControlsProps) {
   return (
     <div className="flex items-center justify-between w-full">
       <div className="flex items-center gap-2">
-        <button className="btn btn-secondary" onClick={() => router.back()}>
-          <ArrowLeftIcon className="size-8 text-zinc-400" />
+        <button className="cursor-pointer" onClick={() => closeModal()}>
+          <XMarkIcon className="size-8 text-zinc-400" />
         </button>
       </div>
       <div className="flex items-center gap-2">

@@ -4,8 +4,8 @@ import { Input } from "@/components/ui/input";
 import {
   SendMessageSchema,
   type SendMessageType,
-} from "@/lib/data/member/chat/chat.schemas";
-import { useChatContext } from "@/lib/providers/chat/chat-provider";
+} from "@/lib/data/chat/chat.schemas";
+import { useChatContext } from "@/lib/providers/chat-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import { useEffect, useOptimistic, useRef, useState } from "react";

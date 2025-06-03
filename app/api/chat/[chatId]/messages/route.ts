@@ -1,20 +1,18 @@
-import * as ChatService from "@/lib/data/member/chat/chat.service";
+import * as MessageFeatures from "@/lib/features/message.features";
+import { withErrorHandler } from "@/lib/helpers/errorAPIHandler";
 
 type Params = {
   chatId: string;
 };
 
-export async function GET(
-  req: Request,
-  { params }: { params: Promise<Params> }
-) {
-  const { chatId } = await params;
-  const { searchParams } = new URL(req.url);
-  const offset = parseInt(searchParams.get("offset") || "0", 0);
-  const limit = parseInt(searchParams.get("limit") || "20", 0);
+export const GET = withErrorHandler(
+  async (req: Request, { params }: { params: Promise<Params> }) => {
+    const { chatId } = await params;
+    const { searchParams } = new URL(req.url);
+    const offset = parseInt(searchParams.get("offset") || "0", 0);
+    const limit = parseInt(searchParams.get("limit") || "20", 0);
 
-  try {
-    const messages = await ChatService.getMessagesByChatId({
+    const messages = await MessageFeatures.fetchMessages({
       chatId,
       offset,
       limit,
@@ -25,10 +23,5 @@ export async function GET(
         "Content-Type": "application/json",
       },
     });
-  } catch (error) {
-    console.error("Error fetching chat messages:", error);
-    return new Response("Error fetching chat messages", {
-      status: 500,
-    });
   }
-}
+);

@@ -2,7 +2,7 @@
 
 import { useTab } from "@/lib/stores/tabs-store";
 import { Suspense, useEffect, useRef } from "react";
-import { UserProfile } from "@/lib/data/user/profile.types";
+import { UserProfile } from "@/lib/data/profile/profile.types";
 import Loading from "@/components/staff/loading";
 import Grid from "./members-grid";
 import Chats from "./tabs/tab-chats";

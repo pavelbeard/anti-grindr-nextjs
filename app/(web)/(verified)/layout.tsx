@@ -1,6 +1,6 @@
 import ChatModal from "@/components/web/members/chat/chat-modal";
 import * as UserFeatures from "@/lib/features/user.features";
-import { ChatProvider } from "@/lib/providers/chat/chat-provider";
+import { ChatProvider } from "@/lib/providers/chat-provider";
 import { redirect } from "next/navigation";
 
 export default async function VerifiedLayout({
@@ -15,9 +15,11 @@ export default async function VerifiedLayout({
   }
 
   return (
-    <ChatProvider>
+    // <ChatProvider>
+    <>
       {children}
-      <ChatModal />
-    </ChatProvider>
+      {/* <ChatModal /> */}
+    </>
+    // </ChatProvider>
   );
 }

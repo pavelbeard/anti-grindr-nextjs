@@ -1,9 +1,9 @@
 import UserBar from "./members-user-bar";
-import * as UserFeatures from "@/lib/features/user.features";
+import * as ProfileFeatures from "@/lib/features/profile.features";
 import WithoutPhoto from "@/public/without-photo.png";
 
 export default async function MembersHeader() {
-  const profile = await UserFeatures.getUserProfile();
+  const profile = await ProfileFeatures.getUserProfile();
 
   let avatar;
 

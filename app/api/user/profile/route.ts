@@ -1,5 +1,5 @@
-import { DOBSchema } from "@/lib/data/user/profile.schemas";
-import * as ProfileService from "@/lib/data/user/profile.service";
+import { DOBSchema } from "@/lib/data/profile/profile.schemas";
+import * as ProfileService from "@/lib/data/profile/profile.service";
 import { auth } from "@clerk/nextjs/server";
 
 // CHANGED

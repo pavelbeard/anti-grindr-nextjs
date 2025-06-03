@@ -1,4 +1,4 @@
-import * as ChatService from "@/lib/data/member/chat/chat.service";
+import * as ChatService from "@/lib/data/chat/chat.service";
 import { NextResponse } from "next/server";
 
 export async function GET(

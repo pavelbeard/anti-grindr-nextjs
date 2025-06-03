@@ -3,10 +3,10 @@
 import { Profile } from "@/app/generated/prisma";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import useChangeName from "@/lib/hooks/user/profile/useChangeName";
+import useChangeName from "@/lib/hooks/profile/useChangeName";
 import { Cog8ToothIcon, PencilIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { use, useState } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 
 export default function UserBar({
@@ -46,7 +46,7 @@ export default function UserBar({
                     className="flex flex-col space-y-4 w-full"
                   >
                     <FormField
-                      control={form.control}
+                      control={form.control as unknown as any}
                       name="name"
                       render={({ field }) => (
                         <FormItem className="relative flex items-center gap-x-2">

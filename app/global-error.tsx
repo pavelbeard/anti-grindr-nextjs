@@ -1,9 +1,5 @@
 "use client";
 
-import { AppError } from "@/lib/helpers/appError";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-
 export default function ErrorPage({
   error,
   resetErrorBoundary,
@@ -11,16 +7,8 @@ export default function ErrorPage({
   error: Error;
   resetErrorBoundary: () => void;
 }) {
-  const router = useRouter();
-
-  useEffect(() => {
-    if (error instanceof AppError) {
-      router.push("/profile/create");
-    }
-  }, [error]);
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-black">
+    <div className="flex flex-col gap-y-4 items-center justify-center min-h-screen bg-black">
       <h1 className="text-2xl font-bold text-red-600">{error.name}</h1>
 
       <p className="text-lg font-semibold text-white">{error.message}</p>
