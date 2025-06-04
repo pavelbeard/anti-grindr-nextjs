@@ -1,12 +1,13 @@
+"use client";
+
 import { createContext, useContext } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { openNewChat, OpenChat } from "../helpers/chat-provider-helpers";
 
-interface ChatContextType {}
-
-type OpenChat = {
-  withUserId: string;
-  expanded: boolean;
-};
+interface ChatContextType {
+  openChats: OpenChat[];
+  handleOpenChat: (userB: string) => void;
+}
 
 const ChatContext = createContext<ChatContextType | null>(null);
 
@@ -17,20 +18,22 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     []
   );
 
-  // Until 10 open chats and 2 active chats, then remove the oldest one
-  const handleOpenChat = (userB: string) => {
-    if (openChats.length >= 10) {
-      setOpenChats((prev) => prev.slice(1));
-    }
-
-    if (openChats.filter((chat) => chat.expanded).length >= 2) {
-      setOpenChats((prev) => prev.filter((chat) => !chat.expanded));
-    }
-
-    setOpenChats((prev) => [...prev, { withUserId: userB, expanded: true }]);
+  const handleOpenChat = (withNewUserId: string) => {
+    const updatedChats = openNewChat(openChats, withNewUserId);
+    setOpenChats(updatedChats);
   };
+
   // Placeholder for the provider logic
-  return <ChatContext.Provider value={{}}>{children}</ChatContext.Provider>;
+  return (
+    <ChatContext.Provider
+      value={{
+        openChats,
+        handleOpenChat,
+      }}
+    >
+      {children}
+    </ChatContext.Provider>
+  );
 }
 
 export function useChatContext() {
