@@ -10,11 +10,25 @@ export const openNewChat = (
   withNewUserId: string
 ) => {
   const chats = [...currentChats];
+  // Check if the chat with the new user already exists
 
-  const newChats = [
-    ...chats,
-    { withUserId: withNewUserId, expanded: true, lastActive: new Date() },
-  ];
+  let newChats;
+
+  if (chats.some((chat) => chat.withUserId === withNewUserId)) {
+    // If the chat already exists, update its last active time and expand it
+    newChats = chats.map((chat) => {
+      if (chat.withUserId === withNewUserId) {
+        return { ...chat, lastActive: new Date(), expanded: true };
+      }
+      return chat;
+    });
+  } else {
+    // If the chat does not exist, create a new one
+    newChats = [
+      ...chats,
+      { withUserId: withNewUserId, expanded: true, lastActive: new Date() },
+    ];
+  }
 
   if (newChats.length > 10) {
     // Remove the oldest chat (first in the array)
