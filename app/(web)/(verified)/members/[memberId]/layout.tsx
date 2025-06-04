@@ -8,9 +8,9 @@ export default function MemberLayout({
 }) {
   return (
     <ErrorBoundary FallbackComponent={Error}>
-      <main className="min-h-screen flex flex-col justify-start items-center bg-black text-white">
+      <div className="flex flex-col w-full justify-center items-center">
         {children}
-      </main>
+      </div>
     </ErrorBoundary>
   );
 }

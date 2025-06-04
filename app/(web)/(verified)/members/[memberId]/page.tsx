@@ -1,12 +1,12 @@
-import * as UserFeatures from "@/lib/features/user.features";
-import WithoutPhoto from "@/public/without-photo.png";
 import clsx from "clsx";
-import Controls from "@/components/web/members/member-controls";
+import * as UserFeatures from "@/lib/features/user.features";
 import ChatButton from "@/components/web/chat/chat-button";
+import WithoutPhoto from "@/public/without-photo.png";
+import Controls from "@/components/web/members/member-controls";
 
-type Params = Promise<{ memberId: string }>;
+type MemberPageProps = { params: Promise<{ memberId: string }> };
 
-export default async function MemberPage({ params }: { params: Params }) {
+export default async function MemberPage({ params }: MemberPageProps) {
   const { memberId } = await params;
 
   const {
@@ -24,11 +24,11 @@ export default async function MemberPage({ params }: { params: Params }) {
   } = await UserFeatures.getMemberProfileInfo(memberId);
 
   return (
-    <section className="min-w-[600px] flex flex-col gap-y-4 flex-1 items-center justify-start max-w-xl border-l border-r border-zinc-700 p-4">
+    <section className="z-100 min-w-[600px] flex flex-col gap-y-4 flex-1 items-center justify-start max-w-xl p-4">
       <Controls />
 
       <img
-        className="rounded-lg"
+        className="rounded-lg w-96 h-96 object-cover mb-4"
         src={avatar ?? WithoutPhoto.src}
         alt="profile picture"
       />
@@ -93,7 +93,7 @@ export default async function MemberPage({ params }: { params: Params }) {
           </>
         )}
       </summary>
-      
+
       <ChatButton userB={memberId} />
     </section>
   );
