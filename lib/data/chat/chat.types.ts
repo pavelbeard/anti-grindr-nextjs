@@ -4,7 +4,7 @@ export type Message = {
   createdAt: string;
   userId: string;
   text: string;
-  User: User & {
+  User?: User & {
     Profile: Profile;
   };
 };

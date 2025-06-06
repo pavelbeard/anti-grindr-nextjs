@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "@/lib/utils";;
 import { UserProfile } from "@/lib/data/profile/profile.types";
 import Link from "next/link";
 
@@ -21,7 +21,7 @@ export default function MembersCard({ member, status }: MembersCardProps) {
     >
       <section className="flex items-center w-full gap-1">
         <span
-          className={clsx(
+          className={cn(
             "size-3 flex-none",
             member.online
               ? "bg-green-500"

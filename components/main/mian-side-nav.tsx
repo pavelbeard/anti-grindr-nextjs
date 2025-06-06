@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { cloneElement, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import clsx from "clsx";
+import { cn } from "@/lib/utils";;
 import Facebook from "../svg/social/facebook";
 import XformerlyTwitter from "../svg/social/x";
 import Instagram from "../svg/social/instagram";
@@ -41,7 +41,7 @@ export default function SideNav() {
           <Link
             key={link.href}
             href={link.href}
-            className={clsx("sideNavLink", {
+            className={cn("sideNavLink", {
               active: hoveredHref === link.href || pathname === link.href,
             })}
             onMouseEnter={() => setHoveredHref(link.href)}

@@ -51,8 +51,6 @@ export default function useCreateProfile() {
 
     if (response.ok) {
       router.push("/members");
-    } else {
-      const errorData = await response.json();
     }
   };
 

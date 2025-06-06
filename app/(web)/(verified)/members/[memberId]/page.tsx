@@ -1,8 +1,8 @@
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
 import * as UserFeatures from "@/lib/features/user.features";
 import ChatButton from "@/components/web/chat/chat-button";
 import WithoutPhoto from "@/public/without-photo.png";
-import Controls from "@/components/web/members/member-controls";
+import Controls from "@/components/web/members/members-member-controls";
 
 type MemberPageProps = { params: Promise<{ memberId: string }> };
 
@@ -24,7 +24,7 @@ export default async function MemberPage({ params }: MemberPageProps) {
   } = await UserFeatures.getMemberProfileInfo(memberId);
 
   return (
-    <section className="z-100 min-w-[600px] flex flex-col gap-y-4 flex-1 items-center justify-start max-w-xl p-4">
+    <section className="min-w-[600px] flex flex-col gap-y-4 flex-1 items-center justify-start max-w-xl p-4">
       <Controls />
 
       <img
@@ -49,12 +49,12 @@ export default async function MemberPage({ params }: MemberPageProps) {
           </div>
           <div className="flex items-center space-x-1">
             <div
-              className={clsx("size-4 rounded-full", {
+              className={cn("size-4 rounded-full", {
                 "bg-green-500": status == "online",
                 "bg-gray-500": status == "offline",
                 "bg-yellow-500": status == "recentlyOnline",
               })}
-            ></div>
+            />
             {status == "online" && (
               <p className="text-sm text-green-500">{status}</p>
             )}

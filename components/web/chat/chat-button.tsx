@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useChatContext } from "@/lib/providers/chat-provider-new";
+import { useChatContext } from "@/lib/providers/chat-provider";
 
 export default function ChatButton({ userB }: { userB: string }) {
   const { handleOpenChat } = useChatContext();

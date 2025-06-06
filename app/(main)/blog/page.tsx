@@ -1,9 +1,9 @@
-import clsx from "clsx";
+import { cn } from "@/lib/utils";;
 
 export default function BlogPage() {
   return (
     <main
-      className={clsx(
+      className={cn(
         "flex flex-col overflow-y-auto w-full px-8 py-[2em] text-white",
         "bg-linear-to-r from-green-700 to-green-500 bg-opacity-85"
       )}

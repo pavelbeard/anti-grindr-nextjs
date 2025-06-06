@@ -12,7 +12,7 @@ export const GET = withErrorHandler(async (request: Request) => {
 export const POST = withErrorHandler(async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const createdChat = await ChatFeatures.createChat(searchParams.get("userB"));
-  return new Response(JSON.stringify({ chatId: createdChat.id }), {
+  return new Response(JSON.stringify(createdChat), {
     status: 200,
   });
 });

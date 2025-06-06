@@ -1,136 +1,94 @@
 "use client";
 
-import { createContext, use, useRef } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { createContext, useContext } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { useMessageStream } from "../hooks/message/useMessageStream";
-import { useChatOperations } from "../hooks/useChatOperations";
+import {
+  openNewChat,
+  OpenChat,
+  closeChat,
+  toggleChatExpansion,
+  assignChatIdToOpenChat,
+} from "../helpers/chatProviderHelpers";
 import { Message } from "../data/chat/chat.types";
-import { PAGE_SIZE } from "../constants";
+import { useUser } from "@clerk/nextjs";
 
-type ChatContextType = {
-  isChatModalOpen: boolean;
-  isChatModalMinimized: boolean;
-  error: any;
-  chatId: string | null;
-  userB: string | null;
-  isLoading: boolean;
-  openChat: (userId: string) => void; // userB id
-  closeChat: () => void;
-  minimizeChat: () => void;
-  maximizeChat: () => void;
-  messages: Message[];
-  scrollToBottom: () => void;
-  lastMessageRef?: React.RefObject<HTMLDivElement>;
-  messagesContainerRef?: React.RefObject<HTMLDivElement>;
-  setMessages?: (messages: Message[]) => void;
-};
+interface ChatContextType {
+  openChats: OpenChat[];
+  handleOpenChat: (withNewUserId: string) => void;
+  handleCloseChat: (withUserId: string) => void;
+  handleToggleChatExpansion: (withUserId: string) => void;
+  loadMessages: (chatId: string) => Promise<Message[]>;
+  handleSaveMessages: (messages: Message[]) => void;
+}
 
-const ChatContext = createContext<ChatContextType | null>(null);
+export const ChatContext = createContext<ChatContextType | null>(null);
 
-const fetchMessages = async ({
-  chatId,
-  offset = 0,
-  limit = PAGE_SIZE,
-}: {
-  chatId: string;
-  offset?: number;
-  limit?: number;
-}) => {
-  const response = await fetch(
-    `/api/chat/${chatId}/messages?offset=${offset}&limit=${limit}`
-  );
-  if (!response.ok) {
-    throw new Error("Failed to fetch messages");
-  }
-  return response.json();
-};
-
+// Chat state logic manager
 export function ChatProvider({ children }: { children: React.ReactNode }) {
-  const queryClient = useQueryClient();
-
-  const [isChatModalOpen, setIsChatModalOpen] = useLocalStorage(
-    "isChatModalOpen",
-    false
-  );
-  const [isChatModalMinimized, setIsChatModalMinimized] = useLocalStorage(
-    "isChatModalMinimized",
-    false
+  const { isLoaded, user } = useUser();
+  const [openChats, setOpenChats] = useLocalStorage<OpenChat[]>(
+    "openChats",
+    []
   );
 
-  // Chat states
-  const [userB, setUserB] = useLocalStorage<string | null>("userB", null);
-  const [chatId, setChatId] = useLocalStorage<string | null>("chatId", null);
+  const handleOpenChat = async (withNewUserId: string) => {
+    if (isLoaded && user) {
+      // Phase 1: Open chat immediately for fast UI response
+      const openedChats = await openNewChat({
+        currentChats: openChats,
+        userIdSender: user.id,
+        withNewUserId,
+      });
+      setOpenChats(openedChats);
 
-  // Refs
-  const lastMessageRef = useRef<HTMLDivElement | null>(null);
-  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
-
-  // Custom hooks
-  const { getOrCreateChat } = useChatOperations();
-
-  // Use React Query for messages
-  const {
-    data: messages = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ["chatMessages", chatId],
-    queryFn: () => fetchMessages({ chatId: chatId! }),
-    enabled: !!chatId,
-  });
-
-  // Messages functions
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      if (lastMessageRef.current) {
-        lastMessageRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "end",
-          inline: "nearest",
+      // Phase 2: Assign chatId and members asynchronously in background
+      assignChatIdToOpenChat({
+        currentChats: openedChats,
+        userIdReceiver: withNewUserId,
+      })
+        .then((updatedChats) => {
+          setOpenChats(updatedChats);
+        })
+        .catch((error) => {
+          console.error("Failed to assign chat ID:", error);
+          // Chat remains functional without chatId
         });
-      }
-    }, 100);
+    }
   };
 
-  // Use custom hook for SSE message streaming
-  useMessageStream({ chatId, scrollToBottom });
-
-  const openChat = async (userId: string) => {
-    // 1. Set userB to the userId of the person we want to chat with
-    setUserB(userId);
-    // 2. Get or create the chat with the userB
-    const chatId = await getOrCreateChat(userId);
-    setChatId(chatId);
-    // 3. Open the chat modal
-    setIsChatModalOpen(true);
+  const handleCloseChat = async (withUserId: string) => {
+    const updatedChats = await closeChat(openChats, withUserId);
+    setOpenChats(updatedChats);
   };
 
-  const closeChat = () => setIsChatModalOpen(false);
-  const maximizeChat = () => setIsChatModalMinimized(false);
-  const minimizeChat = () => setIsChatModalMinimized(true);
+  const handleToggleChatExpansion = async (withUserId: string) => {
+    const updatedChats = await toggleChatExpansion(openChats, withUserId);
+    setOpenChats(updatedChats);
+  };
 
+  const loadMessages = async (chatId: string): Promise<Message[]> => {
+    const response = await fetch(`/api/chat/${chatId}/messages`);
+    if (!response.ok) {
+      return [];
+    }
+    return await response.json();
+  };
+
+  const handleSaveMessages = async (messages: Message[]) => {
+    // Placeholder for saving messages logic
+    // console.log("Saving messages:", messages);
+  };
+
+  // Placeholder for the provider logic
   return (
     <ChatContext.Provider
       value={{
-        isChatModalOpen,
-        isChatModalMinimized,
-        error,
-        isLoading,
-        chatId,
-        userB,
-        openChat,
-        closeChat,
-        minimizeChat,
-        maximizeChat,
-        messages,
-        scrollToBottom,
-        lastMessageRef: lastMessageRef as React.RefObject<HTMLDivElement>,
-        messagesContainerRef:
-          messagesContainerRef as React.RefObject<HTMLDivElement>,
-        // setMessages: (messages: Message[]) => {
-        //   queryClient.setQueryData(["chatMessages", chatId], messages);
-        // },
+        openChats,
+        handleOpenChat,
+        handleCloseChat,
+        handleToggleChatExpansion,
+        loadMessages,
+        handleSaveMessages,
       }}
     >
       {children}
@@ -138,10 +96,10 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const useChatContext = () => {
-  const context = use(ChatContext);
+export function useChatContext() {
+  const context = useContext(ChatContext);
   if (!context) {
     throw new Error("useChatContext must be used within a ChatProvider");
   }
   return context;
-};
+}

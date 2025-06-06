@@ -1,3 +1,5 @@
+"use server";
+
 import * as ChatService from "@/lib/data/chat/chat.service";
 import { AppError } from "@/lib/helpers/appError";
 import { auth } from "@clerk/nextjs/server";
@@ -24,7 +26,7 @@ export async function getChat(userB: string | null) {
     throw new AppError("NOT_FOUND", "Chat not found");
   }
 
-  return { chatId: chat.id };
+  return chat;
 }
 
 export async function getChatsForCurrentUser() {

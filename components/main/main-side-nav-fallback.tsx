@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { headers } from "next/headers";
-import clsx from "clsx";
+import { cn } from "@/lib/utils";;
 import Facebook from "../svg/social/facebook";
 import XformerlyTwitter from "../svg/social/x";
 import Instagram from "../svg/social/instagram";
@@ -37,7 +37,7 @@ export default async function SideNavFallback() {
         <Link
           key={link.href}
           href={link.href}
-          className={clsx("sideNavLink", { active: link === activeLink })}
+          className={cn("sideNavLink", { active: link === activeLink })}
         >
           <div className="sideNavLinkPadding">{link.label}</div>
         </Link>

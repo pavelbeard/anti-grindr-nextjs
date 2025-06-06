@@ -5,7 +5,7 @@ export default defineWorkspace([
     extends: "./vitest.config.mts",
     test: {
       name: "unit",
-      include: ["lib/**/*.test.ts"],
+      include: ["lib/**/*.{test,spec}.{js,ts}"],
       exclude: ["node_modules", "dist"],
       environment: "jsdom",
     },
@@ -19,7 +19,7 @@ export default defineWorkspace([
     extends: "./vitest.config.int.mts",
     test: {
       name: "int",
-      include: ["__tests__/integration/**/*.test.ts"],
+      include: ["__tests__/integration/**/*.{test,spec}.{js,ts}"],
       exclude: ["node_modules", "dist"],
       setupFiles: ["__tests__/integration/helpers/setup.ts"],
     },
@@ -27,9 +27,11 @@ export default defineWorkspace([
   {
     extends: "./vitest.config.mts",
     test: {
+      globals: true,
       name: "ui",
-      include: ["__tests__/ui/**/*.test.tsx"],
+      include: ["__tests__/ui/**/*.{test,spec}.{jsx,tsx}"],
       exclude: ["node_modules", "dist"],
+      setupFiles: ["__tests__/ui/helpers/setupUiTests.ts"],
       environment: "jsdom",
     },
     resolve: {

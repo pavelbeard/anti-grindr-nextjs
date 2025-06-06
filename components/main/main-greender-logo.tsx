@@ -1,6 +1,6 @@
 import { chivo, chivoBold } from "@/app/fonts";
 import GreenderLogoTransparent from "@/public/greender-logo-black.webp";
-import clsx from "clsx";
+import { cn } from "@/lib/utils";;
 
 export default function GreenderLogo() {
   return (
@@ -10,7 +10,7 @@ export default function GreenderLogo() {
         className="size-10"
         alt="Greender Logo"
       />
-      <h1 className={clsx("text-3xl text-black", chivoBold.className)}>
+      <h1 className={cn("text-3xl text-black", chivoBold.className)}>
         Greender
       </h1>
     </header>
