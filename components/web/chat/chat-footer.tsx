@@ -1,12 +1,10 @@
-import { cn } from "@/lib/utils";;
+import { cn } from "@/lib/utils";
 import React from "react";
 import ChatForm from "./chat-form";
+import { useChatContainerContext } from "@/lib/providers/chat-container-context";
 
-interface ChatFooterProps {
-  expanded: boolean;
-}
-
-export default function ChatFooter({ expanded }: ChatFooterProps) {
+export default function ChatFooter() {
+  const { expanded } = useChatContainerContext();
   return (
     <footer
       className={cn(

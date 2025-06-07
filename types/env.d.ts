@@ -12,5 +12,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_CLERK_SIGN_UP_URL: string;
     NEXT_PUBLIC_SUPABASE_ANON_KEY: string;
     NEXT_PUBLIC_SUPABASE_URL: string;
+    NEXT_PUBLIC_REACT_STRICT_MODE: "true" | "false";
   }
 }

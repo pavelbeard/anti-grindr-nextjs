@@ -1,12 +1,31 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useChatFormContext } from "@/lib/providers/chat-form-context";
-import { cn } from "@/lib/utils";;
-import React from "react";
+import { SendMessageType } from "@/lib/data/message/message.schemas";
+import { useChatContainerContext } from "@/lib/providers/chat-container-context";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function ChatForm() {
-  const { form, isDisabled, sendMessageHandler } = useChatFormContext();
+  const { sendMessage } = useChatContainerContext();
+  const [isDisabled, setIsDisabled] = useState(true);
+  const form = useForm<SendMessageType>({
+    defaultValues: {
+      text: "",
+    },
+  });
+
+  useEffect(() => {
+    setIsDisabled(!form.watch("text").trim());
+  }, [form.watch("text")]);
+
+  const sendMessageHandler = async (data: SendMessageType) => {
+    await sendMessage({ ...data });
+    form.reset();
+  };
 
   return (
     <Form {...form}>

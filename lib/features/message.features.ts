@@ -3,15 +3,19 @@ import { auth } from "@clerk/nextjs/server";
 import { PAGE_SIZE } from "../constants";
 import { AppError } from "../helpers/appError";
 
+interface CreateMessage {
+  chatId: string;
+  toUserId: string | null;
+  text: string;
+  createdAt?: Date;
+}
+
 export async function createMessage({
   chatId,
   toUserId,
   text,
-}: {
-  chatId: string;
-  toUserId: string | null;
-  text: string;
-}) {
+  createdAt,
+}: CreateMessage) {
   const { userId } = await auth();
 
   if (!userId) {
@@ -29,6 +33,7 @@ export async function createMessage({
     chatId,
     userId: toUserId,
     text,
+    createdAt,
   });
 }
 

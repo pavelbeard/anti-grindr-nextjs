@@ -4,23 +4,15 @@ import {
   ChevronUpIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { cn } from "@/lib/utils";;
+import { cn } from "@/lib/utils";
 import React from "react";
+import { useChatContainerContext } from "@/lib/providers/chat-container-context";
 
-interface ChatHeaderProps {
-  expanded: boolean;
-  withUserId: string;
-  name?: string | null;
-  age?: number | null;
-}
 
-export default function ChatHeader({
-  expanded,
-  withUserId,
-  name,
-  age,
-}: ChatHeaderProps) {
+
+export default function ChatHeader() {
   const { handleCloseChat, handleToggleChatExpansion } = useChatContext();
+  const { withUserId, name, age, expanded } = useChatContainerContext();
 
   return (
     <header
@@ -30,10 +22,7 @@ export default function ChatHeader({
       )}
     >
       <h2
-        className={cn(
-          "transition-all",
-          expanded ? "opacity-100" : "opacity-0"
-        )}
+        className={cn("transition-all", expanded ? "opacity-100" : "opacity-0")}
       >
         {name}
       </h2>

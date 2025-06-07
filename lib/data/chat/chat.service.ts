@@ -21,14 +21,16 @@ export const createMessage = async (data: {
   chatId: string;
   userId: string;
   text: string;
+  createdAt?: Date;
 }) => {
-  const { chatId, userId, text } = data;
+  const { chatId, userId, text, createdAt } = data;
 
   await prisma.message.create({
     data: {
       chatId,
       userId,
       text,
+      createdAt,
     },
   });
 };

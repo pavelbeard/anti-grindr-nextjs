@@ -10,7 +10,7 @@ interface ChatWrapperProps {
 }
 
 export const ChatWrapper = ({ chat }: ChatWrapperProps) => {
-  const { loadMessages, handleSaveMessages } = useChatContext();
+  const { loadMessages } = useChatContext();
   const [messages, setMessages] = useState<
     Awaited<ReturnType<typeof loadMessages>>
   >([]);
@@ -42,9 +42,8 @@ export const ChatWrapper = ({ chat }: ChatWrapperProps) => {
 
   return (
     <ChatRealtime
-      roomName={chat.chatId}
+      roomName={chat.chatId as string}
       withUserId={chat.userIdReceiver}
-      onMessage={handleSaveMessages}
       expanded={chat.expanded}
       messages={messages}
     />

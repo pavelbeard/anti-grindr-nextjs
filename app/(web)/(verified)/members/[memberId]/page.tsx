@@ -94,7 +94,7 @@ export default async function MemberPage({ params }: MemberPageProps) {
         )}
       </summary>
 
-      <ChatButton userB={memberId} />
+      <ChatButton withUserId={memberId} />
     </section>
   );
 }

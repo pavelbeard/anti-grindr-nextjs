@@ -7,8 +7,12 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface IUseChatForm {
-  isConnected: boolean;
-  sendMessage: (text: string) => void;
+  isConnected: (roomName: string) => boolean;
+  sendMessage: (
+    roomName: string,
+    userId: string,
+    text: string
+  ) => Promise<void>;
 }
 
 export default function useChatForm({
@@ -20,6 +24,8 @@ export default function useChatForm({
   const form = useForm({
     resolver: zodResolver(SendMessageSchema),
     defaultValues: {
+      roomName: "",
+      toUserId: "",
       text: "",
     },
   });
@@ -31,10 +37,11 @@ export default function useChatForm({
 
   const sendMessageHandler = useCallback(
     (data: SendMessageType) => {
-      if (!data.text.trim() || !isConnected) return;
+      if (!data.roomName || !data.text.trim() || !isConnected(data.roomName))
+        return;
 
-      sendMessage(data.text.trim());
-      form.reset();
+      sendMessage(data.roomName, data.toUserId, data.text.trim());
+      form.setValue("text", ""); // Clear the text input after sending
     },
     [form, isConnected, sendMessage]
   );
