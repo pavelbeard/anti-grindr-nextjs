@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   }
 
   const location = await UserService.createUserLocation({
-    userId,
+    clerkUserId: userId,
     latitude,
     longitude,
   });

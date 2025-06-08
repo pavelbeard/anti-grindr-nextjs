@@ -51,7 +51,6 @@ export async function PATCH(request: Request) {
     const filePath = `avatars/${userId}/${fileName}`;
 
     const supabase = await createClient();
-
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from("avatars")
       .upload(filePath, file, {
