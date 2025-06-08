@@ -3,16 +3,14 @@
 import { Message } from "@/lib/data/chat/chat.types";
 import useChatScroll from "@/lib/hooks/chat/useChatScroll";
 import { cn } from "@/lib/utils";
-import React, { useCallback } from "react";
 import ChatHeader from "./chat-header";
 import ChatMessages from "./chat-messages";
 import ChatFooter from "./chat-footer";
 import { ChatContainerContext } from "@/lib/providers/chat-container-context";
-import useChatMessages from "@/lib/hooks/chat/useChatMessages";
+import useChatMessages from "@/lib/hooks/message/useChatMessages";
 import useBroadcast from "@/lib/hooks/chat/useBroadcast";
 import { EVENT_MESSAGE_TYPE } from "@/lib/constants";
 import useUserInfo from "@/lib/hooks/chat/useUserInfo";
-import { supabase } from "@/lib/supabase/client";
 
 interface ChatRealtimeProps {
   roomName: string;
@@ -27,9 +25,16 @@ export default function ChatRealtime({
   messages: initialMessages = [],
   expanded,
 }: ChatRealtimeProps) {
-  const { chatContainerRef, scrollToBottom } = useChatScroll();
+  const { messagesContainerRef, scrollToBottom } = useChatScroll();
 
-  const { allMessages, onMessage, setFeed } = useChatMessages({
+  const {
+    allMessages,
+    onMessage,
+    setFeed,
+    IsBtnScrollToBottomVisible,
+    disableScrollToBottom,
+    newMessagesCount,
+  } = useChatMessages({
     initialMessages,
     scrollToBottom,
   });
@@ -44,7 +49,7 @@ export default function ChatRealtime({
 
   const { userInfo } = useUserInfo(withUserId);
 
-  const EXPANDED_STYLE = "w-96 h-96 bg-zinc-700";
+  const EXPANDED_STYLE = "w-96 h-[500px] bg-zinc-700";
   const COLLAPSED_STYLE = "bg-zinc-400 w-48 h-32";
 
   return (
@@ -56,7 +61,11 @@ export default function ChatRealtime({
         expanded,
         isConnected,
         sendMessage,
-        allMessages
+        allMessages,
+        messagesContainerRef,
+        IsBtnScrollToBottomVisible,
+        disableScrollToBottom,
+        newMessagesCount,
       }}
     >
       <div
@@ -65,7 +74,6 @@ export default function ChatRealtime({
         aria-label="Chat window"
         data-chatid={roomName}
         data-withuserid={withUserId}
-        ref={chatContainerRef}
         className={cn(
           "rounded-t-lg shadow-lg flex flex-col transition-all duration-200",
           expanded ? EXPANDED_STYLE : COLLAPSED_STYLE

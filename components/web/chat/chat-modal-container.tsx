@@ -31,7 +31,7 @@ export const ChatWrapper = ({ chat }: ChatWrapperProps) => {
   // Wait for chatId to be available
   if (!chat.chatId) {
     return (
-      <div className="w-64 h-96 bg-zinc-700 rounded-t-lg shadow-lg flex items-center justify-center">
+      <div className="w-64 h-[500px] bg-zinc-700 rounded-t-lg shadow-lg flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-2"></div>
           <p className="text-sm text-white">Connecting to chat...</p>

@@ -18,7 +18,6 @@ interface ChatContextType {
   handleCloseChat: (withUserId: string) => void;
   handleToggleChatExpansion: (withUserId: string) => void;
   loadMessages: (chatId: string) => Promise<Message[]>;
-  updateFeed: (callback: Function) => void;
 }
 
 export const ChatContext = createContext<ChatContextType | null>(null);
@@ -74,9 +73,6 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     return await response.json();
   };
 
-  // Carrier function to update the feed
-  const updateFeed = (callback: Function) => callback();
-
   // Placeholder for the provider logic
   return (
     <ChatContext.Provider
@@ -86,7 +82,6 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         handleCloseChat,
         handleToggleChatExpansion,
         loadMessages,
-        updateFeed,
       }}
     >
       {children}

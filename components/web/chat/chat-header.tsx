@@ -8,8 +8,6 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { useChatContainerContext } from "@/lib/providers/chat-container-context";
 
-
-
 export default function ChatHeader() {
   const { handleCloseChat, handleToggleChatExpansion } = useChatContext();
   const { withUserId, name, age, expanded } = useChatContainerContext();

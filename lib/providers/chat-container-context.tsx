@@ -9,7 +9,11 @@ interface IChatContainerContext {
   expanded: boolean;
   isConnected: boolean;
   sendMessage: ({ text }: SendMessageParams) => Promise<void>;
-  allMessages: Message[]
+  allMessages: Message[],
+  messagesContainerRef: React.RefObject<HTMLDivElement | null>;
+  IsBtnScrollToBottomVisible: boolean;
+  disableScrollToBottom: () => void;
+  newMessagesCount: number;
 }
 
 export const ChatContainerContext = createContext<IChatContainerContext | null>(

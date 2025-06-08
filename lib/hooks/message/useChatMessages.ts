@@ -1,23 +1,26 @@
 import { Message, SimpleMessage } from "@/lib/data/chat/chat.types";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 interface IUseChatMessages {
   initialMessages: Message[];
   scrollToBottom: () => void;
 }
 
+// Generate Message ID by user
+// Add pagination support
+// Add scroll to bottom by button "new messages" +
 export default function useChatMessages({
   initialMessages,
   scrollToBottom,
 }: IUseChatMessages) {
   const [realtimeMessages, setRealtimeMessages] = useState<SimpleMessage[]>([]);
+  const [IsBtnScrollToBottomVisible, setIsBtnScrollToBottomVisible] =
+    useState(false);
+  const [newMessagesCount, setNewMessagesCount] = useState(0);
 
   // Combine initial messages with realtime messages, ensuring uniqueness and sorting
   const allMessages = useMemo(() => {
     // combine initial messages with realtime messages
-
-    console.log("Realtime Messages:", realtimeMessages);
-
     const combinedMessages = [...initialMessages, ...realtimeMessages].map(
       (msg) => ({
         userId: msg.userId,
@@ -25,8 +28,6 @@ export default function useChatMessages({
         createdAt: msg.createdAt,
       })
     );
-
-    console.log("Combined Messages:", combinedMessages);
 
     // Remove duplicates based on userId and text
     const uniqueMessages = Array.from(
@@ -40,37 +41,47 @@ export default function useChatMessages({
       return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
     });
 
-    console.log("Unique Messages:", uniqueMessages);
-
     return uniqueMessages;
   }, [initialMessages, realtimeMessages]);
 
-  // Fetch member info for the user we are chatting with
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [allMessages, scrollToBottom]);
-
+  // for incoming messages, update the realtimeMessages state, adds to the newMessagesCount and sets up the scroll to bottom button
   const onMessage = useCallback(
     ({ payload: { userId, text, createdAt } }: { payload: SimpleMessage }) => {
+      // Enable scroll to bottom button if there is one or more realtime messages
+      setIsBtnScrollToBottomVisible(true);
       setRealtimeMessages((prevMessages) => [
         ...prevMessages,
         { userId, text, createdAt },
       ]);
+      setNewMessagesCount((prev) => prev + 1);
     },
     [realtimeMessages]
   );
 
+  // for upcoming messages, set the feed with the new messages
   const setFeed = useCallback(
     (messages: SimpleMessage[]) => {
       setRealtimeMessages(messages);
+      scrollToBottom();
     },
     [setRealtimeMessages]
   );
+
+  const disableScrollToBottom = useCallback(() => {
+    scrollToBottom();
+    // Disable the scroll to bottom button
+    setTimeout(() => {
+      setNewMessagesCount(0);
+      setIsBtnScrollToBottomVisible(false);
+    }, 100);
+  }, []);
 
   return {
     allMessages,
     onMessage,
     setFeed,
+    IsBtnScrollToBottomVisible,
+    disableScrollToBottom,
+    newMessagesCount,
   };
 }
