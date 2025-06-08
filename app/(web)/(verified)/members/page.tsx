@@ -1,4 +1,3 @@
-import MembersClient from "@/components/web/members/members-client";
 import Grid from "@/components/web/members/members-grid";
 import * as ProfileFeatures from "@/lib/features/profile.features";
 
