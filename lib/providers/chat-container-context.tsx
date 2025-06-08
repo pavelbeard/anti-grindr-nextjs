@@ -1,5 +1,6 @@
 import { SendMessageParams } from "@/types/chat.types";
 import { createContext, useContext } from "react";
+import { Message } from "../data/chat/chat.types";
 
 interface IChatContainerContext {
   withUserId: string;
@@ -8,6 +9,7 @@ interface IChatContainerContext {
   expanded: boolean;
   isConnected: boolean;
   sendMessage: ({ text }: SendMessageParams) => Promise<void>;
+  allMessages: Message[]
 }
 
 export const ChatContainerContext = createContext<IChatContainerContext | null>(

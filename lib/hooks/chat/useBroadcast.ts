@@ -1,3 +1,4 @@
+import { SimpleMessage } from "@/lib/data/chat/chat.types";
 import { supabase } from "@/lib/supabase/client";
 import { SendMessageParams } from "@/types/chat.types";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -9,6 +10,7 @@ interface UseBroadcast<T = unknown> {
   roomName: string;
   event: string;
   onMessage: (payload: T) => void;
+  setFeed: (messages: SimpleMessage[]) => void; // Optional for setting feed
 }
 
 /*
@@ -27,6 +29,7 @@ export default function useBroadcast<T>({
   roomName,
   event,
   onMessage,
+  setFeed,
 }: UseBroadcast<T>) {
   const hasMounted = useRef(false);
   const channel = useRef<Channel | null>(null);
@@ -41,15 +44,20 @@ export default function useBroadcast<T>({
         return;
       }
 
+      const newMessage: SimpleMessage = {
+        userId: toUserId,
+        text,
+        createdAt: new Date().toISOString(),
+      };
+
+      // Update feed for current user for immediate UI feedback
+      setFeed([newMessage]);
+
       // Send a broadcast message
       await channel.current.send({
         type: "broadcast",
         event,
-        payload: {
-          toUserId,
-          text,
-          createdAt: new Date(),
-        },
+        payload: newMessage,
       });
 
       // Send a message to the database
@@ -59,8 +67,8 @@ export default function useBroadcast<T>({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          text,
-          createdAt: new Date(),
+          text: newMessage.text,
+          createdAt: newMessage.createdAt,
         }),
       });
     },
@@ -88,7 +96,6 @@ export default function useBroadcast<T>({
         console.log(`⚙️ Test message for ${roomName}`);
       })
       .on("broadcast", { event }, (payload) => {
-        console.log(`📬 Received message on channel ${roomName}:`, payload);
         onMessage(payload as T);
       })
       .subscribe((status) => {

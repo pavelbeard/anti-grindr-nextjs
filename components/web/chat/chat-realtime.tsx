@@ -29,24 +29,20 @@ export default function ChatRealtime({
 }: ChatRealtimeProps) {
   const { chatContainerRef, scrollToBottom } = useChatScroll();
 
-  const onMessage = useCallback((payload: Message) => {
-    console.log("📭 Received message: ", payload);
-  }, [supabase]);
+  const { allMessages, onMessage, setFeed } = useChatMessages({
+    initialMessages,
+    scrollToBottom,
+  });
 
   const { isConnected, sendMessage } = useBroadcast({
     toUserId: withUserId,
     roomName,
     event: EVENT_MESSAGE_TYPE,
     onMessage,
+    setFeed,
   });
 
-  const { userInfo } = useUserInfo({ userId: withUserId });
-
-  const { allMessages } = useChatMessages({
-    initialMessages,
-    realtimeMessages: [],
-    scrollToBottom,
-  });
+  const { userInfo } = useUserInfo(withUserId);
 
   const EXPANDED_STYLE = "w-96 h-96 bg-zinc-700";
   const COLLAPSED_STYLE = "bg-zinc-400 w-48 h-32";
@@ -60,6 +56,7 @@ export default function ChatRealtime({
         expanded,
         isConnected,
         sendMessage,
+        allMessages
       }}
     >
       <div
@@ -75,7 +72,7 @@ export default function ChatRealtime({
         )}
       >
         <ChatHeader />
-        <ChatMessages allMessages={allMessages} />
+        <ChatMessages />
         <ChatFooter />
       </div>
     </ChatContainerContext.Provider>

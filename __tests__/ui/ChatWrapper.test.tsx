@@ -31,7 +31,7 @@ describe("<ChatWrapper />", () => {
           handleCloseChat: vi.fn(),
           handleToggleChatExpansion: vi.fn(),
           loadMessages: vi.fn(),
-          handleSaveMessages: vi.fn(),
+          updateFeed: vi.fn(),
         }}
       >
         {children}

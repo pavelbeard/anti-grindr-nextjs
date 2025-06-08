@@ -2,11 +2,7 @@ import * as UserFeatures from "@/lib/features/user.features";
 import { getMemberProfile } from "@/lib/helpers/chatProviderHelpers";
 import { useCallback, useEffect, useState } from "react";
 
-interface IUseUserInfo {
-  userId?: string;
-}
-
-export default function useUserInfo({ userId }: IUseUserInfo) {
+export default function useUserInfo(userId: string) {
   const [userInfo, setUserInfo] = useState<Awaited<
     ReturnType<typeof UserFeatures.getMemberProfileInfo>
   > | null>(null);
