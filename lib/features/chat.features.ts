@@ -4,22 +4,22 @@ import * as ChatService from "@/lib/data/chat/chat.service";
 import { AppError } from "@/lib/helpers/appError";
 import { auth } from "@clerk/nextjs/server";
 
-export async function getChat(userB: string | null) {
+export async function getChat(withUserId: string | null) {
   const { userId: userA } = await auth();
 
   if (!userA) {
     throw new AppError("UNAUTHORIZED", "Unauthorized");
   }
 
-  if (!userB) {
-    throw new AppError("BAD_REQUEST", "Missing userB");
+  if (!withUserId) {
+    throw new AppError("BAD_REQUEST", "Missing withUserId");
   }
 
-  const chat = (await ChatService.getPrivateChat(userA, userB)).find(
+  const chat = (await ChatService.getPrivateChat(userA, withUserId)).find(
     (c) =>
       c.members.length === 2 &&
       c.members.some((m) => m.userId === userA) &&
-      c.members.some((m) => m.userId === userB)
+      c.members.some((m) => m.userId === withUserId)
   );
 
   if (!chat) {
@@ -40,18 +40,18 @@ export async function getChatsForCurrentUser() {
   return chats;
 }
 
-export async function createChat(userB: string | null) {
+export async function createChat(withUserId: string | null) {
   const { userId } = await auth();
 
   if (!userId) {
     throw new AppError("UNAUTHORIZED", "Unauthorized");
   }
 
-  if (!userB) {
+  if (!withUserId) {
     throw new AppError("BAD_REQUEST", "Missing userB");
   }
 
-  const createdChat = await ChatService.createChat(userId, userB);
+  const createdChat = await ChatService.createChat(userId, withUserId);
   // Implementation for creating a chat
   if (!createdChat) {
     throw new AppError("BAD_REQUEST", "Failed to create chat");

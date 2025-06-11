@@ -116,7 +116,7 @@ model ChatMember {
 }
 
 model Message {
-  id        String   @id @default(dbgenerated("gen_random_uuid()"))
+  id        String   @id
   createdAt DateTime @default(now())
   chatId    String?
   text      String

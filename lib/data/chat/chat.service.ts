@@ -18,15 +18,17 @@ export const createChat = async (userA: string, userB: string) => {
 };
 
 export const createMessage = async (data: {
+  id: string;
   chatId: string;
   userId: string;
   text: string;
   createdAt?: Date;
 }) => {
-  const { chatId, userId, text, createdAt } = data;
+  const { id, chatId, userId, text, createdAt } = data;
 
   await prisma.message.create({
     data: {
+      id,
       chatId,
       userId,
       text,

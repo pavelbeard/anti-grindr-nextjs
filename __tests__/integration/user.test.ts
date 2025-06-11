@@ -25,7 +25,7 @@ describe("Testing user API", () => {
 
           const data = await response.json();
 
-          expect(data).toHaveProperty("userId");
+          expect(data).toHaveProperty("clerkUserId");
         },
       });
     });

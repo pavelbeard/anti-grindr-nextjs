@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 // CHANGED
 export const POST = withErrorHandler(async (request: Request) => {
   const body = await request.json();
-  await UserFeatures.changeStatus(body.status);
+  await UserFeatures.changeUserOnlineStatus(body.status);
   return NextResponse.json(
     { message: "Status updated successfully" },
     { status: 200 }

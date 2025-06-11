@@ -11,21 +11,23 @@ import useChatMessages from "@/lib/hooks/message/useChatMessages";
 import useBroadcast from "@/lib/hooks/chat/useBroadcast";
 import { EVENT_MESSAGE_TYPE } from "@/lib/constants";
 import useUserInfo from "@/lib/hooks/chat/useUserInfo";
+import { use } from "react";
 
 interface ChatRealtimeProps {
   roomName: string;
   withUserId: string;
-  messages?: Message[];
   expanded: boolean;
+  loadMessagesPromise: Promise<Message[]>; // Promise to load initial messages
 }
 
 export default function ChatRealtime({
   roomName,
   withUserId,
-  messages: initialMessages = [],
   expanded,
+  loadMessagesPromise,
 }: ChatRealtimeProps) {
   const { messagesContainerRef, scrollToBottom } = useChatScroll();
+  const initialMessages = use(loadMessagesPromise);
 
   const {
     allMessages,
@@ -55,6 +57,7 @@ export default function ChatRealtime({
   return (
     <ChatContainerContext.Provider
       value={{
+        chatId: roomName,
         withUserId,
         name: userInfo?.name,
         age: userInfo?.age,

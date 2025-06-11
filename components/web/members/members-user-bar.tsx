@@ -17,7 +17,7 @@ export default function UserBar({
   photoFallback: string;
 }) {
   const [isUserbarOpen, setIsUserbarOpen] = useState(false);
-  const { inputRef, name, form, onSubmit } = useChangeName(profile.userId);
+  const { inputRef, name, form, onSubmit } = useChangeName();
 
   return (
     <>

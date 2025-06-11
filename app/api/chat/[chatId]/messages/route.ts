@@ -9,13 +9,14 @@ type Params = {
 export const POST = withErrorHandler(
   async (req: Request, { params }: { params: Promise<Params> }) => {
     const { chatId } = await params;
-    const { searchParams } = new URL(req.url);
-    const toUserId = searchParams.get("toUserId");
-    const { text, createdAt } = await req.json().then((data) => data);
+    const { id, userId, text, createdAt } = await req
+      .json()
+      .then((data) => data);
 
     await MessageFeatures.createMessage({
+      id,
       chatId,
-      toUserId,
+      toUserId: userId,
       text,
       createdAt,
     });

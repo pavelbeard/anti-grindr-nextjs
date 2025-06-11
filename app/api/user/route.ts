@@ -1,24 +1,9 @@
-import * as UserService from "@/lib/data/user/user.service";
-import { auth } from "@clerk/nextjs/server";
+import * as UserFeatures from "@/lib/features/user.features";
+import { withErrorHandler } from "@/lib/helpers/errorAPIHandler";
 
-// CHANGED
-export async function GET(request: Request) {
-  const { userId } = await auth();
-
-  if (!userId) {
-    return new Response("Unauthorized", { status: 401 });
-  }
-
-  const user = await UserService.getUserById(userId);
-
-  if (!user) {
-    return new Response("User not found", { status: 404 });
-  }
-
-  return new Response(JSON.stringify({ userId: user.clerkUserId }), {
+export const GET = withErrorHandler(async (request: Request) => {
+  const user = await UserFeatures.getCurrentUser();
+  return new Response(JSON.stringify(user), {
     status: 200,
-    headers: {
-      "Content-Type": "application/json",
-    },
   });
-}
+});

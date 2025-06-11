@@ -4,6 +4,7 @@ import { PAGE_SIZE } from "../constants";
 import { AppError } from "../helpers/appError";
 
 interface CreateMessage {
+  id: string;
   chatId: string;
   toUserId: string | null;
   text: string;
@@ -11,6 +12,7 @@ interface CreateMessage {
 }
 
 export async function createMessage({
+  id,
   chatId,
   toUserId,
   text,
@@ -30,6 +32,7 @@ export async function createMessage({
   }
 
   return await ChatService.createMessage({
+    id,
     chatId,
     userId: toUserId,
     text,

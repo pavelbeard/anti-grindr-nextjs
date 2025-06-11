@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 import { Message } from "../data/chat/chat.types";
 
 interface IChatContainerContext {
+  chatId: string;
   withUserId: string;
   name?: string | null;
   age?: number | null;

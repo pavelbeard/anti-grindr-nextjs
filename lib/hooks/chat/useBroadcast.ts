@@ -45,6 +45,7 @@ export default function useBroadcast<T>({
       }
 
       const newMessage: SimpleMessage = {
+        id: crypto.randomUUID(), // Generate a unique ID for the message
         userId: toUserId,
         text,
         createdAt: new Date().toISOString(),
@@ -61,15 +62,12 @@ export default function useBroadcast<T>({
       });
 
       // Send a message to the database
-      fetch(`/api/chat/${roomName}/messages?toUserId=${toUserId}`, {
+      fetch(`/api/chat/${roomName}/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          text: newMessage.text,
-          createdAt: newMessage.createdAt,
-        }),
+        body: JSON.stringify(newMessage),
       });
     },
     [channel]

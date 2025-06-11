@@ -8,6 +8,8 @@ export default defineWorkspace([
       include: ["lib/**/*.{test,spec}.{js,ts}"],
       exclude: ["node_modules", "dist"],
       environment: "jsdom",
+      setupFiles: ["lib/tests/helpers/setupTests.ts"],
+      globals: true,
     },
     resolve: {
       alias: {
@@ -36,9 +38,17 @@ export default defineWorkspace([
     },
     resolve: {
       alias: {
-        lib: "./app/lib",
+        lib: "./app/lib/**",
         components: "./app/components",
       },
     },
   },
+  // {
+  //   extends: "./vitest.config.cov.mts",
+  //   test: {
+  //     name: "cov",
+  //     include: ["lib/**/*.{test,spec}.{js,ts}"],
+  //     exclude: ["node_modules", "dist"],
+  //   },
+  // },
 ]);

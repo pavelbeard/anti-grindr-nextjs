@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function useChangeName(userId: string) {
+export default function useChangeName() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState<string>("");
   const form = useForm({
@@ -32,7 +32,7 @@ export default function useChangeName(userId: string) {
   }, []);
 
   const onSubmit = async (data: UpdateNameType) => {
-    const response = await fetch(`/api/user/${userId}/profile`, {
+    const response = await fetch(`/api/user/profile`, {
       method: "PATCH",
       body: JSON.stringify(data),
     });

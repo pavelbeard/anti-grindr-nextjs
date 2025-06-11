@@ -1,4 +1,3 @@
-import { useChatContext } from "@/lib/providers/chat-provider";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
@@ -7,10 +6,11 @@ import {
 import { cn } from "@/lib/utils";
 import React from "react";
 import { useChatContainerContext } from "@/lib/providers/chat-container-context";
+import { useChatModalStore } from "@/lib/store/useChatModalStore";
 
 export default function ChatHeader() {
-  const { handleCloseChat, handleToggleChatExpansion } = useChatContext();
-  const { withUserId, name, age, expanded } = useChatContainerContext();
+  const { chatId, name, age, expanded } = useChatContainerContext();
+  const { closeChat, toggleCollapse } = useChatModalStore();
 
   return (
     <header
@@ -28,13 +28,13 @@ export default function ChatHeader() {
       <div className="flex items-center gap-0.25">
         <button
           className="hover:bg-zinc-500/25 rounded-full transition duration-200"
-          onClick={() => handleCloseChat(withUserId)}
+          onClick={() => closeChat(chatId)}
         >
           <XMarkIcon className={cn("size-8", !expanded && "text-white")} />
         </button>
         <button
           className="hover:bg-zinc-500/25 rounded-full transition duration-200"
-          onClick={() => handleToggleChatExpansion(withUserId)}
+          onClick={() => toggleCollapse(chatId)}
         >
           {expanded ? (
             <ChevronDownIcon className="size-8" />
