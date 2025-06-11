@@ -20,7 +20,9 @@ export const useChatModalStore = create<ChatModalsStore>()(
     (set, get) => ({
       modals: [],
       openChat: ({ chatId, userIdReceiver }) => {
-        const existing = get().modals.find((modal) => modal.chatId === chatId);
+        const existing = get().modals.find(
+          (modal) => modal.userIdReceiver === userIdReceiver
+        );
         if (!existing) {
           const updated = [
             ...get().modals,

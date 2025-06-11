@@ -3,13 +3,16 @@
 import { useCallback, useMemo } from "react";
 
 export default function useChatWrapper(chatId: string | undefined) {
-  const loadMessages = useCallback(async (chatId: string) => {
-    const response = await fetch(`/api/chat/${chatId}/messages`);
-    if (!response.ok) {
-      return [];
-    }
-    return await response.json();
-  }, []);
+  const loadMessages = useCallback(
+    async (chatId: string) => {
+      const response = await fetch(`/api/chat/${chatId}/messages`);
+      if (!response.ok) {
+        return [];
+      }
+      return await response.json();
+    },
+    [chatId]
+  );
 
   const loadMessagesPromise = useMemo(() => {
     if (!chatId) {

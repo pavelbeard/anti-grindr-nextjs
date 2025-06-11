@@ -7,19 +7,48 @@ interface ChatButtonProps {
   withUserId: string; // The ID of the user to chat with
 }
 
+async function getOrCreateChat(withUserId: string) {
+  const getChatResponse = await fetch(
+    `/api/chat/with-user?userId=${withUserId}`
+  );
+
+  if (!getChatResponse.ok) {
+    const createChatResponse = await fetch(`/api/chat/with-user`, {
+      method: "POST",
+    });
+
+    if (!createChatResponse.ok) {
+      throw new Error("Failed to create chat");
+    }
+
+    const createdChat = (await createChatResponse.json()) as {
+      id: string;
+      createdAt: Date;
+    };
+
+    return createdChat;
+  }
+
+  const chat = (await getChatResponse.json()) as {
+    id: string;
+    createdAt: Date;
+  };
+  return chat;
+}
+
 export default function ChatButton({ withUserId }: ChatButtonProps) {
   const { openChat } = useChatModalStore();
 
   const handleOpenChat = () => {
-    fetch(`/api/chat/between?withUserId=${withUserId}`, {
-      method: "POST",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const chatId = data.id;
+    getOrCreateChat(withUserId).then((data) => {
+      const chatId = data?.id;
 
-        openChat({ chatId, userIdReceiver: withUserId });
-      });
+      if (!chatId) {
+        throw new Error("Failed to get chat ID");
+      }
+
+      openChat({ chatId, userIdReceiver: withUserId });
+    });
   };
 
   return (

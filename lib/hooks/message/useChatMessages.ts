@@ -24,8 +24,6 @@ export default function useChatMessages({
   const allMessages = useMemo(() => {
     // combine initial messages with realtime messages
     const result = combineMessages(initialMessages, realtimeMessages);
-    console.log("allMessages", result);
-
     return result;
   }, [initialMessages, realtimeMessages]);
 

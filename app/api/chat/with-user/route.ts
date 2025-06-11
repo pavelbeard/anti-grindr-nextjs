@@ -3,17 +3,15 @@ import { withErrorHandler } from "@/lib/helpers/errorAPIHandler";
 
 export const GET = withErrorHandler(async (request: Request) => {
   const { searchParams } = new URL(request.url);
-  const chat = await ChatFeatures.getChat(searchParams.get("withUserId"));
+  const chat = await ChatFeatures.getChat(searchParams.get("userId"));
   return new Response(JSON.stringify(chat), {
     status: 200,
   });
 });
 
 export const POST = withErrorHandler(async (request: Request) => {
-  const { searchParams } = new URL(request.url);
-  const createdChat = await ChatFeatures.createChat(
-    searchParams.get("withUserId")
-  );
+  const { withUserId } = await request.json();
+  const createdChat = await ChatFeatures.createChat(withUserId);
   return new Response(JSON.stringify(createdChat), {
     status: 200,
   });

@@ -29,7 +29,7 @@ interface AssignChatIdParams {
   userIdReceiver: string;
 }
 
-const getOrCreateChat = async (
+export const getOrCreateChat = async (
   withNewUserId: string
 ): Promise<ChatFromDb | null> => {
   let chatFromDb: ChatFromDb | null = null;

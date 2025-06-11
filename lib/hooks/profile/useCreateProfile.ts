@@ -23,8 +23,6 @@ export default function useCreateProfile() {
     const { day, month, year } = form.getValues();
 
     if (day && month && year) {
-      console.log("day", day);
-
       const validatedDate = DOBSchema.safeParse({ day, month, year });
 
       if (!validatedDate.success) {
