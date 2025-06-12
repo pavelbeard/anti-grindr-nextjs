@@ -1,12 +1,11 @@
 "use client";
 
+import { ErrorBoundaryProps } from "@/types/components";
+
 export default function ErrorPage({
   error,
   resetErrorBoundary,
-}: {
-  error: Error;
-  resetErrorBoundary: () => void;
-}) {
+}: ErrorBoundaryProps) {
   return (
     <div className="flex flex-col gap-y-4 items-center justify-center min-h-screen bg-black">
       <h1 className="text-2xl font-bold text-red-600">{error.name}</h1>

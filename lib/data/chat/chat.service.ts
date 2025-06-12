@@ -38,7 +38,15 @@ export const createMessage = async (data: {
 };
 
 // CHANGED
-export const getChatsForUser = async (userId: string) => {
+export const getChatsForUser = async ({
+  userId,
+  offset = 0,
+  limit = 30,
+}: {
+  userId: string;
+  offset?: number;
+  limit?: number;
+}) => {
   return await prisma.chat.findMany({
     where: {
       members: {
@@ -63,7 +71,7 @@ export const getChatsForUser = async (userId: string) => {
         orderBy: {
           createdAt: "desc",
         },
-        take: 1,
+        take: 1, // Get the last message for each chat
       },
       _count: {
         select: {
@@ -71,6 +79,8 @@ export const getChatsForUser = async (userId: string) => {
         },
       },
     },
+    take: limit,
+    skip: offset,
   });
 };
 

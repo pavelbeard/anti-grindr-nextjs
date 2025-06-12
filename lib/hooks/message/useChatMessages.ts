@@ -19,7 +19,6 @@ export default function useChatMessages({
     useState(false);
   const [newMessagesCount, setNewMessagesCount] = useState(0);
 
-  // TEST
   // Combine initial messages with realtime messages, ensuring uniqueness and sorting
   const allMessages = useMemo(() => {
     // combine initial messages with realtime messages

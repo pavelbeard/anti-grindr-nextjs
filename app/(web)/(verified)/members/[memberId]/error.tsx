@@ -1,15 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { ErrorBoundaryProps } from "@/types/components";
 import { useRouter } from "next/navigation";
 
 export default function Error({
   error,
   resetErrorBoundary,
-}: {
-  error: Error;
-  resetErrorBoundary: () => void;
-}) {
+}: ErrorBoundaryProps) {
   const router = useRouter();
   return (
     <div className="flex flex-col gap-y-4 items-center justify-center min-h-screen bg-black">

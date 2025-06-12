@@ -49,13 +49,41 @@ export async function getChat(withUserId: string | null) {
   return chat;
 }
 
-export async function getChatsForCurrentUser() {
+export async function getChatsForCurrentUser({
+  offset = 0,
+  limit = 30,
+}: {
+  offset?: number;
+  limit?: number;
+}) {
   const { userId } = await auth();
   if (!userId) {
     throw new AppError("UNAUTHORIZED", "Unauthorized");
   }
 
-  const chats = await ChatService.getChatsForUser(userId);
+  const chats = await ChatService.getChatsForUser({ userId, offset, limit });
 
-  return chats;
+  // Convert chats to the desired structure: [{ message: { id, text, from } }, ...]
+  const formattedChats = chats
+    .map((chat) => ({
+      chatId: chat.id,
+      message: {
+        id: chat.messages.slice(-1)[0]?.id,
+        text: chat.messages.find((msg) => msg.userId !== userId)?.text,
+        from: chat.members.find((member) => member.userId !== userId)?.userId,
+      },
+      fromUserId: chat.members.find((member) => member.userId !== userId)
+        ?.userId,
+      fromName: chat.members.find((member) => member.userId !== userId)?.user
+        .Profile?.name,
+      fromAvatar: chat.members.find((member) => member.userId !== userId)?.user
+        .Profile?.avatar,
+      isUserOnline: chat.members.find((member) => member.userId !== userId)
+        ?.user.online,
+    }))
+    .filter(
+      (chat) => chat.message.id && chat.message.text && chat.message.from
+    );
+
+  return formattedChats;
 }

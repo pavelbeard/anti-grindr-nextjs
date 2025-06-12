@@ -10,6 +10,16 @@ import ChatIconHover from "@/public/ui-icons/chat-zinc-800-blue-500.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+const NotificationIcon = ({ count }: { count: number }) => {
+  if (count <= 0) return null;
+
+  return (
+    <span className="absolute bg-zinc-700 text-white text-xs size-6 rounded-full flex items-center justify-center font-semibold">
+      {count}
+    </span>
+  );
+};
+
 export default function MembersFooter() {
   const pathname = usePathname();
 
@@ -40,7 +50,8 @@ export default function MembersFooter() {
       <div className="flex justify-center items-center space-x-32">
         {/* ICONS: MEMBERS, GAZES, MESSAGES  */}
         {icons.map((icon, index) => (
-          <Link href={icon.href} key={index}>
+          <Link href={icon.href} key={index} className="relative ">
+            {index === 2 && <NotificationIcon count={0} />}
             <img
               src={
                 index === hoveredIcon
