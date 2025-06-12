@@ -58,8 +58,8 @@ export default function Grid({
         />
       ))}
       {fetchingNextPage && (
-        <div className="fixed bottom-32 place-self-center flex items-center justify-center px-4 py-2 h-16 w-32 text-white bg-zinc-700 rounded-lg">
-          <LoadingSpinner text="Loading..." />
+        <div className="fixed bottom-32 place-self-center flex items-center justify-center px-2 py-1 h-12 w-64 text-white bg-zinc-700 rounded-lg">
+          <LoadingSpinner text="Loading more members..." />
         </div>
       )}
     </div>

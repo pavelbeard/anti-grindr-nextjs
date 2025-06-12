@@ -1,5 +1,6 @@
 "use client";
 
+import LoadingSpinner from "@/components/svg/staff/loading-spinner";
 import Grid from "@/components/web/members/members-grid";
 import { UserProfile } from "@/lib/data/profile/profile.types";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -38,7 +39,7 @@ export default function MembersPage() {
     <section className="overflow-y-auto flex flex-col items-center">
       {query.isLoading ? (
         <div className="flex items-center justify-center h-full">
-          <span className="text-gray-500">Loading...</span>
+          <LoadingSpinner text="Loading members..." />
         </div>
       ) : (
         query.data && (
