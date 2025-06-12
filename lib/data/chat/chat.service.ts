@@ -112,11 +112,7 @@ export const getMessagesByChatId = async ({
     take: limit,
     skip: offset,
     include: {
-      User: {
-        include: {
-          Profile: true,
-        },
-      },
+      User: true,
     },
   });
   return msg.reverse();

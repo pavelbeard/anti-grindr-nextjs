@@ -23,11 +23,13 @@ export default function useChatMessages({
   // Combine initial messages with realtime messages, ensuring uniqueness and sorting
   const allMessages = useMemo(() => {
     // combine initial messages with realtime messages
-    const result = combineMessages(initialMessages, realtimeMessages);
+    const result = combineMessages({
+      initialMessages,
+      realtimeMessages,
+    });
     return result;
   }, [initialMessages, realtimeMessages]);
 
-  // BUG: user loses messages when it writes a new message
   // for incoming messages, update the realtimeMessages state, adds to the newMessagesCount and sets up the scroll to bottom button
   const onMessage = useCallback(
     ({
@@ -47,8 +49,10 @@ export default function useChatMessages({
   );
 
   // for upcoming messages, set the feed with the new messages
-  const setFeed = useCallback((messages: SimpleMessage[]) => {
-    setRealtimeMessages((prevMessages) => [...prevMessages, ...messages]);
+  const setFeed = useCallback((message: SimpleMessage) => {
+    console.log(`📥 Setting feed with ${message} new messages`);
+
+    setRealtimeMessages((prevMessages) => [...prevMessages, message]);
     scrollToBottom();
   }, []);
 

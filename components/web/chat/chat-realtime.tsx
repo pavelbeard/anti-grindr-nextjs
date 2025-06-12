@@ -16,14 +16,14 @@ import { use } from "react";
 interface ChatRealtimeProps {
   roomName: string;
   withUserId: string;
-  expanded: boolean;
+  isCollapsed: boolean;
   loadMessagesPromise: Promise<Message[]>; // Promise to load initial messages
 }
 
 export default function ChatRealtime({
   roomName,
   withUserId,
-  expanded,
+  isCollapsed,
   loadMessagesPromise,
 }: ChatRealtimeProps) {
   const { messagesContainerRef, scrollToBottom } = useChatScroll();
@@ -61,7 +61,7 @@ export default function ChatRealtime({
         withUserId,
         name: userInfo?.name,
         age: userInfo?.age,
-        expanded,
+        isCollapsed,
         isConnected,
         sendMessage,
         allMessages,
@@ -79,7 +79,7 @@ export default function ChatRealtime({
         data-withuserid={withUserId}
         className={cn(
           "rounded-t-lg shadow-lg flex flex-col transition-all duration-200",
-          expanded ? EXPANDED_STYLE : COLLAPSED_STYLE
+          isCollapsed ? COLLAPSED_STYLE : EXPANDED_STYLE
         )}
       >
         <ChatHeader />

@@ -9,7 +9,11 @@ interface ChatModal {
 
 interface ChatModalsStore {
   modals: ChatModal[];
-  openChat: (chat: { chatId: string; userIdReceiver: string }) => void;
+  openChat: (chat: {
+    chatId: string;
+    userIdReceiver: string;
+    isCollapsed?: boolean;
+  }) => void;
   closeChat: (chatId: string) => void;
   toggleCollapse: (chatId: string) => void;
   focusChat: (chatId: string) => void;
@@ -19,14 +23,14 @@ export const useChatModalStore = create<ChatModalsStore>()(
   persist(
     (set, get) => ({
       modals: [],
-      openChat: ({ chatId, userIdReceiver }) => {
+      openChat: ({ chatId, userIdReceiver, isCollapsed = false }) => {
         const existing = get().modals.find(
           (modal) => modal.userIdReceiver === userIdReceiver
         );
         if (!existing) {
           const updated = [
             ...get().modals,
-            { chatId, userIdReceiver, isCollapsed: false },
+            { chatId, userIdReceiver, isCollapsed },
           ];
           set({ modals: updated });
         } else {

@@ -1,16 +1,19 @@
-import { SimpleMessage } from "@/lib/data/chat/chat.types";
-import { supabase } from "@/lib/supabase/client";
-import { SendMessageParams } from "@/types/chat.types";
+import {
+  IncomingSimpleMessage,
+  SimpleMessage,
+} from "@/lib/data/chat/chat.types";
+import { usePresenceContext } from "@/lib/providers/presence-provider";
+import useSupabaseClient from "@/lib/supabase/client";
+import { Channel, SendMessageParams } from "@/types/chat.types";
+import { useSession } from "@clerk/nextjs";
 import { useCallback, useEffect, useRef, useState } from "react";
-
-type Channel = ReturnType<typeof supabase.channel>;
 
 interface UseBroadcast<T = unknown> {
   toUserId: string;
   roomName: string;
   event: string;
   onMessage: (payload: T) => void;
-  setFeed: (messages: SimpleMessage[]) => void; // Optional for setting feed
+  setFeed: (message: SimpleMessage) => void; // Optional for setting feed
 }
 
 /*
@@ -31,13 +34,16 @@ export default function useBroadcast<T>({
   onMessage,
   setFeed,
 }: UseBroadcast<T>) {
+  const supabase = useSupabaseClient();
   const hasMounted = useRef(false);
   const channel = useRef<Channel | null>(null);
+  const { incomingMessagesChannel } = usePresenceContext();
   const [isConnected, setIsConnected] = useState(false);
+  const { session } = useSession();
 
   const sendMessage = useCallback(
     async ({ text }: SendMessageParams) => {
-      if (!roomName || !toUserId || !text) return;
+      if (!roomName || !toUserId || !text || !session) return;
 
       if (!channel.current) {
         console.warn("Channel is not initialized.");
@@ -46,13 +52,13 @@ export default function useBroadcast<T>({
 
       const newMessage: SimpleMessage = {
         id: crypto.randomUUID(), // Generate a unique ID for the message
-        userId: toUserId,
+        userId: session.user.id,
         text,
         createdAt: new Date().toISOString(),
       };
 
       // Update feed for current user for immediate UI feedback
-      setFeed([newMessage]);
+      setFeed(newMessage);
 
       // Send a broadcast message
       await channel.current.send({
@@ -60,6 +66,19 @@ export default function useBroadcast<T>({
         event,
         payload: newMessage,
       });
+
+      // Also send the message to the incoming messages channel
+      if (incomingMessagesChannel) {
+        incomingMessagesChannel.send({
+          type: "broadcast",
+          event: "incoming-message",
+          payload: {
+            ...newMessage,
+            toUserId,
+            chatId: roomName,
+          } as IncomingSimpleMessage,
+        });
+      }
 
       // Send a message to the database
       fetch(`/api/chat/${roomName}/messages`, {
@@ -70,7 +89,7 @@ export default function useBroadcast<T>({
         body: JSON.stringify(newMessage),
       });
     },
-    [channel]
+    [channel, session]
   );
 
   useEffect(() => {

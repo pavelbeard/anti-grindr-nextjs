@@ -43,12 +43,4 @@ export default defineWorkspace([
       },
     },
   },
-  // {
-  //   extends: "./vitest.config.cov.mts",
-  //   test: {
-  //     name: "cov",
-  //     include: ["lib/**/*.{test,spec}.{js,ts}"],
-  //     exclude: ["node_modules", "dist"],
-  //   },
-  // },
 ]);

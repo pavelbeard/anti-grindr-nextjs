@@ -6,7 +6,6 @@ import { AppError } from "../helpers/appError";
 interface CreateMessage {
   id: string;
   chatId: string;
-  toUserId: string | null;
   text: string;
   createdAt?: Date;
 }
@@ -14,7 +13,6 @@ interface CreateMessage {
 export async function createMessage({
   id,
   chatId,
-  toUserId,
   text,
   createdAt,
 }: CreateMessage) {
@@ -24,17 +22,14 @@ export async function createMessage({
     throw new AppError("UNAUTHORIZED", "Unauthorized");
   }
 
-  if (!chatId || !toUserId || !text) {
-    throw new AppError(
-      "BAD_REQUEST",
-      "Chat ID, User ID, and text are required"
-    );
+  if (!chatId || !text) {
+    throw new AppError("BAD_REQUEST", "Chat ID and text are required");
   }
 
   return await ChatService.createMessage({
     id,
     chatId,
-    userId: toUserId,
+    userId,
     text,
     createdAt,
   });

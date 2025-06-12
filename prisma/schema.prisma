@@ -87,7 +87,6 @@ model Profile {
   date_of_birth DateTime?    @db.Date
   avatar        String?
   albums        Album[]
-  Message       Message[]
   pictures      Picture[]
   user          User         @relation(fields: [userId], references: [clerkUserId], onDelete: Cascade)
   genders       Gender[]     @relation("GenderToProfile")
@@ -120,11 +119,10 @@ model Message {
   createdAt DateTime @default(now())
   chatId    String?
   text      String
+  toUserId  String?
   userId    String?
   Chat      Chat?    @relation(fields: [chatId], references: [id])
   User      User?    @relation(fields: [userId], references: [clerkUserId], onDelete: Cascade)
-  Profile   Profile? @relation(fields: [profileId], references: [id])
-  profileId String?
 }
 
 enum SYSTEM_ROLE {

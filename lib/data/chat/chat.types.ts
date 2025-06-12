@@ -16,3 +16,8 @@ export type SimpleMessage = {
   text: string;
   createdAt: string;
 };
+
+export type IncomingSimpleMessage = {
+  chatId: string;
+  toUserId: string;
+} & SimpleMessage;

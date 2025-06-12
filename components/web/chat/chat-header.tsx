@@ -9,18 +9,21 @@ import { useChatContainerContext } from "@/lib/providers/chat-container-context"
 import { useChatModalStore } from "@/lib/store/useChatModalStore";
 
 export default function ChatHeader() {
-  const { chatId, name, age, expanded } = useChatContainerContext();
+  const { chatId, name, age, isCollapsed } = useChatContainerContext();
   const { closeChat, toggleCollapse } = useChatModalStore();
 
   return (
     <header
       className={cn(
         "flex items-center justify-between p-4 rounded-t-lg transition-all duration-200",
-        expanded ? "bg-green-500" : "bg-none"
+        isCollapsed ? "bg-none" : "bg-green-500"
       )}
     >
       <h2
-        className={cn("transition-all", expanded ? "opacity-100" : "opacity-0")}
+        className={cn(
+          "transition-all",
+          isCollapsed ? "opacity-0" : "opacity-100"
+        )}
       >
         {name}
       </h2>
@@ -30,16 +33,16 @@ export default function ChatHeader() {
           className="hover:bg-zinc-500/25 rounded-full transition duration-200"
           onClick={() => closeChat(chatId)}
         >
-          <XMarkIcon className={cn("size-8", !expanded && "text-white")} />
+          <XMarkIcon className={cn("size-8", isCollapsed && "text-white")} />
         </button>
         <button
           className="hover:bg-zinc-500/25 rounded-full transition duration-200"
           onClick={() => toggleCollapse(chatId)}
         >
-          {expanded ? (
-            <ChevronDownIcon className="size-8" />
-          ) : (
+          {isCollapsed ? (
             <ChevronUpIcon className="size-8 text-white" />
+          ) : (
+            <ChevronDownIcon className="size-8" />
           )}
         </button>
       </div>

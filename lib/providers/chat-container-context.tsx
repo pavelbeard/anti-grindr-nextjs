@@ -1,16 +1,16 @@
 import { SendMessageParams } from "@/types/chat.types";
 import { createContext, useContext } from "react";
-import { Message } from "../data/chat/chat.types";
+import { Message, SimpleMessage } from "../data/chat/chat.types";
 
 interface IChatContainerContext {
   chatId: string;
   withUserId: string;
   name?: string | null;
   age?: number | null;
-  expanded: boolean;
+  isCollapsed: boolean;
   isConnected: boolean;
   sendMessage: ({ text }: SendMessageParams) => Promise<void>;
-  allMessages: Message[],
+  allMessages: SimpleMessage[],
   messagesContainerRef: React.RefObject<HTMLDivElement | null>;
   IsBtnScrollToBottomVisible: boolean;
   disableScrollToBottom: () => void;

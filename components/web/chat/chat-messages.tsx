@@ -8,14 +8,14 @@ export default function ChatMessages() {
   const { user } = useUser();
   const {
     allMessages,
-    expanded,
+    isCollapsed,
     messagesContainerRef,
     IsBtnScrollToBottomVisible,
     disableScrollToBottom,
     newMessagesCount,
   } = useChatContainerContext();
 
-  if (!expanded) return null;
+  if (isCollapsed) return null;
 
   if (!allMessages || allMessages.length === 0) {
     return (
@@ -35,15 +35,15 @@ export default function ChatMessages() {
           key={index}
           className={cn(
             "flex flex-col",
-            message.userId === user?.id ? "items-start" : "items-end"
+            message.userId == user?.id ? "items-end" : "items-start"
           )}
         >
           <span
             className={cn(
               "font-semibold px-4 py-2 ",
               message.userId === user?.id
-                ? "bg-blue-500 rounded-t-lg rounded-br-lg"
-                : "bg-green-500 rounded-t-lg rounded-bl-lg"
+              ? "bg-green-500 rounded-t-lg rounded-bl-lg"
+              : "bg-blue-500 rounded-t-lg rounded-br-lg"
             )}
           >
             {message.text}

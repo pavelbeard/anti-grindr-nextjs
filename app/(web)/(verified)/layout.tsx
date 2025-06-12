@@ -1,5 +1,6 @@
 import ChatModalContainer from "@/components/web/chat/chat-modal-container";
 import * as UserFeatures from "@/lib/features/user.features";
+import PresenceProvider from "@/lib/providers/presence-provider";
 import { redirect } from "next/navigation";
 
 export default async function VerifiedLayout({
@@ -14,9 +15,9 @@ export default async function VerifiedLayout({
   }
 
   return (
-    <>
+    <PresenceProvider>
       {children}
       <ChatModalContainer />
-    </>
+    </PresenceProvider>
   );
 }

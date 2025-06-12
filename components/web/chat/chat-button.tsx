@@ -15,6 +15,7 @@ async function getOrCreateChat(withUserId: string) {
   if (!getChatResponse.ok) {
     const createChatResponse = await fetch(`/api/chat/with-user`, {
       method: "POST",
+      body: JSON.stringify({ withUserId }),
     });
 
     if (!createChatResponse.ok) {

@@ -126,7 +126,6 @@ export async function main() {
     text: `Message ${i + 1}`,
     chatId: chat.id,
     userId: i % 2 === 0 ? user1.clerkUserId : user2.clerkUserId,
-    profileId: i % 2 === 0 ? user1.Profile!.id : user2.Profile!.id,
     createdAt: new Date(Date.now() - (100 - i) * 1000), // spread out timestamps
   }));
 
@@ -137,7 +136,6 @@ export async function main() {
       text: `Message ${i + 1} from Alice to David`,
       chatId: chat3.id,
       userId: i % 2 === 0 ? user1.clerkUserId : user4.clerkUserId,
-      profileId: i % 2 === 0 ? user1.Profile!.id : user4.Profile!.id,
       createdAt: new Date(Date.now() - (100 - i) * 1000), // spread out timestamps
     })),
   ];

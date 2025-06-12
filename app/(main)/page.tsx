@@ -1,6 +1,9 @@
+import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const clerk = await auth();
+
   return (
     <section className="flex flex-auto">
       <div className="mainContent">
@@ -12,9 +15,15 @@ export default function LandingPage() {
           our focus.
         </h1>
         <p className="description">On any device, any platform, any time.</p>
-        <Link href="/sign-in" className="signInBtn">
-          Sign in with Web
-        </Link>
+        {!clerk?.userId ? (
+          <Link href="/sign-in" className="signInBtn">
+            Sign in with Web
+          </Link>
+        ) : (
+          <Link href="/members" className="signInBtn">
+            Go to members area
+          </Link>
+        )}
       </div>
     </section>
   );

@@ -80,7 +80,7 @@ describe("<ChatModalContainer /> Integration Tests", () => {
         <ChatRealtime
           roomName={chat.chatId}
           withUserId={chat.userIdReceiver}
-          expanded={!chat.isCollapsed}
+          isCollapsed={!chat.isCollapsed}
           loadMessagesPromise={promise} // Simulating the promise
         />
       </Suspense>

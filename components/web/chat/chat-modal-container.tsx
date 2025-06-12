@@ -30,7 +30,7 @@ export const ChatWrapper = memo(({ chat }: { chat: ChatWrapperProps }) => {
       <ChatRealtime
         roomName={chat.chatId}
         withUserId={chat.userIdReceiver}
-        expanded={chat.isCollapsed}
+        isCollapsed={chat.isCollapsed}
         loadMessagesPromise={loadMessagesPromise}
       />
     </Suspense>
