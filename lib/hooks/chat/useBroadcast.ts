@@ -8,7 +8,7 @@ import { Channel, SendMessageParams } from "@/types/chat.types";
 import { useSession } from "@clerk/nextjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-interface UseBroadcast<T = unknown> {
+interface IUseBroadcast<T = unknown> {
   toUserId: string;
   roomName: string;
   event: string;
@@ -16,7 +16,7 @@ interface UseBroadcast<T = unknown> {
   setFeed: (message: SimpleMessage) => void; // Optional for setting feed
 }
 
-/*
+/**
  * useBroadcast is a custom hook for subscribing to a Supabase channel
  * and handling broadcast messages.
  *
@@ -25,7 +25,11 @@ interface UseBroadcast<T = unknown> {
  * @param {string} params.event - The event type to listen for.
  * @param {function} params.onMessage - Callback function to handle incoming messages.
  * Should be wrapped in useCallback to avoid unnecessary re-renders.
- * @returns {Object} An object containing the channel instance and connection status.
+ * @returns {
+ *   isConnected: boolean;
+ *   channel: Channel | null;
+ *   sendMessage: (params: SendMessageParams) => Promise<void>;
+ * } An object containing the channel instance and connection status.
  */
 export default function useBroadcast<T>({
   toUserId,
@@ -33,7 +37,11 @@ export default function useBroadcast<T>({
   event,
   onMessage,
   setFeed,
-}: UseBroadcast<T>) {
+}: IUseBroadcast<T>): {
+  isConnected: boolean;
+  channel: Channel | null;
+  sendMessage: (params: SendMessageParams) => Promise<void>;
+} {
   const {
     incomingMessagesChannel,
     isConnected: isIncomingMessagesChannelConnected,

@@ -4,13 +4,15 @@ import ChatRealtime from "./chat-realtime";
 import { Suspense, memo } from "react";
 import useChatWrapper from "@/lib/hooks/chat/useChatWrapper";
 import { useChatModalStore } from "@/lib/store/useChatModalStore";
+import LoadingSpinner from "@/components/svg/staff/loading-spinner";
 
-export const ChatRealtimeFallback = ({ loadingText }: { loadingText: string }) => (
+export const ChatRealtimeFallback = ({
+  loadingText,
+}: {
+  loadingText: string;
+}) => (
   <div className="w-64 h-[500px] bg-zinc-700 rounded-t-lg shadow-lg flex items-center justify-center">
-    <div className="text-center">
-      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-2"></div>
-      <p className="text-sm text-white">{loadingText}</p>
-    </div>
+    <LoadingSpinner text={loadingText} />
   </div>
 );
 

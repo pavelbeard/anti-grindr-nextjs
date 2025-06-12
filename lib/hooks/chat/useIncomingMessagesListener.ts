@@ -12,10 +12,16 @@ import { useEffect, useRef, useState } from "react";
  * useIncomingMessagesListener is a custom hook that listens for incoming messages
  * on a Supabase channel and opens a chat modal when a new message is received.
  *
- * @returns {Object} An object containing the connection status and the channel instance.
+ * @returns {
+ *   isConnected: boolean;
+ *   channel: Channel | null;
+ * } An object containing the connection status and the channel instance.
  */
 
-export default function useIncomingMessagesListener() {
+export default function useIncomingMessagesListener(): {
+  isConnected: boolean;
+  channel: Channel | null;
+} {
   const supabase = useSupabaseClient();
   const channel = useRef<Channel | null>(null);
   const [isConnected, setIsConnected] = useState(false);

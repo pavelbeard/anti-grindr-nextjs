@@ -20,20 +20,28 @@ export async function getUserProfile() {
   return profile;
 }
 
-/*
+/**
  * Fetches current userProfile and members (UserProfiles) for the grid from the user service .
  * @returns {Promise<UserProfile[]>} A promise that resolves to an array of user profiles.
  */
-export async function getMembers(): Promise<UserProfile[]> {
+export async function getMembers({
+  offset,
+  limit = 30,
+}: {
+  offset: number;
+  limit: number;
+}): Promise<UserProfile[]> {
   const { userId } = await auth();
 
   if (!userId) {
     throw new AppError("UNAUTHORIZED", "Unauthorized");
   }
 
-  const members = UserService.getMembers(userId) as unknown as Promise<
-    UserProfile[]
-  >;
+  const members = UserService.getMembers({
+    clerkUserId: userId,
+    offset,
+    limit,
+  }) as unknown as Promise<UserProfile[]>;
 
   return members;
 }

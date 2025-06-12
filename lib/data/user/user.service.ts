@@ -36,13 +36,20 @@ export const getAllUsers = async () => {
   return await prisma.user.findMany();
 };
 
-/*
+/** 
   Get all users except the current user
-  @param userId - The ID of the current user
+  @param clerkUserId - The ID of the current user
   @returns An array of users excluding the current user
 */
-// CHANGED
-export const getMembers = async (clerkUserId: string) => {
+export const getMembers = async ({
+  clerkUserId,
+  offset = 0,
+  limit = 30,
+}: {
+  clerkUserId: string;
+  offset: number;
+  limit: number;
+}) => {
   return await prisma.user.findMany({
     where: {
       clerkUserId: {
@@ -55,6 +62,8 @@ export const getMembers = async (clerkUserId: string) => {
       lastActive: true,
       Profile: true,
     },
+    skip: offset,
+    take: limit,
   });
 };
 
