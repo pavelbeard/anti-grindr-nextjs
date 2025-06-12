@@ -6,6 +6,7 @@ import { Channel } from "@/types/chat.types";
 
 interface IPresenceContext {
   incomingMessagesChannel: Channel | null;
+  isConnected: boolean;
 }
 
 export const PresenceContext = createContext<IPresenceContext | null>(null);
@@ -21,6 +22,7 @@ export default function PresenceProvider({
     <PresenceContext.Provider
       value={{
         incomingMessagesChannel: channel,
+        isConnected,
       }}
     >
       {children}

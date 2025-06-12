@@ -34,10 +34,14 @@ export default function useBroadcast<T>({
   onMessage,
   setFeed,
 }: UseBroadcast<T>) {
+  const {
+    incomingMessagesChannel,
+    isConnected: isIncomingMessagesChannelConnected,
+  } = usePresenceContext();
   const supabase = useSupabaseClient();
   const hasMounted = useRef(false);
   const channel = useRef<Channel | null>(null);
-  const { incomingMessagesChannel } = usePresenceContext();
+
   const [isConnected, setIsConnected] = useState(false);
   const { session } = useSession();
 
@@ -60,15 +64,15 @@ export default function useBroadcast<T>({
       // Update feed for current user for immediate UI feedback
       setFeed(newMessage);
 
-      // Send a broadcast message
+      // Send a broadcast message for recipient user
       await channel.current.send({
         type: "broadcast",
         event,
         payload: newMessage,
       });
 
-      // Also send the message to the incoming messages channel
-      if (incomingMessagesChannel) {
+      // Also send the message to the incoming messages channel for other users
+      if (incomingMessagesChannel && isIncomingMessagesChannelConnected) {
         incomingMessagesChannel.send({
           type: "broadcast",
           event: "incoming-message",
@@ -80,7 +84,7 @@ export default function useBroadcast<T>({
         });
       }
 
-      // Send a message to the database
+      // Send a message to the database to persist it
       fetch(`/api/chat/${roomName}/messages`, {
         method: "POST",
         headers: {
