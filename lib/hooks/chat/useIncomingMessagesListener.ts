@@ -12,8 +12,6 @@ export default function useIncomingMessagesListener() {
   const supabase = useSupabaseClient();
   const channel = useRef<Channel | null>(null);
   const [isConnected, setIsConnected] = useState(false);
-  const schema =
-    process.env.VERCEL_ENV === "production" ? "public" : "development";
 
   // Use open chat and user for opening a chat when a new message is received
   const { openChat } = useChatModalStore();
