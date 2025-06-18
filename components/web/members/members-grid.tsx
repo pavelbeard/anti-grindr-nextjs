@@ -4,7 +4,6 @@ import { UserProfile } from "@/lib/data/profile/profile.types";
 import formatStatus from "@/lib/helpers/formatStatus";
 import { useEffect, useRef } from "react";
 import MembersCard from "./members-card";
-import LoadingSpinner from "@/components/svg/staff/loading-spinner";
 import LoadingInfScroll from "@/components/ui/loading-inf-scroll";
 
 interface GridProps {

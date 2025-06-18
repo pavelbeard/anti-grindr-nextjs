@@ -4,18 +4,33 @@ import {
 } from "@/lib/data/profile/profile.schemas";
 import { client } from "@/lib/fetchClient";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef, useState } from "react";
+import {
+  startTransition,
+  useEffect,
+  useOptimistic,
+  useRef,
+  useState,
+} from "react";
 import { useForm } from "react-hook-form";
 
 export default function useChangeName() {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState({ value: "", sending: false });
   const form = useForm({
     resolver: zodResolver(UpdateNameSchema),
     defaultValues: {
       name: "",
     },
   });
+
+  const [optimisticName, addOptimistic] = useOptimistic(
+    name,
+    (state, newName) => ({
+      ...state,
+      value: newName as string,
+      sending: true,
+    })
+  );
 
   useEffect(() => {
     const fetchName = async () => {
@@ -24,7 +39,7 @@ export default function useChangeName() {
       });
 
       if (profile.name) {
-        setName(profile.name);
+        setName({ value: profile.name, sending: false });
       }
     };
 
@@ -32,22 +47,26 @@ export default function useChangeName() {
   }, []);
 
   const onSubmit = async (data: UpdateNameType) => {
-    const response = await fetch(`/api/user/profile`, {
-      method: "PATCH",
-      body: JSON.stringify(data),
-    });
+    startTransition(async () => {
+      addOptimistic(data.name);
+      const response = await fetch(`/api/user/profile`, {
+        method: "PATCH",
+        body: JSON.stringify(data),
+      });
 
-    if (response.ok) {
-      setName(data.name);
-    } else {
-      const errorData = await response.json();
-      console.error("Error updating name:", errorData);
-    }
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error updating name:", errorData);
+        return;
+      }
+
+      setName({ value: data.name, sending: false });
+    });
   };
 
   return {
     inputRef,
-    name,
+    name: optimisticName || name,
     form,
     onSubmit,
   };

@@ -3,6 +3,8 @@ import MembersHeader from "@/components/web/members/members-header";
 import "@/components/web/members/style.css";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorLoadingMembers from "./error";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import MembersSidebar from "@/components/web/members/members-sidebar";
 
 export async function generateMetadata() {
   return {
@@ -17,12 +19,15 @@ export default async function MembersLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="min-h-screen absolute top-0 bottom-0 left-0 right-0 grid grid-rows-[64px_1fr_96px] bg-black">
-      <MembersHeader />
-      <ErrorBoundary FallbackComponent={ErrorLoadingMembers}>
-        {children}
-      </ErrorBoundary>
-      <MembersFooter />
-    </main>
+    <SidebarProvider>
+      <MembersSidebar />
+      <div className="overflow-y-auto h-screen w-full flex flex-col bg-black">
+        <MembersHeader />
+        <ErrorBoundary FallbackComponent={ErrorLoadingMembers}>
+          {children}
+        </ErrorBoundary>
+        <MembersFooter />
+      </div>
+    </SidebarProvider>
   );
 }

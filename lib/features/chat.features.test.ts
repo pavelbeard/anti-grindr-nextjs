@@ -24,7 +24,7 @@ describe("Chat Features", () => {
       // Mock the Prisma client to return a predefined set of chats
       prisma.chat.findMany.mockResolvedValue(mockChats);
 
-      const chats = await getChatsForCurrentUser();
+      const chats = await getChatsForCurrentUser({ offset: 0, limit: 10 });
 
       expect(Array.isArray(chats)).toBe(true);
       expect(chats.length).toBeGreaterThan(0);
@@ -32,6 +32,7 @@ describe("Chat Features", () => {
       expect(chats[0].message).toHaveProperty("id");
       expect(chats[0].message).toHaveProperty("text");
       expect(chats[0].message).toHaveProperty("from");
+      expect(chats[0]).toHaveProperty("chatId");
     });
   });
 });

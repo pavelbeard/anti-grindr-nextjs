@@ -7,8 +7,8 @@ import React from "react";
  */
 export default function Wrapper({ children }: { children: React.ReactNode }) {
   return (
-    <section className="overflow-y-auto flex flex-col items-center place-self-center h-full min-w-[600px] px-0.25">
+    <main className="overflow-y-auto flex-1 flex flex-col items-center place-self-center min-w-[600px] px-0.25">
       {children}
-    </section>
+    </main>
   );
 }
