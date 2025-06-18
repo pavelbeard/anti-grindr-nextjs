@@ -55,8 +55,7 @@ export default function UserBar({
                               className="rounded-full border border-zinc-700 bg-zinc-600"
                               {...field}
                               ref={inputRef}
-                              value={name}
-                              placeholder="Member name"
+                              placeholder={name.value ?? "Member name"}
                             />
                           </FormControl>
                           <span className="absolute right-0 top-0 bottom-0 flex p-2 items-center justify-center">
